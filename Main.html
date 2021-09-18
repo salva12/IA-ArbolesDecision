@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <title>Documento sin título</title>
   </head>
-  <body>
+  <body class="body">
     <div id="divmain">
       <h2>Árboles de decisión</h2>
       <p>Estamos trabajando......inspeccionar y revisar consola</p>
@@ -11,11 +11,12 @@
         <form>
             <p>Filas<input id="filas" type="number" name="x" min="1"></p>
             <p>Columnas<input id="columnas" type="number" name="y" min="1"></p>
-            <input type="submit" value="Dibujar" onclick="dibujarMatriz()">
+            <input type="button" value="Cargar datos" onclick="dibujarMatriz()">
         </form>
-       <p id="matrizCarga"></p>
+        
     </div>
   </body>
 </html>
 <script src="dibujarMatriz.js"></script>
+<script src="almacenarDataset.js"></script>
 
