@@ -1,9 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Attributes from './containers/Attributes';
 
-function App() {
+const App = props => {
   return (
     <div className="App">
+      <Attributes />
     </div>
   );
 }
