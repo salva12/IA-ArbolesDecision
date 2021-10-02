@@ -12,10 +12,19 @@ const Attributes = props => {
     ]);
   };
 
+  const onEditName = (index, newName) => {
+    const newAttributes = [...attributes];
+    newAttributes.splice(index, 1, {
+      ...attributes[index],
+      label: newName
+    });
+    setAttributes(newAttributes);
+  };
+
   return (
     <div>
       {attributes.map((attr, idx) => (
-        <Attribute key={idx} attribute={attr} />
+        <Attribute key={idx} id={idx} attribute={attr} onEditName={onEditName} />
       ))}
       <button onClick={onAddAttribute}>
         + Nuevo atributo
