@@ -2,7 +2,7 @@ import React from 'react';
 
 const Attribute = ({ attribute, onEditName, onEditValue, onAddValue }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', border: '1px solid black' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', border: '1px solid black', marginBottom: '16px' }}>
       <div style={{ padding: '16px', borderRight: '1px solid black' }}>
         <input
           type="text"
