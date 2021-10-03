@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue }) => {
+const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue, onDeleteValue, onDeleteAttribute }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', border: '1px solid black', marginBottom: '16px' }}>
       <div style={{ padding: '16px', borderRight: '1px solid black' }}>
@@ -13,14 +13,22 @@ const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue }) => {
       </div>
       <div style={{ padding: '16px' }}>
         {attribute.values.map((value, idx) => (
-          <input
-            key={idx}
-            type="text"
-            placeholder={`Valor ${idx + 1}`}
-            value={value}
-            onChange={e => onEditValue(id, idx, e.target.value)}
-            style={{ marginRight: '16px' }}
-          />
+          <Fragment key={idx}>
+            <input
+              type="text"
+              placeholder={`Valor ${idx + 1}`}
+              value={value}
+              onChange={e => onEditValue(id, idx, e.target.value)}
+            />
+            <button
+              disabled={attribute.values.length <= 2}
+              title={attribute.values.length <= 2 && "El atributo debe tener 2 valores como mínimo"}
+              onClick={() => onDeleteValue(id, idx)}
+              style={{ marginRight: '16px' }}
+            >
+              X
+            </button>
+          </Fragment>
         ))}
         <button onClick={() => onAddValue(id)}>
           + Nuevo valor

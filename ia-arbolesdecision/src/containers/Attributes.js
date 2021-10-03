@@ -39,7 +39,14 @@ const Attributes = props => {
     setAttributes(newAttributes);
   };
 
-  const onDeleteValue = (index, valueIndex) => {};
+  const onDeleteValue = (index, valueIndex) => {
+    const newAttributes = [...attributes];
+    newAttributes.splice(index, 1, {
+      ...attributes[index],
+      values: attributes[index].values.filter((_v, i) => i !== valueIndex)
+    });
+    setAttributes(newAttributes);
+  };
 
   const onDeleteAttribute = index => {};
 
@@ -53,6 +60,8 @@ const Attributes = props => {
           onEditName={onEditName}
           onEditValue={onEditValue}
           onAddValue={onAddValue}
+          onDeleteValue={onDeleteValue}
+          onDeleteAttribute={onDeleteAttribute}
         />
       ))}
       <button onClick={onAddAttribute}>
