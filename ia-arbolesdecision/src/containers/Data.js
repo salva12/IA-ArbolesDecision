@@ -12,7 +12,16 @@ const Data = ({ attributes, data }) => {
           </tr>
         </thead>
         <tbody>
-
+          {data.map((d, idx) => (
+            <tr key={idx}>
+              <td>{idx + 1}</td>
+              <td>
+                <button>
+                  X
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
