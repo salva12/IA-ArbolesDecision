@@ -21,10 +21,25 @@ const Attributes = props => {
     setAttributes(newAttributes);
   };
 
+  const onEditValue = (index, valueIndex, newValue) => {
+    const newAttributes = [...attributes];
+    newAttributes.splice(index, 1, {
+      ...attributes[index],
+      values: [...attributes[index].values].splice(valueIndex, 1, newValue)
+    });
+    setAttributes(newAttributes);
+  };
+
   return (
     <div>
       {attributes.map((attr, idx) => (
-        <Attribute key={idx} id={idx} attribute={attr} onEditName={onEditName} />
+        <Attribute
+          key={idx}
+          id={idx}
+          attribute={attr}
+          onEditName={onEditName}
+          onEditValue={onEditValue}
+        />
       ))}
       <button onClick={onAddAttribute}>
         + Nuevo atributo

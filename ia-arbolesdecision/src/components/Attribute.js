@@ -18,11 +18,11 @@ const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue }) => {
             type="text"
             placeholder={`Valor ${idx + 1}`}
             value={value}
-            onChange={onEditValue}
+            onChange={e => onEditValue(id, idx, e.target.value)}
             style={{ marginRight: '16px' }}
           />
         ))}
-        <button onClick={onAddValue}>
+        <button onClick={e => onAddValue(e, id)}>
           + Nuevo valor
         </button>
       </div>
