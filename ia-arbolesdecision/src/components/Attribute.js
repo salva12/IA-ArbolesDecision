@@ -22,7 +22,7 @@ const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue }) => {
             style={{ marginRight: '16px' }}
           />
         ))}
-        <button onClick={e => onAddValue(e, id)}>
+        <button onClick={() => onAddValue(id)}>
           + Nuevo valor
         </button>
       </div>

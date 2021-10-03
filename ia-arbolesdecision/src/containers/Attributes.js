@@ -30,6 +30,19 @@ const Attributes = props => {
     setAttributes(newAttributes);
   };
 
+  const onAddValue = index => {
+    const newAttributes = [...attributes];
+    newAttributes.splice(index, 1, {
+      ...attributes[index],
+      values: [...attributes[index].values, '']
+    });
+    setAttributes(newAttributes);
+  };
+
+  const onDeleteValue = (index, valueIndex) => {};
+
+  const onDeleteAttribute = index => {};
+
   return (
     <div>
       {attributes.map((attr, idx) => (
@@ -39,6 +52,7 @@ const Attributes = props => {
           attribute={attr}
           onEditName={onEditName}
           onEditValue={onEditValue}
+          onAddValue={onAddValue}
         />
       ))}
       <button onClick={onAddAttribute}>
