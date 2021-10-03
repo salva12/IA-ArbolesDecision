@@ -48,7 +48,10 @@ const Attributes = props => {
     setAttributes(newAttributes);
   };
 
-  const onDeleteAttribute = index => {};
+  const onDeleteAttribute = index => {
+    const newAttributes = [...attributes].filter((_a, i) => i !== index);
+    setAttributes(newAttributes);
+  };
 
   return (
     <div>

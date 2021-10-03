@@ -10,6 +10,9 @@ const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue, onDelet
           value={attribute.label}
           onChange={e => onEditName(id, e.target.value)}
         />
+        <button onClick={() => onDeleteAttribute(id)}>
+          X
+        </button>
       </div>
       <div style={{ padding: '16px' }}>
         {attribute.values.map((value, idx) => (
