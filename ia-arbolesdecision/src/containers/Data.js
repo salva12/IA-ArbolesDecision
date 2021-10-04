@@ -12,6 +12,13 @@ const Data = ({ attributes, data, setData }) => {
     ]);
   };
 
+  const onEditRow = () => {};
+
+  const onDeleteRow = index => {
+    const newData = data.filter((_d, idx) => idx !== index);
+    setData(newData);
+  };
+
   return (
     <div>
       <table style={{ border: '1px solid black', borderCollapse: 'collapse' }}>
@@ -23,22 +30,22 @@ const Data = ({ attributes, data, setData }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((d, idx) => (
-            <tr key={idx}>
-              <td style={{ border: '1px solid black' }}>{idx + 1}</td>
-              {attributes.map((attr, idx) => (
-                <td key={idx} style={{ border: '1px solid black' }}>
+          {data.map((d, dataIdx) => (
+            <tr key={dataIdx}>
+              <td style={{ border: '1px solid black' }}>{dataIdx + 1}</td>
+              {attributes.map((attr, attrIdx) => (
+                <td key={attrIdx} style={{ border: '1px solid black' }}>
                   <select value={d[attr]}>
                     <option value="">Indefinido</option>
-                    {attr.values.map((val, idx) => (
-                      <option key={idx} value={val}>{val}</option>
+                    {attr.values.map((val, valueIdx) => (
+                      <option key={valueIdx} value={val}>{val}</option>
                     ))}
                   </select>
                   {d[attr]}
                 </td>
               ))}
               <td style={{ border: '1px solid black' }}>
-                <button>
+                <button onClick={() => onDeleteRow(dataIdx)}>
                   X
                 </button>
               </td>
