@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Data = ({ attributes, data }) => {
+const Data = ({ attributes, data, setData }) => {
   return (
     <div>
       <table>

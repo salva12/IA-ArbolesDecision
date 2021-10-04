@@ -4,6 +4,8 @@ import Data from './containers/Data';
 
 const App = props => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [attributes, setAttributes] = useState([]);
+  const [data, setData] = useState([]);
 
   const onPrevious = () => {
     if (tabIndex > 0) {
@@ -19,8 +21,8 @@ const App = props => {
 
   return (
     <div className="App">
-      {tabIndex === 0 && <Attributes />}
-      {tabIndex === 1 && <Data />}
+      {tabIndex === 0 && <Attributes attributes={attributes} setAttributes={setAttributes} />}
+      {tabIndex === 1 && <Data attributes={attributes} data={data} setData={setData} />}
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <button onClick={onPrevious}>&#8592; Anterior</button>
         <button onClick={onNext}>&#8594; Siguiente</button>

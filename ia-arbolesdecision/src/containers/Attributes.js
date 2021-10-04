@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Attribute from '../components/Attribute';
 import { ATTRIBUTE_TEMPLATE } from '../utils/constants';
 
-const Attributes = props => {
-  const [attributes, setAttributes] = useState([]);
-
+const Attributes = ({ attributes, setAttributes }) => {
   const onAddAttribute = () => {
     setAttributes([
       ...attributes,
@@ -23,9 +21,11 @@ const Attributes = props => {
 
   const onEditValue = (index, valueIndex, newValue) => {
     const newAttributes = [...attributes];
+    const newValues = [...attributes[index].values];
+    newValues.splice(valueIndex, 1, newValue);
     newAttributes.splice(index, 1, {
       ...attributes[index],
-      values: [...attributes[index].values].splice(valueIndex, 1, newValue)
+      values: newValues
     });
     setAttributes(newAttributes);
   };
