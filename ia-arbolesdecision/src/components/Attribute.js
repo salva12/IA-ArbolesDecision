@@ -25,7 +25,7 @@ const Attribute = ({ id, attribute, onEditName, onEditValue, onAddValue, onDelet
             />
             <button
               disabled={attribute.values.length <= 2}
-              title={attribute.values.length <= 2 && "El atributo debe tener 2 valores como mínimo"}
+              title={attribute.values.length <= 2 ? "El atributo debe tener 2 valores como mínimo" : undefined}
               onClick={() => onDeleteValue(id, idx)}
               style={{ marginRight: '16px' }}
             >
