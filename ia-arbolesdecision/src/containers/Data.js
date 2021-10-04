@@ -26,6 +26,7 @@ const Data = ({ attributes, data, setData }) => {
           {data.map((d, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
+              {attributes.map((attr, idx) => <td key={idx}>{d[attr]}</td>)}
               <td>
                 <button>
                   X
