@@ -14,20 +14,20 @@ const Data = ({ attributes, data, setData }) => {
 
   return (
     <div>
-      <table>
+      <table style={{ border: '1px solid black', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th>ID</th>
-            {attributes.map((attr, idx) => <th key={idx}>{attr.label}</th>)}
+            <th style={{ border: '1px solid black' }}>ID</th>
+            {attributes.map((attr, idx) => <th key={idx} style={{ border: '1px solid black' }}>{attr.label}</th>)}
             <th />
           </tr>
         </thead>
         <tbody>
           {data.map((d, idx) => (
             <tr key={idx}>
-              <td>{idx + 1}</td>
+              <td style={{ border: '1px solid black' }}>{idx + 1}</td>
               {attributes.map((attr, idx) => (
-                <td key={idx}>
+                <td key={idx} style={{ border: '1px solid black' }}>
                   <select value={d[attr]}>
                     <option value="">Indefinido</option>
                     {attr.values.map((val, idx) => (
@@ -37,7 +37,7 @@ const Data = ({ attributes, data, setData }) => {
                   {d[attr]}
                 </td>
               ))}
-              <td>
+              <td style={{ border: '1px solid black' }}>
                 <button>
                   X
                 </button>
