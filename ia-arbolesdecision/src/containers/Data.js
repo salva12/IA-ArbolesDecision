@@ -26,7 +26,17 @@ const Data = ({ attributes, data, setData }) => {
           {data.map((d, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
-              {attributes.map((attr, idx) => <td key={idx}>{d[attr]}</td>)}
+              {attributes.map((attr, idx) => (
+                <td key={idx}>
+                  <select value={d[attr]}>
+                    <option value="">Indefinido</option>
+                    {attr.values.map((val, idx) => (
+                      <option key={idx} value={val}>{val}</option>
+                    ))}
+                  </select>
+                  {d[attr]}
+                </td>
+              ))}
               <td>
                 <button>
                   X
