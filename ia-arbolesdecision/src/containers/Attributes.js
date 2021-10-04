@@ -49,7 +49,7 @@ const Attributes = ({ attributes, setAttributes }) => {
   };
 
   const onDeleteAttribute = index => {
-    const newAttributes = [...attributes].filter((_a, i) => i !== index);
+    const newAttributes = attributes.filter((_a, i) => i !== index);
     setAttributes(newAttributes);
   };
 
