@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Attributes from './containers/Attributes';
 import Data from './containers/Data';
+import { mockattrs, mockdata } from './utils/datatest';
+
 
 const App = props => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -19,6 +21,11 @@ const App = props => {
     }
   };
 
+  const onLoadTestData = () => {
+    setAttributes(mockattrs);
+    setData(mockdata);
+  };
+
   return (
     <div className="App">
       {tabIndex === 0 && <Attributes attributes={attributes} setAttributes={setAttributes} />}
@@ -27,6 +34,7 @@ const App = props => {
         <button onClick={onPrevious}>&#8592; Anterior</button>
         <button onClick={onNext}>&#8594; Siguiente</button>
       </div>
+      <button onClick={onLoadTestData}>Cargar datos prueba</button>
     </div>
   );
 }
