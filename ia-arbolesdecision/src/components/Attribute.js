@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 
 const Attribute = ({
   id,
@@ -10,30 +10,22 @@ const Attribute = ({
   onDeleteAttribute,
 }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        border: "1px solid black",
-        marginBottom: "16px",
-      }}
-    >
-      <div style={{ padding: "16px", borderRight: "1px solid black" }}>
+    <div className="tile is-parent">
+      <div className="tile is-child notification is-primary is-2">
         <input
           type="text"
+          className="input"
           placeholder="Nombre del atributo"
           value={attribute.label}
           onChange={(e) => onEditName(id, e.target.value)}
         />
-        <button className="delete" onClick={() => onDeleteAttribute(id)}>
-          X
-        </button>
       </div>
-      <div style={{ padding: "16px" }}>
+      <div className="tile is-child notification">
         {attribute.values.map((value, idx) => (
-          <Fragment key={idx}>
+          <div key={idx} style={{ display: 'flex', height: 'fit-content', alignItems: "center" }}>
             <input
               type="text"
+              className="input is-small"
               placeholder={`Valor ${idx + 1}`}
               value={value}
               onChange={(e) => onEditValue(id, idx, e.target.value)}
@@ -51,10 +43,15 @@ const Attribute = ({
             >
               X
             </button>
-          </Fragment>
+          </div>
         ))}
         <button className="button is-small" onClick={() => onAddValue(id)}>
           + Nuevo valor
+        </button>
+      </div>
+      <div className="tile is-child notification is-2">
+        <button className="button is-danger is-small" onClick={() => onDeleteAttribute(id)}>
+          Eliminar atributo
         </button>
       </div>
     </div>

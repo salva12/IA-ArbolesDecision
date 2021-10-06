@@ -51,7 +51,7 @@ const Attributes = ({ attributes, setAttributes }) => {
   }
 
   return (
-    <div>
+    <div className="tile is-ancestor is-vertical">
       {attributes.map((attr, idx) => (
         <Attribute
           key={idx}
@@ -64,9 +64,11 @@ const Attributes = ({ attributes, setAttributes }) => {
           onDeleteAttribute={onDeleteAttribute}
         />
       ))}
+      <div className="tile is-child">
       <button className="button is-primary" onClick={onAddAttribute}>
         + Nuevo atributo
       </button>
+      </div>
     </div>
   )
 }
