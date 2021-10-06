@@ -120,6 +120,24 @@ const atributos = Object.keys(dataset[1]);
 const clase = atributos.pop();
 console.log("los atts son " + atributos + "y la clase es:" + clase);
 
+// funcion para calcular la ganancia
+function gain(entropiaD,entropiaA){
+    g = entropiaD - entropiaA;
+    return g
+};
+
+// funcion para calcular la tasa de ganancia
+function gainRatio(gainA,dataset,atributo){
+    let valoresAtributo = valoresDistintos(atributo,dataset);
+    let denominador = 0;
+    for(valor of valoresAtributo){
+        let c = contarValores(valor,dataset,atributo);
+        denominador = - c/(dataset.length)*logBase(2,c/(dataset.length)) + denominador;
+    };
+    g = gainA/(denominador);
+    return g;
+};
+
 // Ver por consola los resultados parciales y pruebas de cada funcion
 entropiaD(dataset);
 
@@ -129,10 +147,19 @@ console.log(contarValores("no",dataset,"programa"));
 
 console.log("Probando entropia de D")
 console.log(entropiaD(dataset,"condicioncurso"));
+
 console.log("Probando entropia de programa")
 console.log(entropiaA(dataset,"programa","condicioncurso"));
+
 console.log("Probando entropia de menos de 3 inasistencias")
 console.log(entropiaA(dataset,"menos3inasis","condicioncurso"));
-console.log("Probando entropia de formacion secundaria")
+
+console.log("Probando entropia de formacion secundaria");
 console.log(entropiaA(dataset,"formsec","condicioncurso"));
 
+console.log("Probando la ganancia de la informacion para att programa");
+console.log(gain(entropiaD(dataset,"condicioncurso"),entropiaA(dataset,"programa","condicioncurso")));
+const gainprograma = gain(entropiaD(dataset,"condicioncurso"),entropiaA(dataset,"programa","condicioncurso"));
+
+console.log("Probando la tasa de ganancia de la informacion para att programa");
+console.log(gainRatio(gainprograma,dataset,"programa"));
