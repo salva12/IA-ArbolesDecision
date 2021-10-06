@@ -1,8 +1,8 @@
-import React from 'react';
-import Tree from '../components/Tree';
+import React from "react"
+import Tree from "../components/Tree"
 
-const Results = props => {
-  return <Tree />
-};
+const Results = ({ attributes, data }) => {
+  return <Tree attributes={attributes} data={data} />
+}
 
-export default Results;
+export default Results

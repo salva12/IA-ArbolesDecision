@@ -27,25 +27,30 @@ const App = (props) => {
     setData(mockdata)
   }
 
-  const isAttributesEmpty = attributes.length === 0;
-  const areThereAttributesWithoutName = attributes.find(a => !a.label);
-  const areThereAttributesWithEmptyValues = attributes.find(a => a.values.find(v => !v) === '');
+  const isAttributesEmpty = attributes.length === 0
+  const areThereAttributesWithoutName = attributes.find((a) => !a.label)
+  const areThereAttributesWithEmptyValues = attributes.find(
+    (a) => a.values.find((v) => !v) === ""
+  )
 
-  const isDataEmpty = data.length === 0;
-  const isADataUndefined = data.find(d => {
-    let isEmpty = true;
-    Object.keys(d).forEach(key => {
+  const isDataEmpty = data.length === 0
+  const isADataUndefined = data.find((d) => {
+    let isEmpty = true
+    Object.keys(d).forEach((key) => {
       if (d[key]) {
-        isEmpty = false;
+        isEmpty = false
       }
-    });
-    return isEmpty;
-  });
+    })
+    return isEmpty
+  })
 
   const isNextDisabled =
-    (tabIndex === 0 && (isAttributesEmpty || areThereAttributesWithoutName || areThereAttributesWithEmptyValues)) ||
+    (tabIndex === 0 &&
+      (isAttributesEmpty ||
+        areThereAttributesWithoutName ||
+        areThereAttributesWithEmptyValues)) ||
     (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
-    tabIndex === 2;
+    tabIndex === 2
 
   return (
     <div
@@ -58,9 +63,7 @@ const App = (props) => {
       {tabIndex === 1 && (
         <Data attributes={attributes} data={data} setData={setData} />
       )}
-      {tabIndex === 2 && (
-        <Results />
-      )}
+      {tabIndex === 2 && <Results attributes={attributes} data={data} />}
       <div
         style={{
           display: "flex",
@@ -68,7 +71,11 @@ const App = (props) => {
           justifyContent: "center",
         }}
       >
-        <button className="button" disabled={tabIndex === 0} onClick={onPrevious}>
+        <button
+          className="button"
+          disabled={tabIndex === 0}
+          onClick={onPrevious}
+        >
           &#8592; Anterior
         </button>
         <button className="button" disabled={isNextDisabled} onClick={onNext}>
