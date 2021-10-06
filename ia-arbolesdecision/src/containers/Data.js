@@ -10,7 +10,14 @@ const Data = ({ attributes, data, setData }) => {
     setData([...data, newRow])
   }
 
-  const onEditRow = () => {}
+  const onEditRow = (value, index, attribute) => {
+    const newData = [...data];
+    newData.splice(index, 1, {
+      ...data[index],
+      [attribute]: value
+    });
+    setData(newData);
+  };
 
   const onDeleteRow = (index) => {
     const newData = data.filter((_d, idx) => idx !== index)
@@ -37,7 +44,10 @@ const Data = ({ attributes, data, setData }) => {
               <td style={{ border: "1px solid black" }}>{dataIdx + 1}</td>
               {attributes.map((attr, attrIdx) => (
                 <td key={attrIdx} style={{ border: "1px solid black" }}>
-                  <select value={d[attr]}>
+                  <select
+                    value={d[attr.label]}
+                    onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
+                  >
                     <option value="">Indefinido</option>
                     {attr.values.map((val, valueIdx) => (
                       <option key={valueIdx} value={val}>
@@ -58,7 +68,7 @@ const Data = ({ attributes, data, setData }) => {
       <button className="button is-primary" onClick={onAddRow}>
         + Nuevo registro de datos
       </button>
-      <Tree />
+      {/* <Tree /> */}
     </div>
   )
 }
