@@ -26,6 +26,13 @@ const App = (props) => {
     setData(mockdata)
   }
 
+  const areThereAttributesWithoutName = attributes.find(a => !a.label);
+  const areThereAttributesWithEmptyValues = attributes.find(a => a.values.find(v => !v) === '');
+  const isNextDisabled = tabIndex === 2
+    || attributes.length === 0
+    || areThereAttributesWithoutName
+    || areThereAttributesWithEmptyValues;
+
   return (
     <div
       className="App container is-fullhd block"
@@ -44,10 +51,10 @@ const App = (props) => {
           justifyContent: "center",
         }}
       >
-        <button className="button" onClick={onPrevious}>
+        <button className="button" disabled={tabIndex === 0} onClick={onPrevious}>
           &#8592; Anterior
         </button>
-        <button className="button" onClick={onNext}>
+        <button className="button" disabled={isNextDisabled} onClick={onNext}>
           &#8594; Siguiente
         </button>
       </div>
