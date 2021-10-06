@@ -11,7 +11,7 @@ const Attribute = ({
 }) => {
   return (
     <div className="tile is-parent">
-      <div className="tile is-child notification is-primary is-2">
+      <div className="tile is-child box is-primary is-2">
         <input
           type="text"
           className="input"
@@ -20,9 +20,13 @@ const Attribute = ({
           onChange={(e) => onEditName(id, e.target.value)}
         />
       </div>
-      <div className="tile is-child notification">
+      <div className="tile is-child box columns" style={{ flexWrap: 'wrap' }}>
         {attribute.values.map((value, idx) => (
-          <div key={idx} style={{ display: 'flex', height: 'fit-content', alignItems: "center" }}>
+          <div
+            key={idx}
+            className="column is-one-quarter"
+            style={{ display: 'flex', height: 'fit-content', alignItems: "center" }}
+          >
             <input
               type="text"
               className="input is-small"
@@ -39,17 +43,17 @@ const Attribute = ({
               }
               onClick={() => onDeleteValue(id, idx)}
               style={{ marginRight: "16px" }}
-              className="delete"
-            >
-              X
-            </button>
+              className="delete is-medium"
+            />
           </div>
         ))}
-        <button className="button is-small" onClick={() => onAddValue(id)}>
-          + Nuevo valor
-        </button>
+        <div className="column is-one-quarter">
+          <button className="button is-small" onClick={() => onAddValue(id)}>
+            + Nuevo valor
+          </button>
+        </div>
       </div>
-      <div className="tile is-child notification is-2">
+      <div className="tile is-child box is-2">
         <button className="button is-danger is-small" onClick={() => onDeleteAttribute(id)}>
           Eliminar atributo
         </button>
