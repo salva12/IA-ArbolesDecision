@@ -1,5 +1,4 @@
 import React from "react"
-import Tree from "./../components/Tree"
 
 const Data = ({ attributes, data, setData }) => {
   const onAddRow = () => {
@@ -68,7 +67,6 @@ const Data = ({ attributes, data, setData }) => {
       <button className="button is-primary" onClick={onAddRow}>
         + Nuevo registro de datos
       </button>
-      {/* <Tree /> */}
     </div>
   )
 }

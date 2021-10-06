@@ -3,6 +3,7 @@ import "bulma/css/bulma.min.css"
 import Attributes from "./containers/Attributes"
 import Data from "./containers/Data"
 import { mockattrs, mockdata } from "./utils/datatest"
+import Results from "./containers/Result"
 
 const App = (props) => {
   const [tabIndex, setTabIndex] = useState(0)
@@ -56,6 +57,9 @@ const App = (props) => {
       )}
       {tabIndex === 1 && (
         <Data attributes={attributes} data={data} setData={setData} />
+      )}
+      {tabIndex === 2 && (
+        <Results />
       )}
       <div
         style={{
