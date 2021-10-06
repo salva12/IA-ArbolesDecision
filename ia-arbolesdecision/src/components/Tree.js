@@ -4,15 +4,16 @@ import Graph from "react-vis-network-graph"
 const Tree = ({ attributes, data }) => {
   const edgesFromRoot = () => {
     const root = attributes[0]
-    const edges = attributes.slice(1).map((attribute) => ({
+    const edges = root.values.map((value, index) => ({
       from: root.label,
-      to: attribute.label,
+      to: attributes[index + 1].label,
+      label: value,
     }))
     return edges
   }
 
   const graph = {
-    nodes: attributes.map((attribute, index) => ({
+    nodes: attributes.slice(0, -1).map((attribute, index) => ({
       id: attribute.label,
       label: attribute.label,
     })),
