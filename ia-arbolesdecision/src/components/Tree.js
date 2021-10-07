@@ -1,22 +1,37 @@
 import React from "react"
 import Graph from "react-vis-network-graph"
 
-const Tree = ({ attributes, data }) => {
-  const edgesFromRoot = () => {
-    const root = attributes[0]
-    const edges = root.values.map((value, index) => ({
-      from: root.label,
-      to: attributes[index + 1].label,
-      label: value,
-    }))
-    return edges
-  }
+const nodes = [
+  {
+    id: "1programa",
+    label: "programa",
+  },
+  {
+    id: "2regular",
+    label: "regular",
+  },
+  {
+    id: "3libre",
+    label: "libre",
+  },
+]
 
+const edges = [
+  {
+    from: "1programa",
+    label: "si",
+    to: "2regular",
+  },
+  {
+    from: "1programa",
+    label: "no",
+    to: "3libre",
+  },
+]
+
+const Tree = ({ tree = { nodes, edges } }) => {
   const graph = {
-    nodes: attributes.slice(0, -1).map((attribute, index) => ({
-      id: attribute.label,
-      label: attribute.label,
-    })),
+    nodes: tree.nodes,
 
     /* [
       { id: 1, label: "Node 1", title: "node 1 tootip text" },
@@ -25,7 +40,7 @@ const Tree = ({ attributes, data }) => {
       { id: 4, label: "Node 4", title: "node 4 tootip text" },
       { id: 5, label: "Node 5", title: "node 5 tootip text" },
     ], */
-    edges: [...edgesFromRoot()],
+    edges: tree.edges,
   }
 
   const options = {
