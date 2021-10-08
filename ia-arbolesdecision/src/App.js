@@ -1,39 +1,45 @@
-import React, { useState } from "react"
-import "bulma/css/bulma.min.css"
-import Attributes from "./containers/Attributes"
-import Data from "./containers/Data"
-import { mockattrs, mockdata } from "./utils/datatest"
-import Results from "./containers/Result"
+import React, { useState } from "react";
+import "bulma/css/bulma.min.css";
+import Attributes from "./containers/Attributes";
+import Data from "./containers/Data";
+import { mockattrs, mockdata } from "./utils/datatest";
+import Results from "./containers/Result";
 
 const App = (props) => {
-  const [tabIndex, setTabIndex] = useState(0)
-  const [attributes, setAttributes] = useState([])
-  const [data, setData] = useState([])
+  const [tabIndex, setTabIndex] = useState(0);
+  const [attributes, setAttributes] = useState([]);
+  const [data, setData] = useState([]);
+  const [file, setFile] = useState(null);
 
   const onPrevious = () => {
     if (tabIndex > 0) {
-      setTabIndex(tabIndex - 1)
+      setTabIndex(tabIndex - 1);
     }
-  }
+  };
 
   const onNext = () => {
     if (tabIndex < 2) {
-      setTabIndex(tabIndex + 1)
+      setTabIndex(tabIndex + 1);
     }
-  }
+  };
 
   const onLoadTestData = () => {
-    setAttributes(mockattrs)
-    setData(mockdata)
-  }
+    setAttributes(mockattrs);
+    setData(mockdata);
+  };
 
-  const isAttributesEmpty = attributes.length === 0
-  const areThereAttributesWithoutName = attributes.find((a) => !a.label)
+  const onFileChange = event => {
+    console.log(event.target.files)
+    setFile(event.target.files[0]);
+  };
+
+  const isAttributesEmpty = attributes.length === 0;
+  const areThereAttributesWithoutName = attributes.find((a) => !a.label);
   const areThereAttributesWithEmptyValues = attributes.find(
     (a) => a.values.find((v) => !v) === ""
-  )
+  );
 
-  const isDataEmpty = data.length === 0
+  const isDataEmpty = data.length === 0;
   const isADataUndefined = data.find((d) => {
     let isEmpty = true
     Object.keys(d).forEach((key) => {
@@ -42,7 +48,7 @@ const App = (props) => {
       }
     })
     return isEmpty
-  })
+  });
 
   const isNextDisabled =
     (tabIndex === 0 &&
@@ -50,7 +56,7 @@ const App = (props) => {
         areThereAttributesWithoutName ||
         areThereAttributesWithEmptyValues)) ||
     (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
-    tabIndex === 2
+    tabIndex === 2;
 
   return (
     <div
@@ -64,13 +70,28 @@ const App = (props) => {
         <Data attributes={attributes} data={data} setData={setData} />
       )}
       {tabIndex === 2 && <Results attributes={attributes} data={data} />}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
+      
+      <button className="button is-primary is-light" onClick={onLoadTestData}>
+        Cargar datos prueba
+      </button>
+      
+      <div className="center">
+        <div className="file has-name">
+          <label className="file-label">
+            <input className="file-input" type="file" onChange={onFileChange} />
+            <span className="file-cta">
+              <span className="file-label">
+                Cargar archivo CSV
+              </span>
+            </span>
+            <span className="file-name">
+              {file ? file.name : 'No se seleccionó archivo'}
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div className="section center">
         <button
           className="button"
           disabled={tabIndex === 0}
@@ -82,11 +103,8 @@ const App = (props) => {
           &#8594; Siguiente
         </button>
       </div>
-      <button className="button is-primary is-light" onClick={onLoadTestData}>
-        Cargar datos prueba
-      </button>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
