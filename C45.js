@@ -78,6 +78,20 @@ function contarValores2(valorAtt, valorClase, dataset, atributo, clase) {
   return cont
 }
 
+// funcion para obtener el valor de clase mas frecuente de un data set
+function valorClaseMasFrecuente(dataset, clase) {
+  let valoresClase = valoresDistintos(clase, dataset)
+  let cantClase = []
+  for (valor of valoresClase) {
+    let c = contarValores(valor, dataset, clase)
+    cantClase.push({ valorClase: valor, cant: c })
+  }
+  // obtener valorClase con mayor cantidad
+  const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant)
+  const masFrecuente = valoresOrdenados[0].valorClase
+  return masFrecuente
+}
+
 // funcion para calcular la entropia global del set de datos D.
 const entropiaD = (dataset, clase) => {
   let valoresClase = valoresDistintos(clase, dataset)
@@ -157,37 +171,30 @@ const tree = { nodes: [], edges: [] }
 const umbral = 0.1
 let id_nodes = 0
 
-function c45(dataset, atributos, tree) {
+function c45gain(dataset, atributos, tree) {
   console.log(dataset, atributos)
   console.log(tree.nodes)
   console.log(tree.edges)
   console.log("valores distintos", valoresDistintos(clase, dataset).size)
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
-    id_nodes.nodes++
-    tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+    id_nodes++
+    tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
-      id: id_nodes.nodes + dataset[0][clase],
+      id: id_nodes + dataset[0][clase],
       label: dataset[0][clase],
     }) //colocar nodos hojas
     return
   } else if (atributos.length === 0) {
     console.log("ya no hay mas atributos")
-    let valoresClase = valoresDistintos(clase, dataset)
-    let cantClase = []
-    for (valor of valoresClase) {
-      let c = contarValores(valor, dataset, clase)
-      cantClase.push({ valorClase: valor, cant: c })
-    }
-    // obtener valorClase con mayor cantidad
-    const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant)
-    const masFrecuente = valoresOrdenados[0].valorClase
+
+    const masFrecuente = valorClaseMasFrecuente(dataset, clase)
 
     // acá se saca el valor de clase mas frecuente
-    id_nodes.nodes++
-    tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+    id_nodes++
+    tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
-      id: id_nodes.nodes + dataset[0][clase],
+      id: id_nodes + dataset[0][clase],
       label: masFrecuente,
     })
   } else {
@@ -200,11 +207,14 @@ function c45(dataset, atributos, tree) {
     const maxgain = Math.max.apply(null, ganancias)
     if (maxgain < umbral) {
       console.log("nodo hoja")
-      id_nodes.nodes++
-      tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+
+      const masFrecuente = valorClaseMasFrecuente(dataset, clase)
+
+      id_nodes++
+      tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
       tree.nodes.push({
-        id: id_nodes.nodes + dataset[0][clase],
-        label: dataset[0][clase],
+        id: id_nodes + dataset[0][clase],
+        label: masFrecuente,
       }) //colocar nodos hojas
       return
     } else {
@@ -217,14 +227,14 @@ function c45(dataset, atributos, tree) {
         const particion = dataset.filter((reg) => reg[ag] == valor)
         particiones.push(particion)
       }
-      id_nodes.nodes++
-      let idpadre = id_nodes.nodes + ag
+      id_nodes++
+      let idpadre = id_nodes + ag
       tree.nodes.push({ id: idpadre, label: ag })
       for (particion of particiones) {
         console.log(particion)
         if (particion.length != 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
-          c45(
+          c45gain(
             particion,
             atributos.filter((a) => a != ag),
             tree
@@ -273,4 +283,4 @@ console.log(gainRatio(gainprograma, dataset, "programa"))
 console.log(Math.max.apply(null, [2, 4, 5, 6, 7, 1, 2, 3]))
 
 //Probamos el algoritmo completo
-console.log(c45(dataset, atributos, tree))
+console.log(c45gain(dataset, atributos, tree))
