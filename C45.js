@@ -153,21 +153,23 @@ console.log("los atts son " + atributos + "y la clase es:" + clase)
 
 // C45 algoritmo recursivo, antes de arrancar, y que es utilizable en todas las recursiones es importante saber la clase
 //y naturalmente para la primer llamada al algoritmo los atributos
-var nodes = []
-var edges = []
+const tree = { nodes: [], edges: [] }
 const umbral = 0.1
 let id_nodes = 0
 
-function c45(dataset, atributos, nodes, edges) {
+function c45(dataset, atributos, tree) {
   console.log(dataset, atributos)
-  console.log(nodes)
-  console.log(edges)
+  console.log(tree.nodes)
+  console.log(tree.edges)
   console.log("valores distintos", valoresDistintos(clase, dataset).size)
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
-    id_nodes++
-    edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
-    nodes.push({ id: id_nodes + dataset[0][clase], label: dataset[0][clase] }) //colocar nodos hojas
+    id_nodes.nodes++
+    tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+    tree.nodes.push({
+      id: id_nodes.nodes + dataset[0][clase],
+      label: dataset[0][clase],
+    }) //colocar nodos hojas
     return
   } else if (atributos.length === 0) {
     console.log("ya no hay mas atributos")
@@ -177,6 +179,17 @@ function c45(dataset, atributos, nodes, edges) {
       let c = contarValores(valor, dataset, clase)
       cantClase.push({ valorClase: valor, cant: c })
     }
+    // obtener valorClase con mayor cantidad
+    const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant)
+    const masFrecuente = valoresOrdenados[0].valorClase
+
+    // acá se saca el valor de clase mas frecuente
+    id_nodes.nodes++
+    tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+    tree.nodes.push({
+      id: id_nodes.nodes + dataset[0][clase],
+      label: masFrecuente,
+    })
   } else {
     console.log("entro al else")
     let entD = entropiaD(dataset, clase)
@@ -187,9 +200,12 @@ function c45(dataset, atributos, nodes, edges) {
     const maxgain = Math.max.apply(null, ganancias)
     if (maxgain < umbral) {
       console.log("nodo hoja")
-      id_nodes++
-      edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
-      nodes.push({ id: id_nodes + dataset[0][clase], label: dataset[0][clase] }) //colocar nodos hojas
+      id_nodes.nodes++
+      tree.edges.slice(-1)[0].to = id_nodes.nodes + dataset[0][clase]
+      tree.nodes.push({
+        id: id_nodes.nodes + dataset[0][clase],
+        label: dataset[0][clase],
+      }) //colocar nodos hojas
       return
     } else {
       ag = atributos[ganancias.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
@@ -201,18 +217,17 @@ function c45(dataset, atributos, nodes, edges) {
         const particion = dataset.filter((reg) => reg[ag] == valor)
         particiones.push(particion)
       }
-      id_nodes++
-      let idpadre = id_nodes + ag
-      nodes.push({ id: idpadre, label: ag })
+      id_nodes.nodes++
+      let idpadre = id_nodes.nodes + ag
+      tree.nodes.push({ id: idpadre, label: ag })
       for (particion of particiones) {
         console.log(particion)
         if (particion.length != 0) {
-          edges.push({ from: idpadre, label: particion[0][ag] })
+          tree.edges.push({ from: idpadre, label: particion[0][ag] })
           c45(
             particion,
             atributos.filter((a) => a != ag),
-            nodes,
-            edges
+            tree
           )
         }
       }
@@ -258,4 +273,4 @@ console.log(gainRatio(gainprograma, dataset, "programa"))
 console.log(Math.max.apply(null, [2, 4, 5, 6, 7, 1, 2, 3]))
 
 //Probamos el algoritmo completo
-console.log(c45(dataset, atributos, nodes, edges))
+console.log(c45(dataset, atributos, tree))
