@@ -28,9 +28,12 @@ const App = (props) => {
     setData(mockdata);
   };
 
-  const onFileChange = event => {
-    console.log(event.target.files)
-    setFile(event.target.files[0]);
+  const onFileChange = async event => {
+    const file = event.target.files[0];
+    console.log(file);
+    const fileAsString = await file.text();
+    console.log(fileAsString);
+    setFile(file);
   };
 
   const isAttributesEmpty = attributes.length === 0;
@@ -78,7 +81,12 @@ const App = (props) => {
       <div className="center">
         <div className="file has-name">
           <label className="file-label">
-            <input className="file-input" type="file" onChange={onFileChange} />
+            <input
+              className="file-input"
+              type="file"
+              onChange={onFileChange}
+              accept=".txt,.csv"
+            />
             <span className="file-cta">
               <span className="file-label">
                 Cargar archivo CSV
