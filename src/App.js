@@ -5,7 +5,7 @@ import Data from "./containers/Data";
 import { mockattrs, mockdata } from "./utils/datatest";
 import Results from "./containers/Result";
 
-const App = (props) => {
+const App = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [attributes, setAttributes] = useState([]);
   const [data, setData] = useState([]);
@@ -41,7 +41,15 @@ const App = (props) => {
       // first filter the empty values, and then extract each value
       values: importedData.filter(d => d[idx]).map(d => d[idx])
     })));
-    // store the file in the state because yes
+    // store the data in the state, filtering the empty rows
+    setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
+      const row = {};
+      importedAttributes.forEach((attr, idx) => {
+        row[attr] = d[idx];
+      });
+      return row;
+    }));
+    // store the file in the state for its name
     setFile(file);
   };
 
