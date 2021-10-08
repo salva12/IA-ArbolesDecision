@@ -29,14 +29,19 @@ const App = (props) => {
   };
 
   const onFileChange = async event => {
+    // get the file from the event
     const file = event.target.files[0];
+    // convert it to string, split it into an array of lines, and split each line into an array of fields
     const parsedFile = (await file.text()).split('\n').map(line => line.split(','));
+    // separate the attributes (1st element) and data (the rest) into two constants
     const [importedAttributes, ...importedData] = parsedFile;
-    console.log(importedData);
+    // store the attributes in the state
     setAttributes(importedAttributes.map((attr, idx) => ({
       label: attr,
+      // first filter the empty values, and then extract each value
       values: importedData.filter(d => d[idx]).map(d => d[idx])
     })));
+    // store the file in the state because yes
     setFile(file);
   };
 
