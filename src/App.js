@@ -30,9 +30,12 @@ const App = (props) => {
 
   const onFileChange = async event => {
     const file = event.target.files[0];
-    console.log(file);
-    const fileAsString = await file.text();
-    console.log(fileAsString);
+    const parsedFile = (await file.text()).split('\n').map(line => line.split(','));
+    const [importedAttributes, ...importedData] = parsedFile;
+    setAttributes(importedAttributes.map((attr, idx) => ({
+      label: attr,
+      values: importedData.map(d => d[idx])
+    })));
     setFile(file);
   };
 
