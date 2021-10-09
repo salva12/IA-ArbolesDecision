@@ -4,6 +4,9 @@ import Attributes from "./containers/Attributes";
 import Data from "./containers/Data";
 import { mockattrs, mockdata } from "./utils/datatest";
 import Results from "./containers/Result";
+import { ReactComponent as ArrowLeft } from './assets/arrow-left-solid.svg';
+import { ReactComponent as ArrowRight } from './assets/arrow-right-solid.svg';
+import { ReactComponent as FileCSV } from './assets/file-csv-solid.svg';
 
 const App = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -105,6 +108,9 @@ const App = () => {
               accept=".txt,.csv"
             />
             <span className="file-cta">
+            <span class="file-icon">
+              <FileCSV width={16} height={16} />
+            </span>
               <span className="file-label">
                 Cargar archivo CSV
               </span>
@@ -123,10 +129,16 @@ const App = () => {
             disabled={tabIndex === 0}
             onClick={onPrevious}
           >
-            &#8592; Anterior
+            <span className="icon">
+              <ArrowLeft width={16} height={16} />
+            </span>
+            <span>Anterior</span>
           </button>
           <button className="button" disabled={isNextDisabled} onClick={onNext}>
-            &#8594; Siguiente
+            <span className="icon">
+              <ArrowRight width={16} height={16} />
+            </span>
+            <span>Siguiente</span>
           </button>
         </div>
       </div>
