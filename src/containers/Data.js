@@ -25,12 +25,12 @@ const Data = ({ attributes, data, setData }) => {
 
   return (
     <div>
-      <table style={{ border: "1px solid black", borderCollapse: "collapse" }}>
+      <table className="table is-striped is-fullwidth">
         <thead>
           <tr>
-            <th style={{ border: "1px solid black" }}>ID</th>
+            <th>ID</th>
             {attributes.map((attr, idx) => (
-              <th key={idx} style={{ border: "1px solid black" }}>
+              <th key={idx}>
                 {attr.label}
               </th>
             ))}
@@ -40,9 +40,9 @@ const Data = ({ attributes, data, setData }) => {
         <tbody>
           {data.map((d, dataIdx) => (
             <tr key={dataIdx}>
-              <td style={{ border: "1px solid black" }}>{dataIdx + 1}</td>
+              <td>{dataIdx + 1}</td>
               {attributes.map((attr, attrIdx) => (
-                <td key={attrIdx} style={{ border: "1px solid black" }}>
+                <td key={attrIdx}>
                   <select
                     value={d[attr.label]}
                     onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
@@ -57,8 +57,8 @@ const Data = ({ attributes, data, setData }) => {
                   {d[attr]}
                 </td>
               ))}
-              <td style={{ border: "1px solid black" }}>
-                <button onClick={() => onDeleteRow(dataIdx)}>X</button>
+              <td>
+                <button className="delete" onClick={() => onDeleteRow(dataIdx)} />
               </td>
             </tr>
           ))}
