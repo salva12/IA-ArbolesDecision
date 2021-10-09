@@ -1,54 +1,54 @@
-import React from "react"
-import Attribute from "../components/Attribute"
-import { ATTRIBUTE_TEMPLATE } from "../utils/constants"
+import React from "react";
+import Attribute from "../components/Attribute";
+import { ATTRIBUTE_TEMPLATE } from "../utils/constants";
 
 const Attributes = ({ attributes, setAttributes }) => {
   const onAddAttribute = () => {
-    setAttributes([...attributes, ATTRIBUTE_TEMPLATE])
-  }
+    setAttributes([...attributes, ATTRIBUTE_TEMPLATE]);
+  };
 
   const onEditName = (index, newName) => {
-    const newAttributes = [...attributes]
+    const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
       label: newName,
-    })
-    setAttributes(newAttributes)
-  }
+    });
+    setAttributes(newAttributes);
+  };
 
   const onEditValue = (index, valueIndex, newValue) => {
-    const newAttributes = [...attributes]
-    const newValues = [...attributes[index].values]
-    newValues.splice(valueIndex, 1, newValue)
+    const newAttributes = [...attributes];
+    const newValues = [...attributes[index].values];
+    newValues.splice(valueIndex, 1, newValue);
     newAttributes.splice(index, 1, {
       ...attributes[index],
       values: newValues,
-    })
-    setAttributes(newAttributes)
-  }
+    });
+    setAttributes(newAttributes);
+  };
 
   const onAddValue = (index) => {
-    const newAttributes = [...attributes]
+    const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
       values: [...attributes[index].values, ""],
-    })
-    setAttributes(newAttributes)
-  }
+    });
+    setAttributes(newAttributes);
+  };
 
   const onDeleteValue = (index, valueIndex) => {
-    const newAttributes = [...attributes]
+    const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
       values: attributes[index].values.filter((_v, i) => i !== valueIndex),
-    })
-    setAttributes(newAttributes)
-  }
+    });
+    setAttributes(newAttributes);
+  };
 
   const onDeleteAttribute = (index) => {
-    const newAttributes = attributes.filter((_a, i) => i !== index)
-    setAttributes(newAttributes)
-  }
+    const newAttributes = attributes.filter((_a, i) => i !== index);
+    setAttributes(newAttributes);
+  };
 
   return (
     <div>
@@ -74,6 +74,6 @@ const Attributes = ({ attributes, setAttributes }) => {
       </div>
     </div>
   )
-}
+};
 
-export default Attributes
+export default Attributes;
