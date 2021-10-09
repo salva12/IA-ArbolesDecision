@@ -51,23 +51,26 @@ const Attributes = ({ attributes, setAttributes }) => {
   }
 
   return (
-    <div className="tile is-ancestor is-vertical">
-      {attributes.map((attr, idx) => (
-        <Attribute
-          key={idx}
-          id={idx}
-          attribute={attr}
-          onEditName={onEditName}
-          onEditValue={onEditValue}
-          onAddValue={onAddValue}
-          onDeleteValue={onDeleteValue}
-          onDeleteAttribute={onDeleteAttribute}
-        />
-      ))}
-      <div className="tile is-child">
-      <button className="button is-primary" onClick={onAddAttribute}>
-        + Nuevo atributo
-      </button>
+    <div>
+      <h2 className="title is-2">Atributos</h2>
+      <div className="tile is-ancestor is-vertical">
+        {attributes.map((attr, idx) => (
+          <Attribute
+            key={idx}
+            id={idx}
+            attribute={attr}
+            onEditName={onEditName}
+            onEditValue={onEditValue}
+            onAddValue={onAddValue}
+            onDeleteValue={onDeleteValue}
+            onDeleteAttribute={onDeleteAttribute}
+          />
+        ))}
+        <div className="tile is-child">
+        <button className="button is-primary" onClick={onAddAttribute}>
+          + Nuevo atributo
+        </button>
+        </div>
       </div>
     </div>
   )

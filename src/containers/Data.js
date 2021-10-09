@@ -25,6 +25,7 @@ const Data = ({ attributes, data, setData }) => {
 
   return (
     <div>
+      <h2 className="title is-2">Conjunto de datos</h2>
       <table className="table is-striped is-fullwidth">
         <thead>
           <tr>
