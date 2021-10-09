@@ -117,16 +117,18 @@ const App = () => {
       </div>
 
       <div className="section center">
-        <button
-          className="button"
-          disabled={tabIndex === 0}
-          onClick={onPrevious}
-        >
-          &#8592; Anterior
-        </button>
-        <button className="button" disabled={isNextDisabled} onClick={onNext}>
-          &#8594; Siguiente
-        </button>
+        <div className="buttons">
+          <button
+            className="button"
+            disabled={tabIndex === 0}
+            onClick={onPrevious}
+          >
+            &#8592; Anterior
+          </button>
+          <button className="button" disabled={isNextDisabled} onClick={onNext}>
+            &#8594; Siguiente
+          </button>
+        </div>
       </div>
     </div>
   );
