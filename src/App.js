@@ -93,11 +93,7 @@ const App = () => {
         <Data attributes={attributes} data={data} setData={setData} />
       )}
       {tabIndex === 2 && <Results attributes={attributes} data={data} />}
-      
-      <button className="button is-primary is-light" onClick={onLoadTestData}>
-        Cargar datos prueba
-      </button>
-      
+
       <div className="center">
         <div className="file has-name">
           <label className="file-label">
