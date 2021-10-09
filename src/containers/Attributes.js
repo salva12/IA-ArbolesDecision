@@ -1,6 +1,7 @@
 import React from "react";
 import Attribute from "../components/Attribute";
 import { ATTRIBUTE_TEMPLATE } from "../utils/constants";
+import { ReactComponent as Plus } from '../assets/plus-solid.svg';
 
 const Attributes = ({ attributes, setAttributes }) => {
   const onAddAttribute = () => {
@@ -68,7 +69,12 @@ const Attributes = ({ attributes, setAttributes }) => {
         ))}
         <div className="tile is-child">
         <button className="button is-primary" onClick={onAddAttribute}>
-          + Nuevo atributo
+          <span className="icon">
+            <Plus width={16} height={16} />
+          </span>
+          <span>
+            Nuevo atributo
+          </span>
         </button>
         </div>
       </div>

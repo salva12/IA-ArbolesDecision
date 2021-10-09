@@ -1,13 +1,14 @@
-import React from "react"
+import React from "react";
+import { ReactComponent as Plus } from '../assets/plus-solid.svg';
 
 const Data = ({ attributes, data, setData }) => {
   const onAddRow = () => {
-    const newRow = {}
+    const newRow = {};
     attributes.forEach((attr) => {
       newRow[attr.label] = ""
-    })
-    setData([...data, newRow])
-  }
+    });
+    setData([...data, newRow]);
+  };
 
   const onEditRow = (value, index, attribute) => {
     const newData = [...data];
@@ -19,9 +20,9 @@ const Data = ({ attributes, data, setData }) => {
   };
 
   const onDeleteRow = (index) => {
-    const newData = data.filter((_d, idx) => idx !== index)
-    setData(newData)
-  }
+    const newData = data.filter((_d, idx) => idx !== index);
+    setData(newData);
+  };
 
   return (
     <div>
@@ -66,10 +67,15 @@ const Data = ({ attributes, data, setData }) => {
         </tbody>
       </table>
       <button className="button is-primary" onClick={onAddRow}>
-        + Nuevo registro de datos
+        <span className="icon">
+          <Plus width={16} height={16} />
+        </span>
+        <span>
+          Nuevo registro de datos
+        </span>
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Data
+export default Data;
