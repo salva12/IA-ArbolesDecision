@@ -107,7 +107,7 @@ const App = () => {
         className="App container is-fullhd block"
         style={{
           padding: "1em 1.5em",
-          height: `calc(100% - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
+          minHeight: `calc(100% - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
         }}
       >
         {tabIndex === 0 && (
