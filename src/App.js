@@ -85,6 +85,13 @@ const App = () => {
 
     return (
       <div style={{ height: '100%', minHeight: '100%', position: 'relative' }}>
+        <div className="hero is-primary">
+          <div className="hero-body">
+            <p className="title">
+              Árboles de decisión
+            </p>
+          </div>
+        </div>
         <div
           className="App container is-fullhd block"
           style={{
