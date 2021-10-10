@@ -8,6 +8,7 @@ import { ReactComponent as ArrowLeft } from './assets/arrow-left-solid.svg';
 import { ReactComponent as ArrowRight } from './assets/arrow-right-solid.svg';
 import { ReactComponent as FileCSV } from './assets/file-csv-solid.svg';
 import { ReactComponent as UTNLogo } from './assets/utn-logo.svg';
+import ReactTooltip from "react-tooltip";
 
 const App = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -83,6 +84,12 @@ const App = () => {
     (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
     tabIndex === 2;
 
+    const nextTooltip = tabIndex === 0
+        ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío') || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre') || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
+        : tabIndex === 1
+        ? (isDataEmpty && 'El conjunto de datos no puede estar vacío') || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
+        : '';
+
     return (
       <div style={{ height: '100%', minHeight: '100%', position: 'relative' }}>
         <div className="hero is-primary">
@@ -143,12 +150,14 @@ const App = () => {
                 </span>
                 <span>Anterior</span>
               </button>
-              <button className="button" disabled={isNextDisabled} onClick={onNext}>
-                <span className="icon">
-                  <ArrowRight width={16} height={16} />
-                </span>
-                <span>Siguiente</span>
-              </button>
+              <span data-tip={nextTooltip}>
+                <button className="button" disabled={isNextDisabled} onClick={onNext}>
+                  <span className="icon">
+                    <ArrowRight width={16} height={16} />
+                  </span>
+                  <span>Siguiente</span>
+                </button>
+              </span>
             </div>
           </div>
         </div>
@@ -190,6 +199,7 @@ const App = () => {
           </div>
         </div>
       </footer>
+      <ReactTooltip effect="solid" />
     </div>
   );
 }
