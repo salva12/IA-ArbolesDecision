@@ -1,21 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "bulma/css/bulma.min.css";
 import Attributes from "./containers/Attributes";
 import Data from "./containers/Data";
-import { mockattrs, mockdata } from "./utils/datatest";
 import Results from "./containers/Result";
 import { ReactComponent as ArrowLeft } from './assets/arrow-left-solid.svg';
 import { ReactComponent as ArrowRight } from './assets/arrow-right-solid.svg';
 import { ReactComponent as FileCSV } from './assets/file-csv-solid.svg';
 import { ReactComponent as UTNLogo } from './assets/utn-logo.svg';
 import ReactTooltip from "react-tooltip";
+import { FOOTER_HEIGHT, HEADER_HEIGHT } from "./utils/constants";
 
 const App = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [attributes, setAttributes] = useState([]);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
-  const footerRef = useRef(null);
 
   const onPrevious = () => {
     if (tabIndex > 0) {
@@ -27,11 +26,6 @@ const App = () => {
     if (tabIndex < 2) {
       setTabIndex(tabIndex + 1);
     }
-  };
-
-  const onLoadTestData = () => {
-    setAttributes(mockattrs);
-    setData(mockdata);
   };
 
   const onFileChange = async event => {
@@ -59,13 +53,18 @@ const App = () => {
     setFile(file);
   };
 
+  // check if the attributes set is empty
   const isAttributesEmpty = attributes.length === 0;
-  const areThereAttributesWithoutName = attributes.find((a) => !a.label);
+  // check if there is an attribute without name
+  const areThereAttributesWithoutName = attributes.find(a => !a.label);
+  // check if there is an attribute with empty values
   const areThereAttributesWithEmptyValues = attributes.find(
-    (a) => a.values.find((v) => !v) === ""
+    a => a.values.find((v) => !v) === ''
   );
 
+  // check if the data set is empty
   const isDataEmpty = data.length === 0;
+  // check if there is a data row with all of its values empty
   const isADataUndefined = data.find((d) => {
     let isEmpty = true
     Object.keys(d).forEach((key) => {
@@ -76,6 +75,7 @@ const App = () => {
     return isEmpty
   });
 
+  // check if the next button should be disabled
   const isNextDisabled =
     (tabIndex === 0 &&
       (isAttributesEmpty ||
@@ -84,85 +84,89 @@ const App = () => {
     (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
     tabIndex === 2;
 
-    const nextTooltip = tabIndex === 0
-        ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío') || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre') || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
-        : tabIndex === 1
-        ? (isDataEmpty && 'El conjunto de datos no puede estar vacío') || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
-        : '';
+  // the tooltip text for the next button
+  const nextTooltip = tabIndex === 0
+    ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío')
+      || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre')
+        || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
+    : tabIndex === 1
+    ? (isDataEmpty && 'El conjunto de datos no puede estar vacío')
+      || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
+    : '';
 
-    return (
-      <div style={{ height: '100%', minHeight: '100%', position: 'relative' }}>
-        <div className="hero is-primary">
-          <div className="hero-body">
-            <p className="title">
-              Árboles de decisión
-            </p>
-          </div>
+  return (
+    <div style={{ height: '100%', minHeight: '100%' }}>
+      <div className="hero is-primary" style={{ height: `${HEADER_HEIGHT}px` }}>
+        <div className="hero-body">
+          <p className="title">
+            Árboles de decisión
+          </p>
         </div>
-        <div
-          className="App container is-fullhd block"
-          style={{
-            padding: "1em 1.5em",
-            ...(footerRef.current && { minHeight: `calc(100% - ${footerRef.current.offsetHeight}px)` })
-          }}
-        >
-          {tabIndex === 0 && (
-            <Attributes attributes={attributes} setAttributes={setAttributes} />
-          )}
-          {tabIndex === 1 && (
-            <Data attributes={attributes} data={data} setData={setData} />
-          )}
-          {tabIndex === 2 && <Results attributes={attributes} data={data} />}
+      </div>
+      <div
+        className="App container is-fullhd block"
+        style={{
+          padding: "1em 1.5em",
+          height: `calc(100% - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
+        }}
+      >
+        {tabIndex === 0 && (
+          <Attributes attributes={attributes} setAttributes={setAttributes} />
+        )}
+        {tabIndex === 1 && (
+          <Data attributes={attributes} data={data} setData={setData} />
+        )}
+        {tabIndex === 2 && <Results attributes={attributes} data={data} />}
 
-          <div className="center">
-            <div className="file has-name">
-              <label className="file-label">
-                <input
-                  className="file-input"
-                  type="file"
-                  onChange={onFileChange}
-                  accept=".txt,.csv"
-                />
-                <span className="file-cta">
-                <span class="file-icon">
-                  <FileCSV width={16} height={16} />
-                </span>
-                  <span className="file-label">
-                    Cargar archivo CSV
-                  </span>
-                </span>
-                <span className="file-name">
-                  {file ? file.name : 'No se seleccionó archivo'}
-                </span>
-              </label>
-            </div>
-          </div>
-
-          <div className="section center">
-            <div className="buttons">
-              <button
-                className="button"
-                disabled={tabIndex === 0}
-                onClick={onPrevious}
-              >
-                <span className="icon">
-                  <ArrowLeft width={16} height={16} />
-                </span>
-                <span>Anterior</span>
-              </button>
-              <span data-tip={nextTooltip}>
-                <button className="button" disabled={isNextDisabled} onClick={onNext}>
-                  <span className="icon">
-                    <ArrowRight width={16} height={16} />
-                  </span>
-                  <span>Siguiente</span>
-                </button>
+        <div className="center">
+          <div className="file has-name">
+            <label className="file-label">
+              <input
+                className="file-input"
+                type="file"
+                onChange={onFileChange}
+                accept=".txt,.csv"
+              />
+              <span className="file-cta">
+              <span class="file-icon">
+                <FileCSV width={16} height={16} />
               </span>
-            </div>
+                <span className="file-label">
+                  Cargar archivo CSV
+                </span>
+              </span>
+              <span className="file-name">
+                {file ? file.name : 'No se seleccionó archivo'}
+              </span>
+            </label>
           </div>
         </div>
 
-      <footer className="footer" style={{ position: 'relative', bottom: '0' }} ref={footerRef}>
+        <div className="section center">
+          <div className="buttons">
+            <button
+              className="button"
+              disabled={tabIndex === 0}
+              onClick={onPrevious}
+            >
+              <span className="icon">
+                <ArrowLeft width={16} height={16} />
+              </span>
+              <span>Anterior</span>
+            </button>
+            <span data-tip={nextTooltip}>
+              <button className="button" disabled={isNextDisabled} onClick={onNext}>
+                <span className="icon">
+                  <ArrowRight width={16} height={16} />
+                </span>
+                <span>Siguiente</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <footer className="footer" style={{ height: `${FOOTER_HEIGHT}px` }}>
         <div className="columns">
           <div className="column">
             <div>
