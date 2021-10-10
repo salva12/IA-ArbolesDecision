@@ -119,7 +119,10 @@ const App = () => {
         {tabIndex === 2 && <Results attributes={attributes} data={data} />}
 
         <div className="center">
-          <div className="file has-name">
+          <div
+            className="file has-name"
+            data-tip="¡Importar un archivo sobreescribirá TODOS los atributos y datos cargados!"
+          >
             <label className="file-label">
               <input
                 className="file-input"
