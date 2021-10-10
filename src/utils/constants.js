@@ -3,4 +3,5 @@ export const ATTRIBUTE_TEMPLATE = {
   values: ['', '']
 };
 
+export const HEADER_HEIGHT = 132;
 export const FOOTER_HEIGHT = 310;
