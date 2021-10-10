@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "bulma/css/bulma.min.css";
 import Attributes from "./containers/Attributes";
 import Data from "./containers/Data";
@@ -7,12 +7,14 @@ import Results from "./containers/Result";
 import { ReactComponent as ArrowLeft } from './assets/arrow-left-solid.svg';
 import { ReactComponent as ArrowRight } from './assets/arrow-right-solid.svg';
 import { ReactComponent as FileCSV } from './assets/file-csv-solid.svg';
+import { ReactComponent as UTNLogo } from './assets/utn-logo.svg';
 
 const App = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [attributes, setAttributes] = useState([]);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
+  const footerRef = useRef(null);
 
   const onPrevious = () => {
     if (tabIndex > 0) {
@@ -81,63 +83,106 @@ const App = () => {
     (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
     tabIndex === 2;
 
-  return (
-    <div
-      className="App container is-fullhd block"
-      style={{ padding: "1em 1.5em" }}
-    >
-      {tabIndex === 0 && (
-        <Attributes attributes={attributes} setAttributes={setAttributes} />
-      )}
-      {tabIndex === 1 && (
-        <Data attributes={attributes} data={data} setData={setData} />
-      )}
-      {tabIndex === 2 && <Results attributes={attributes} data={data} />}
+    return (
+      <div style={{ height: '100%', minHeight: '100%', position: 'relative' }}>
+        <div
+          className="App container is-fullhd block"
+          style={{
+            padding: "1em 1.5em",
+            ...(footerRef.current && { minHeight: `calc(100% - ${footerRef.current.offsetHeight}px)` })
+          }}
+        >
+          {tabIndex === 0 && (
+            <Attributes attributes={attributes} setAttributes={setAttributes} />
+          )}
+          {tabIndex === 1 && (
+            <Data attributes={attributes} data={data} setData={setData} />
+          )}
+          {tabIndex === 2 && <Results attributes={attributes} data={data} />}
 
-      <div className="center">
-        <div className="file has-name">
-          <label className="file-label">
-            <input
-              className="file-input"
-              type="file"
-              onChange={onFileChange}
-              accept=".txt,.csv"
-            />
-            <span className="file-cta">
-            <span class="file-icon">
-              <FileCSV width={16} height={16} />
-            </span>
-              <span className="file-label">
-                Cargar archivo CSV
-              </span>
-            </span>
-            <span className="file-name">
-              {file ? file.name : 'No se seleccionó archivo'}
-            </span>
-          </label>
-        </div>
-      </div>
+          <div className="center">
+            <div className="file has-name">
+              <label className="file-label">
+                <input
+                  className="file-input"
+                  type="file"
+                  onChange={onFileChange}
+                  accept=".txt,.csv"
+                />
+                <span className="file-cta">
+                <span class="file-icon">
+                  <FileCSV width={16} height={16} />
+                </span>
+                  <span className="file-label">
+                    Cargar archivo CSV
+                  </span>
+                </span>
+                <span className="file-name">
+                  {file ? file.name : 'No se seleccionó archivo'}
+                </span>
+              </label>
+            </div>
+          </div>
 
-      <div className="section center">
-        <div className="buttons">
-          <button
-            className="button"
-            disabled={tabIndex === 0}
-            onClick={onPrevious}
-          >
-            <span className="icon">
-              <ArrowLeft width={16} height={16} />
-            </span>
-            <span>Anterior</span>
-          </button>
-          <button className="button" disabled={isNextDisabled} onClick={onNext}>
-            <span className="icon">
-              <ArrowRight width={16} height={16} />
-            </span>
-            <span>Siguiente</span>
-          </button>
+          <div className="section center">
+            <div className="buttons">
+              <button
+                className="button"
+                disabled={tabIndex === 0}
+                onClick={onPrevious}
+              >
+                <span className="icon">
+                  <ArrowLeft width={16} height={16} />
+                </span>
+                <span>Anterior</span>
+              </button>
+              <button className="button" disabled={isNextDisabled} onClick={onNext}>
+                <span className="icon">
+                  <ArrowRight width={16} height={16} />
+                </span>
+                <span>Siguiente</span>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+
+      <footer className="footer" style={{ position: 'relative', bottom: '0' }} ref={footerRef}>
+        <div className="columns">
+          <div className="column">
+            <div>
+              <UTNLogo width={96} height={96} />
+            </div>
+            <h5 className="title is-5">
+              Universidad Tecnológica Nacional
+            </h5>
+            <h6 className="title is-6">
+              Facultad Regional Resistencia
+            </h6>
+          </div>
+          <div className="column">
+            <h5 className="title is-5">Grupo 5</h5>
+            <ul>
+              <li>Escalante Salvador</li>
+              <li>Fierro Victoria</li>
+              <li>García Emmanuel</li>
+              <li>Maidana Lucas</li>
+            </ul>
+          </div>
+          <div className="column">
+            <h5 className="title is-5">
+              Ingeniería en Sistemas de Información
+            </h5>
+            <h6 className="title is-6">
+              Inteligencia Artificial
+            </h6>
+            Profesores:
+            <ul>
+              <li>Ing. Marcelo Karanik</li>
+              <li>Ing. Jorge Roa</li>
+            </ul>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
