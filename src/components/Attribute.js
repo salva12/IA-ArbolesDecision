@@ -37,7 +37,7 @@ const Attribute = ({
             <span
               data-tip={
                 attribute.values.length <= 2
-                  ? 'El atributo debe tener 2 valores como mínimo'
+                  ? 'No se puede eliminar. El atributo debe tener 2 valores como mínimo'
                   : 'Eliminar valor'
               }
             >
