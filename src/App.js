@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bulma/css/bulma.min.css";
 import Attributes from "./containers/Attributes";
 import Data from "./containers/Data";
@@ -15,6 +15,12 @@ const App = () => {
   const [attributes, setAttributes] = useState([]);
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
+
+  // since the attributes are dynamically rendered,
+  // we need to rebuild the tooltips when the attributes array changes
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  }, [attributes])
 
   const onPrevious = () => {
     if (tabIndex > 0) {
