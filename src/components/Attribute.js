@@ -1,4 +1,5 @@
-import React from "react"
+import React from 'react';
+import { ReactComponent as Plus } from '../assets/plus-solid.svg';
 
 const Attribute = ({
   id,
@@ -51,7 +52,10 @@ const Attribute = ({
         ))}
         <div className="column is-one-quarter">
           <button className="button is-small" onClick={() => onAddValue(id)}>
-            + Nuevo valor
+            <span className="icon">
+              <Plus width={8} height={8} />
+            </span>
+            <span>Nuevo valor</span>
           </button>
         </div>
       </div>
