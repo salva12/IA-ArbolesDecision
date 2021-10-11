@@ -20,7 +20,7 @@ const App = () => {
   // we need to rebuild the tooltips when the attributes array changes
   useEffect(() => {
     ReactTooltip.rebuild();
-  }, [attributes])
+  }, [attributes, data])
 
   const onPrevious = () => {
     if (tabIndex > 0) {
