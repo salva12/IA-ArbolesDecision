@@ -40,6 +40,13 @@ const Data = ({ attributes, data, setData }) => {
           </tr>
         </thead>
         <tbody>
+          {data.length === 0 && (
+            <tr>
+              <td colSpan={attributes.length + 2} style={{ textAlign: 'center' }}>
+                No hay registros de datos
+              </td>
+            </tr>
+          )}
           {data.map((d, dataIdx) => (
             <tr key={dataIdx}>
               <td>{dataIdx + 1}</td>
