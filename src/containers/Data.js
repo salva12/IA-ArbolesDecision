@@ -49,7 +49,7 @@ const Data = ({ attributes, data, setData }) => {
                     value={d[attr.label]}
                     onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
                   >
-                    <option value="">Indefinido</option>
+                    <option value="">Sin valor</option>
                     {attr.values.map((val, valueIdx) => (
                       <option key={valueIdx} value={val}>
                         {val}
@@ -60,7 +60,7 @@ const Data = ({ attributes, data, setData }) => {
                 </td>
               ))}
               <td>
-                <button className="delete" onClick={() => onDeleteRow(dataIdx)} />
+                <button className="delete" onClick={() => onDeleteRow(dataIdx)} data-tip="Eliminar registro" />
               </td>
             </tr>
           ))}
