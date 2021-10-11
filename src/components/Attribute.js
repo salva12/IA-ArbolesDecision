@@ -21,6 +21,7 @@ const Attribute = ({
           onChange={(e) => onEditName(id, e.target.value)}
         />
       </div>
+
       <div className="tile is-child box columns" style={{ flexWrap: 'wrap' }}>
         {attribute.values.map((value, idx) => (
           <div
@@ -59,6 +60,7 @@ const Attribute = ({
           </button>
         </div>
       </div>
+
       <div className="tile is-child box is-2">
         <button className="button is-danger is-small" onClick={() => onDeleteAttribute(id)}>
           Eliminar atributo
