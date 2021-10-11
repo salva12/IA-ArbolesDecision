@@ -34,17 +34,19 @@ const Attribute = ({
               value={value}
               onChange={(e) => onEditValue(id, idx, e.target.value)}
             />
-            <button
-              disabled={attribute.values.length <= 2}
-              title={
+            <span
+              data-tip={
                 attribute.values.length <= 2
-                  ? "El atributo debe tener 2 valores como mínimo"
-                  : undefined
+                  ? 'El atributo debe tener 2 valores como mínimo'
+                  : 'Eliminar valor'
               }
-              onClick={() => onDeleteValue(id, idx)}
-              style={{ marginRight: "16px" }}
-              className="delete is-medium"
-            />
+            >
+              <button
+                disabled={attribute.values.length <= 2}
+                onClick={() => onDeleteValue(id, idx)}
+                className="delete is-medium"
+              />
+            </span>
           </div>
         ))}
         <div className="column is-one-quarter">
