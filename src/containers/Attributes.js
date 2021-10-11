@@ -55,6 +55,11 @@ const Attributes = ({ attributes, setAttributes }) => {
     <div>
       <h2 className="title is-2">Atributos</h2>
       <div className="tile is-ancestor is-vertical">
+        {attributes.length === 0 && (
+          <div className="center">
+            No hay atributos. Cárguelos manualmente o importe un archivo CSV
+          </div>
+        )}
         {attributes.map((attr, idx) => (
           <Attribute
             key={idx}
@@ -67,15 +72,15 @@ const Attributes = ({ attributes, setAttributes }) => {
             onDeleteAttribute={onDeleteAttribute}
           />
         ))}
-        <div className="tile is-child">
-        <button className="button is-primary" onClick={onAddAttribute}>
-          <span className="icon">
-            <Plus width={16} height={16} />
-          </span>
-          <span>
-            Nuevo atributo
-          </span>
-        </button>
+        <div className="section center">
+          <button className="button is-primary level-item" onClick={onAddAttribute}>
+            <span className="icon">
+              <Plus width={16} height={16} />
+            </span>
+            <span>
+              Nuevo atributo
+            </span>
+          </button>
         </div>
       </div>
     </div>
