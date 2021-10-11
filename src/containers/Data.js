@@ -66,14 +66,16 @@ const Data = ({ attributes, data, setData }) => {
           ))}
         </tbody>
       </table>
-      <button className="button is-primary" onClick={onAddRow}>
-        <span className="icon">
-          <Plus width={16} height={16} />
-        </span>
-        <span>
-          Nuevo registro de datos
-        </span>
-      </button>
+      <div className="section center">
+        <button className="button is-primary" onClick={onAddRow}>
+          <span className="icon">
+            <Plus width={16} height={16} />
+          </span>
+          <span>
+            Nuevo registro de datos
+          </span>
+        </button>
+      </div>
     </div>
   );
 };
