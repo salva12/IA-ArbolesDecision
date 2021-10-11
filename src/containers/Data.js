@@ -52,17 +52,19 @@ const Data = ({ attributes, data, setData }) => {
               <td>{dataIdx + 1}</td>
               {attributes.map((attr, attrIdx) => (
                 <td key={attrIdx}>
-                  <select
-                    value={d[attr.label]}
-                    onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
-                  >
-                    <option value="">Sin valor</option>
-                    {attr.values.map((val, valueIdx) => (
-                      <option key={valueIdx} value={val}>
-                        {val}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="select is-small">
+                    <select
+                      value={d[attr.label]}
+                      onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
+                    >
+                      <option value="">Sin valor</option>
+                      {attr.values.map((val, valueIdx) => (
+                        <option key={valueIdx} value={val}>
+                          {val}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   {d[attr]}
                 </td>
               ))}
