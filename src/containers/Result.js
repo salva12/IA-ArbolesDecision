@@ -77,6 +77,11 @@ const Results = ({ attributes, data }) => {
             </label>
           </div>
         </div>
+        <div className="column center">
+          <button className="button is-primary">
+            Ejecutar
+          </button>
+        </div>
       </div>
       <Tree attributes={attributes} data={data} />
     </div>
