@@ -13,6 +13,8 @@ const Results = ({ attributes, data }) => {
     setExpansion(event.target.value);
   };
 
+  const onRun = () => {};
+
   return (
     <div>
       <h2 className="title is-2">Resultados</h2>
@@ -78,7 +80,7 @@ const Results = ({ attributes, data }) => {
           </div>
         </div>
         <div className="column center">
-          <button className="button is-primary">
+          <button className="button is-primary" onClick={onRun}>
             Ejecutar
           </button>
         </div>
