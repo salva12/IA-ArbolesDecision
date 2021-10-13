@@ -22,6 +22,11 @@ const App = () => {
     ReactTooltip.rebuild();
   }, [attributes, data])
 
+  // effect to scroll to the top of da page when clicking on prev/next
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabIndex]);
+
   const onPrevious = () => {
     if (tabIndex > 0) {
       setTabIndex(tabIndex - 1);
