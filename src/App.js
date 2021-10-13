@@ -129,32 +129,34 @@ const App = () => {
         )}
         {tabIndex === 2 && <Results attributes={attributes} data={data} />}
 
-        <div className="center">
-          <div
-            className="file has-name"
-            data-tip="¡Importar un archivo sobreescribirá TODOS los atributos y datos cargados!"
-          >
-            <label className="file-label">
-              <input
-                className="file-input"
-                type="file"
-                onChange={onFileChange}
-                accept=".txt,.csv"
-              />
-              <span className="file-cta">
-              <span class="file-icon">
-                <FileCSV width={16} height={16} />
-              </span>
-                <span className="file-label">
-                  Cargar archivo CSV
+        {tabIndex === 0 && (
+          <div className="center">
+            <div
+              className="file has-name"
+              data-tip="¡Importar un archivo sobreescribirá TODOS los atributos y datos cargados!"
+            >
+              <label className="file-label">
+                <input
+                  className="file-input"
+                  type="file"
+                  onChange={onFileChange}
+                  accept=".txt,.csv"
+                />
+                <span className="file-cta">
+                <span class="file-icon">
+                  <FileCSV width={16} height={16} />
                 </span>
-              </span>
-              <span className="file-name">
-                {file ? file.name : 'No se seleccionó archivo'}
-              </span>
-            </label>
+                  <span className="file-label">
+                    Cargar archivo CSV
+                  </span>
+                </span>
+                <span className="file-name">
+                  {file ? file.name : 'No se seleccionó archivo'}
+                </span>
+              </label>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="section center">
           <div className="buttons">
