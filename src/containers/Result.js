@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Tree from '../components/Tree';
-
+import c45gain from '../utils/C45';
+ 
 const Results = ({ attributes, data }) => {
   const [impurityFunction, setImpurityFunction] = useState('gain');
   const [expansion, setExpansion] = useState('complete');
+  const [results, setResults] = useState({ nodes: [], edges: [] });
 
   const onImpurityFunctionChange = event => {
     setImpurityFunction(event.target.value);
@@ -13,7 +15,13 @@ const Results = ({ attributes, data }) => {
     setExpansion(event.target.value);
   };
 
-  const onRun = () => {};
+  const onRun = () => {
+    const atributos = attributes.map(a => a.label);
+    const clase = atributos.pop();
+    const tree = { nodes: [], edges: [] }
+    c45gain(data,atributos,tree,clase)
+    setResults(tree)
+  };
 
   return (
     <div>
@@ -85,7 +93,8 @@ const Results = ({ attributes, data }) => {
           </button>
         </div>
       </div>
-      <Tree attributes={attributes} data={data} />
+      {/* <Tree attributes={attributes} data={data} /> */}
+      {results.toString()}
     </div>
   );
 };

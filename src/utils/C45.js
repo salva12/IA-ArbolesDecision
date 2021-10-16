@@ -43,7 +43,7 @@ const mockdata = [
 //el siguiente bloque sirve para saber la cantidad de valores diferentes que puede tomar un atributo o clase
 const valoresDistintos = (attClase, dataset) => {
   let valores = []
-  for (reg of dataset) {
+  for (let reg of dataset) {
     valores.push(reg[attClase])
   }
   let valoresDistintos = new Set(valores)
@@ -59,8 +59,8 @@ function logBase(x, num) {
 function contarValores(valor, dataset, attClase) {
   // attclase quiere decir atributo o clase
   let cont = 0
-  for (reg of dataset) {
-    if (valor == reg[attClase]) {
+  for (let reg of dataset) {
+    if (valor === reg[attClase]) {
       cont++
     }
   }
@@ -70,8 +70,8 @@ function contarValores(valor, dataset, attClase) {
 // la siguiente funcion cuenta la cantidad de reg que pertenecen a un valor de clase y de atributo dado
 function contarValores2(valorAtt, valorClase, dataset, atributo, clase) {
   let cont = 0
-  for (reg of dataset) {
-    if (valorAtt == reg[atributo] && valorClase == reg[clase]) {
+  for (let reg of dataset) {
+    if (valorAtt === reg[atributo] && valorClase === reg[clase]) {
       cont++
     }
   }
@@ -82,7 +82,7 @@ function contarValores2(valorAtt, valorClase, dataset, atributo, clase) {
 function valorClaseMasFrecuente(dataset, clase) {
   let valoresClase = valoresDistintos(clase, dataset)
   let cantClase = []
-  for (valor of valoresClase) {
+  for (let valor of valoresClase) {
     let c = contarValores(valor, dataset, clase)
     cantClase.push({ valorClase: valor, cant: c })
   }
@@ -96,7 +96,7 @@ function valorClaseMasFrecuente(dataset, clase) {
 const entropiaD = (dataset, clase) => {
   let valoresClase = valoresDistintos(clase, dataset)
   let entD = 0
-  for (valor of valoresClase) {
+  for (let valor of valoresClase) {
     let numerador = contarValores(valor, dataset, clase)
     entD =
       -(numerador / dataset.length) * logBase(2, numerador / dataset.length) +
@@ -110,10 +110,10 @@ const entropiaA = (dataset, atributo, clase) => {
   let valoresAtributo = valoresDistintos(atributo, dataset)
   let valoresClase = valoresDistintos(clase, dataset)
   let entA = 0
-  for (valor of valoresAtributo) {
+  for (let valor of valoresAtributo) {
     let denominador = contarValores(valor, dataset, atributo)
     let sumatoria1 = 0
-    for (valorclase of valoresClase) {
+    for (let valorclase of valoresClase) {
       let numerador = contarValores2(
         valor,
         valorclase,
@@ -121,17 +121,17 @@ const entropiaA = (dataset, atributo, clase) => {
         atributo,
         clase
       )
-      if (numerador != 0 && denominador != 0) {
+      if (numerador !== 0 && denominador !== 0) {
         //este control es porque no se calcula el log de 0, da math error, ni mucho menos de infinito
         sumatoria1 =
           -(numerador / denominador) * logBase(2, numerador / denominador) +
           sumatoria1
-      } else if (denominador == 0) {
+      } else if (denominador === 0) {
         //cuando el denominador es 0, no hay registros de un determinado valor de un atributo disponibles en el dataset actual, entonces la entropia es 0
         sumatoria1 = sumatoria1 + 0
       }
     }
-    if (denominador != 0) {
+    if (denominador !== 0) {
       entA = entA + sumatoria1 * (denominador / dataset.length)
     }
   }
@@ -140,42 +140,37 @@ const entropiaA = (dataset, atributo, clase) => {
 
 // funcion para calcular la ganancia
 function gain(entropiaD, entropiaA) {
-  g = entropiaD - entropiaA
-  return g
+  return entropiaD - entropiaA
 }
 
 // funcion para calcular la tasa de ganancia
 function gainRatio(gainA, dataset, atributo) {
   let valoresAtributo = valoresDistintos(atributo, dataset)
   let denominador = 0
-  for (valor of valoresAtributo) {
+  for (let valor of valoresAtributo) {
     let c = contarValores(valor, dataset, atributo)
     denominador =
       (-c / dataset.length) * logBase(2, c / dataset.length) + denominador
   }
-  g = gainA / denominador
-  return g
+  return gainA / denominador
 }
 
 //particularizando la solucion y probando resultados --> ACA HAY QUE GENERALIZAR ASIGNANDO A DATASET OTRA LO QUE TOMEMOS DE LO INGRESADO POR EL USUARIO
-dataset = mockdata
+// dataset = mockdata
 
-//el siguiente bloque sirve para saber cuales son los atributos y cual es la clase para decidir.
-const atributos = Object.keys(dataset[0])
-const clase = atributos.pop()
-console.log("los atts son " + atributos + "y la clase es:" + clase)
+// //el siguiente bloque sirve para saber cuales son los atributos y cual es la clase para decidir.
+// const atributos = Object.keys(dataset[0])
+// const clase = atributos.pop()
+// console.log("los atts son " + atributos + "y la clase es:" + clase)
 
 // C45 algoritmo recursivo, antes de arrancar, y que es utilizable en todas las recursiones es importante saber la clase
 //y naturalmente para la primer llamada al algoritmo los atributos
-const tree = { nodes: [], edges: [] }
+//const tree = { nodes: [], edges: [] }
+
 const umbral = 0.1
 let id_nodes = 0
+function c45gain(dataset, atributos, tree,clase) {
 
-function c45gain(dataset, atributos, tree) {
-  console.log(dataset, atributos)
-  console.log(tree.nodes)
-  console.log(tree.edges)
-  console.log("valores distintos", valoresDistintos(clase, dataset).size)
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
@@ -184,7 +179,7 @@ function c45gain(dataset, atributos, tree) {
       id: id_nodes + dataset[0][clase],
       label: dataset[0][clase],
     }) //colocar nodos hojas
-    return
+    return tree
   } else if (atributos.length === 0) {
     console.log("ya no hay mas atributos")
 
@@ -197,11 +192,12 @@ function c45gain(dataset, atributos, tree) {
       id: id_nodes + dataset[0][clase],
       label: masFrecuente,
     })
+    return tree
   } else {
     console.log("entro al else")
     let entD = entropiaD(dataset, clase)
     let ganancias = []
-    for (atributo of atributos) {
+    for (let atributo of atributos) {
       ganancias.push(gain(entD, entropiaA(dataset, atributo, clase)))
     }
     const maxgain = Math.max.apply(null, ganancias)
@@ -216,28 +212,29 @@ function c45gain(dataset, atributos, tree) {
         id: id_nodes + dataset[0][clase],
         label: masFrecuente,
       }) //colocar nodos hojas
-      return
+      return tree
     } else {
-      ag = atributos[ganancias.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
+      let ag = atributos[ganancias.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
       console.log("el nodo que mas reduce impureza es:" + ag)
       const valdist = valoresDistintos(ag, dataset)
       console.log(valoresDistintos(ag, dataset))
       const particiones = []
-      for (valor of valdist) {
-        const particion = dataset.filter((reg) => reg[ag] == valor)
+      for (let valor of valdist) {
+        const particion = dataset.filter((reg) => reg[ag] === valor)
         particiones.push(particion)
       }
       id_nodes++
       let idpadre = id_nodes + ag
       tree.nodes.push({ id: idpadre, label: ag })
-      for (particion of particiones) {
+      for (let particion of particiones) {
         console.log(particion)
-        if (particion.length != 0) {
+        if (particion.length !== 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
           c45gain(
             particion,
-            atributos.filter((a) => a != ag),
-            tree
+            atributos.filter((a) => a !== ag),
+            tree,
+            clase
           )
         }
       }
@@ -245,42 +242,45 @@ function c45gain(dataset, atributos, tree) {
   }
 }
 
+export default c45gain;
+
 // Ver por consola los resultados parciales y pruebas de cada funcion
-entropiaD(dataset)
+// entropiaD(dataset)
 
-console.log("Probando obtener valores distintos y contar valores de programa")
-console.log(valoresDistintos("programa", dataset))
-console.log(contarValores("no", dataset, "programa"))
+// console.log("Probando obtener valores distintos y contar valores de programa")
+// console.log(valoresDistintos("programa", dataset))
+// console.log(contarValores("no", dataset, "programa"))
 
-console.log("Probando entropia de D")
-console.log(entropiaD(dataset, "condicioncurso"))
+// console.log("Probando entropia de D")
+// console.log(entropiaD(dataset, "condicioncurso"))
 
-console.log("Probando entropia de programa")
-console.log(entropiaA(dataset, "programa", "condicioncurso"))
+// console.log("Probando entropia de programa")
+// console.log(entropiaA(dataset, "programa", "condicioncurso"))
 
-console.log("Probando entropia de menos de 3 inasistencias")
-console.log(entropiaA(dataset, "menos3inasis", "condicioncurso"))
+// console.log("Probando entropia de menos de 3 inasistencias")
+// console.log(entropiaA(dataset, "menos3inasis", "condicioncurso"))
 
-console.log("Probando entropia de formacion secundaria")
-console.log(entropiaA(dataset, "formsec", "condicioncurso"))
+// console.log("Probando entropia de formacion secundaria")
+// console.log(entropiaA(dataset, "formsec", "condicioncurso"))
 
-console.log("Probando la ganancia de la informacion para att programa")
-console.log(
-  gain(
-    entropiaD(dataset, "condicioncurso"),
-    entropiaA(dataset, "programa", "condicioncurso")
-  )
-)
-const gainprograma = gain(
-  entropiaD(dataset, "condicioncurso"),
-  entropiaA(dataset, "programa", "condicioncurso")
-)
+// console.log("Probando la ganancia de la informacion para att programa")
+// console.log(
+//   gain(
+//     entropiaD(dataset, "condicioncurso"),
+//     entropiaA(dataset, "programa", "condicioncurso")
+//   )
+// )
+// const gainprograma = gain(
+//   entropiaD(dataset, "condicioncurso"),
+//   entropiaA(dataset, "programa", "condicioncurso")
+// )
 
-console.log("Probando la tasa de ganancia de la informacion para att programa")
-console.log(gainRatio(gainprograma, dataset, "programa"))
+// console.log("Probando la tasa de ganancia de la informacion para att programa")
+// //console.log(gainRatio(gainprograma, dataset, "programa"))
 
-// Aux sirve para saber el num maximo en un array
-console.log(Math.max.apply(null, [2, 4, 5, 6, 7, 1, 2, 3]))
+// // Aux sirve para saber el num maximo en un array
+// console.log(Math.max.apply(null, [2, 4, 5, 6, 7, 1, 2, 3]))
 
-//Probamos el algoritmo completo
-console.log(c45gain(dataset, atributos, tree))
+// //Probamos el algoritmo completo
+//console.log(c45gain(dataset, atributos, tree))
+
