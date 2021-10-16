@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Tree from '../components/Tree';
-import c45gain from '../utils/C45';
+import c45gain from '../utils/c45Gain';
  
 const Results = ({ attributes, data }) => {
   const [impurityFunction, setImpurityFunction] = useState('gain');
@@ -19,6 +19,10 @@ const Results = ({ attributes, data }) => {
     const atributos = attributes.map(a => a.label);
     const clase = atributos.pop();
     const tree = { nodes: [], edges: [] }
+    console.log(atributos)
+    console.log(clase)
+    // ACA SEGUN QUE ELIJA EL USUARIO EN EL RADIO BUTTON HAY QUE LLAMAR A GAIN O GAINRATIO
+    console.log(data)
     c45gain(data,atributos,tree,clase)
     setResults(tree)
   };
@@ -93,7 +97,8 @@ const Results = ({ attributes, data }) => {
           </button>
         </div>
       </div>
-      {/* <Tree attributes={attributes} data={data} /> */}
+      {/* ACA TENEMOS QUE VER CON LUCAS QUE ONDA COMO DIBUJAR */}
+      {/* <Tree tree={results} /> */}
       {results.toString()}
     </div>
   );

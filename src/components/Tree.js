@@ -1,35 +1,7 @@
 import React from "react"
 import Graph from "react-vis-network-graph"
 
-const nodes = [
-  {
-    id: "1programa",
-    label: "programa",
-  },
-  {
-    id: "2regular",
-    label: "regular",
-  },
-  {
-    id: "3libre",
-    label: "libre",
-  },
-]
-
-const edges = [
-  {
-    from: "1programa",
-    label: "si",
-    to: "2regular",
-  },
-  {
-    from: "1programa",
-    label: "no",
-    to: "3libre",
-  },
-]
-
-const Tree = ({ tree = { nodes, edges } }) => {
+const Tree = ({tree} ) => {
   const graph = {
     nodes: tree.nodes,
 
@@ -77,16 +49,14 @@ const Tree = ({ tree = { nodes, edges } }) => {
     select: function (event) {
       var { nodes, edges } = event
     },
-  }
+  } 
+  console.log(graph)
   return (
     <>
       <Graph
         graph={graph}
         options={options}
         events={events}
-        getNetwork={(network) => {
-          //  if you want access to vis.js network api you can set the state in a parent component using this property
-        }}
       />
     </>
   )

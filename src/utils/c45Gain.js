@@ -1,42 +1,126 @@
 //esto es un dataset mockeado del ej2 de la guiaTP-AbDec para ir resolviendo con el algoritmo
-const mockdata = [
+// const mockdata = [
+//   {
+//     formsec: "tecnica",
+//     programa: "si",
+//     menos3inasis: "si",
+//     condicioncurso: "regular",
+//   },
+//   {
+//     formsec: "tecnica",
+//     programa: "si",
+//     menos3inasis: "si",
+//     condicioncurso: "regular",
+//   },
+//   {
+//     formsec: "no tecnica",
+//     programa: "si",
+//     menos3inasis: "si",
+//     condicioncurso: "regular",
+//   },
+//   {
+//     formsec: "no tecnica",
+//     programa: "no",
+//     menos3inasis: "no",
+//     condicioncurso: "libre",
+//   },
+//   {
+//     formsec: "tecnica",
+//     programa: "si",
+//     menos3inasis: "no",
+//     condicioncurso: "regular",
+//   },
+//   {
+//     formsec: "tecnica",
+//     programa: "no",
+//     menos3inasis: "no",
+//     condicioncurso: "libre",
+//   },
+// ]
+
+const mockdata2 = [
   {
-    formsec: "tecnica",
-    programa: "si",
-    menos3inasis: "si",
-    condicioncurso: "regular",
+      Hipertenso: "no",
+      Colesterol: "bajo",
+      Triglicéridos: "normal",
+      Edad: "<40",
+      Diabético: "si",
+      Problemascardíacos: "no"
   },
   {
-    formsec: "tecnica",
-    programa: "si",
-    menos3inasis: "si",
-    condicioncurso: "regular",
+      Hipertenso: "si",
+      Colesterol: "bajo",
+      Triglicéridos: "elevado",
+      Edad: "<40",
+      Diabético: "si",
+      Problemascardíacos: "no"
   },
   {
-    formsec: "no tecnica",
-    programa: "si",
-    menos3inasis: "si",
-    condicioncurso: "regular",
+      Hipertenso: "si",
+      Colesterol: "bajo",
+      Triglicéridos: "elevado",
+      Edad: ">60",
+      Diabético: "si",
+      Problemascardíacos: "si"
   },
   {
-    formsec: "no tecnica",
-    programa: "no",
-    menos3inasis: "no",
-    condicioncurso: "libre",
+      Hipertenso: "si",
+      Colesterol: "medio",
+      Triglicéridos: "elevado",
+      Edad: ">60",
+      Diabético: "no",
+      Problemascardíacos: "si"
   },
   {
-    formsec: "tecnica",
-    programa: "si",
-    menos3inasis: "no",
-    condicioncurso: "regular",
+      Hipertenso: "no",
+      Colesterol: "medio",
+      Triglicéridos: "elevado",
+      Edad: "<40",
+      Diabético: "no",
+      Problemascardíacos: "si"
   },
   {
-    formsec: "tecnica",
-    programa: "no",
-    menos3inasis: "no",
-    condicioncurso: "libre",
+      Hipertenso: "no",
+      Colesterol: "medio",
+      Triglicéridos: "normal",
+      Edad: "entre 40-60",
+      Diabético: "si",
+      Problemascardíacos: "no"
   },
-]
+  {
+      Hipertenso: "si",
+      Colesterol: "alto",
+      Triglicéridos: "normal",
+      Edad: "entre 40-60",
+      Diabético: "si",
+      Problemascardíacos: "si"
+  },
+  {
+      Hipertenso: "si",
+      Colesterol: "alto",
+      Triglicéridos: "normal",
+      Edad: "entre 40-60",
+      Diabético: "si",
+      Problemascardíacos: "si"
+  },
+  {
+      Hipertenso: "si",
+      Colesterol: "alto",
+      Triglicéridos: "elevado",
+      Edad: ">60",
+      Diabético: "no",
+      Problemascardíacos: "si"
+  },
+  {
+      Hipertenso: "no",
+      Colesterol: "alto",
+      Triglicéridos: "normal",
+      Edad: "<40",
+      Diabético: "no",
+      Problemascardíacos: "no"
+  }
+];
+
 
 // A CONTINUACIÓN SOLUCION GENERAL
 
@@ -196,10 +280,12 @@ function c45gain(dataset, atributos, tree,clase) {
   } else {
     console.log("entro al else")
     let entD = entropiaD(dataset, clase)
+    console.log(entD)
     let ganancias = []
     for (let atributo of atributos) {
       ganancias.push(gain(entD, entropiaA(dataset, atributo, clase)))
     }
+    console.log(ganancias)
     const maxgain = Math.max.apply(null, ganancias)
     if (maxgain < umbral) {
       console.log("nodo hoja")
@@ -242,7 +328,7 @@ function c45gain(dataset, atributos, tree,clase) {
   }
 }
 
-export default c45gain;
+//export default c45gain;
 
 // Ver por consola los resultados parciales y pruebas de cada funcion
 // entropiaD(dataset)
@@ -284,3 +370,12 @@ export default c45gain;
 // //Probamos el algoritmo completo
 //console.log(c45gain(dataset, atributos, tree))
 
+
+//PRUEBA EJ3 15/10/2021
+console.log("ACA ARRANCA LA PRUEBA DEL 15/10/2021")
+const dataset=mockdata2
+const tree = { nodes: [], edges: [] }
+const atributos = Object.keys(dataset[0])
+const clase = atributos.pop()
+console.log(c45gain(dataset, atributos, tree,clase))
+console.log(tree)
