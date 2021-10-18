@@ -9,12 +9,21 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
   };
 
   const onEditName = (index, newName) => {
+    const oldAttributeName = attributes[index].label;
     const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
       label: newName,
     });
     setAttributes(newAttributes);
+    setData(data.map(d => {
+      const newD = {
+        ...d,
+        [newName]: d[oldAttributeName]
+      };
+      delete newD[oldAttributeName];
+      return newD;
+    }));
   };
 
   const onEditValue = (index, valueIndex, newValue) => {
