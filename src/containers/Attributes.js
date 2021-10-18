@@ -38,12 +38,21 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
   };
 
   const onDeleteValue = (index, valueIndex) => {
+    const attributeWithDeletedValue = attributes[index].label;
+    const deletedValue = attributes[index].values[valueIndex];
     const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
       values: attributes[index].values.filter((_v, i) => i !== valueIndex),
     });
     setAttributes(newAttributes);
+    setData(data.map(d => {
+      const newD = { ...d };
+      if (newD[attributeWithDeletedValue] === deletedValue) {
+        newD[attributeWithDeletedValue] = '';
+      }
+      return newD;
+    }));
   };
 
   const onDeleteAttribute = index => {
