@@ -3,7 +3,7 @@ import Attribute from "../components/Attribute";
 import { ATTRIBUTE_TEMPLATE } from "../utils/constants";
 import { ReactComponent as Plus } from '../assets/plus-solid.svg';
 
-const Attributes = ({ attributes, setAttributes }) => {
+const Attributes = ({ attributes, setAttributes, data, setData }) => {
   const onAddAttribute = () => {
     setAttributes([...attributes, ATTRIBUTE_TEMPLATE]);
   };
@@ -46,9 +46,15 @@ const Attributes = ({ attributes, setAttributes }) => {
     setAttributes(newAttributes);
   };
 
-  const onDeleteAttribute = (index) => {
+  const onDeleteAttribute = index => {
+    const deletedAttributeName = attributes[index].label;
     const newAttributes = attributes.filter((_a, i) => i !== index);
     setAttributes(newAttributes);
+    setData(data.map(d=> {
+      const newD = { ...d };
+      delete newD[deletedAttributeName];
+      return newD;
+    }));
   };
 
   return (
