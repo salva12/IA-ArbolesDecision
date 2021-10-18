@@ -18,6 +18,8 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
   };
 
   const onEditValue = (index, valueIndex, newValue) => {
+    const attributeWithChangedValue = attributes[index].label;
+    const changedValue = attributes[index].values[valueIndex];
     const newAttributes = [...attributes];
     const newValues = [...attributes[index].values];
     newValues.splice(valueIndex, 1, newValue);
@@ -26,9 +28,16 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
       values: newValues,
     });
     setAttributes(newAttributes);
+    setData(data.map(d => {
+      const newD = { ...d };
+      if (newD[attributeWithChangedValue] === changedValue) {
+        newD[attributeWithChangedValue] = newValue;
+      }
+      return newD;
+    }));
   };
 
-  const onAddValue = (index) => {
+  const onAddValue = index => {
     const newAttributes = [...attributes];
     newAttributes.splice(index, 1, {
       ...attributes[index],
