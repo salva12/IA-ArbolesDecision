@@ -122,7 +122,12 @@ const App = () => {
         }}
       >
         {tabIndex === 0 && (
-          <Attributes attributes={attributes} setAttributes={setAttributes} />
+          <Attributes
+            attributes={attributes}
+            setAttributes={setAttributes}
+            data={data}
+            setData={setData}
+          />
         )}
         {tabIndex === 1 && (
           <Data attributes={attributes} data={data} setData={setData} />
