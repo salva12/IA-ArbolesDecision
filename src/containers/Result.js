@@ -115,11 +115,11 @@ const Results = ({ attributes, data }) => {
             onChange={onThresholdChange}
           />
         </div>
-        <div className="column center">
-          <button className="button is-primary" onClick={onRun}>
-            Ejecutar
-          </button>
-        </div>
+      </div>
+      <div className="center">
+        <button className="button is-primary" onClick={onRun}>
+          Ejecutar
+        </button>
       </div>
       {/* ACA TENEMOS QUE VER CON LUCAS QUE ONDA COMO DIBUJAR */}
       {/* <Tree tree={results} /> */}
