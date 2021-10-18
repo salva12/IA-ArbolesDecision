@@ -123,7 +123,6 @@ const Results = ({ attributes, data }) => {
       </div>
       {/* ACA TENEMOS QUE VER CON LUCAS QUE ONDA COMO DIBUJAR */}
       {/* <Tree tree={results} /> */}
-      {results.toString()}
     </div>
   );
 };
