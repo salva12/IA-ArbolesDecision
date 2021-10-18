@@ -30,13 +30,13 @@ const Results = ({ attributes, data }) => {
   const onRun = () => {
     const atributos = attributes.map(a => a.label);
     const clase = atributos.pop();
-    const tree = { nodes: [], edges: [] }
-    console.log(atributos)
-    console.log(clase)
+    const tree = { nodes: [], edges: [] };
+    console.log(atributos);
+    console.log(clase);
     // ACA SEGUN QUE ELIJA EL USUARIO EN EL RADIO BUTTON HAY QUE LLAMAR A GAIN O GAINRATIO
-    console.log(data)
-    c45gain(data,atributos,tree,clase)
-    setResults(tree)
+    console.log(data);
+    c45gain(data, atributos, tree, clase, threshold);
+    setResults(tree);
   };
 
   return (

@@ -251,9 +251,8 @@ function gainRatio(gainA, dataset, atributo) {
 //y naturalmente para la primer llamada al algoritmo los atributos
 //const tree = { nodes: [], edges: [] }
 
-const umbral = 0.1
 let id_nodes = 0
-function c45gain(dataset, atributos, tree,clase) {
+function c45gain(dataset, atributos, tree, clase, umbral) {
 
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
