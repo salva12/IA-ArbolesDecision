@@ -5,6 +5,7 @@ import c45gain from '../utils/c45Gain';
 const Results = ({ attributes, data }) => {
   const [impurityFunction, setImpurityFunction] = useState('gain');
   const [expansion, setExpansion] = useState('complete');
+  const [threshold, setThreshold] = useState(0);
   const [results, setResults] = useState({ nodes: [], edges: [] });
 
   const onImpurityFunctionChange = event => {
@@ -13,6 +14,17 @@ const Results = ({ attributes, data }) => {
 
   const onExpansionChange = event => {
     setExpansion(event.target.value);
+  };
+
+  const onThresholdChange = event => {
+    const value = event.target.value;
+    if (value > 1) {
+      setThreshold(1);
+    } else if (value < 0) {
+      setThreshold(0);
+    } else {
+      setThreshold(event.target.value);
+    }
   };
 
   const onRun = () => {
@@ -90,6 +102,18 @@ const Results = ({ attributes, data }) => {
               Paso a paso
             </label>
           </div>
+        </div>
+        <div className="column">
+          <h4 className="title is-4">Umbral</h4>
+          <input
+            type="number"
+            className="input"
+            min={0}
+            max={1}
+            step={0.01}
+            value={threshold}
+            onChange={onThresholdChange}
+          />
         </div>
         <div className="column center">
           <button className="button is-primary" onClick={onRun}>
