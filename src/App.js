@@ -42,26 +42,28 @@ const App = () => {
   const onFileChange = async event => {
     // get the file from the event
     const file = event.target.files[0];
-    // convert it to string, split it into an array of lines, and split each line into an array of fields
-    const parsedFile = (await file.text()).split('\n').map(line => line.split(','));
-    // separate the attributes (1st element) and data (the rest) into two constants
-    const [importedAttributes, ...importedData] = parsedFile;
-    // store the attributes in the state
-    setAttributes(importedAttributes.map((attr, idx) => ({
-      label: attr,
-      // first filter the empty values, and then extract each value
-      values: importedData.filter(d => d[idx]).map(d => d[idx])
-    })));
-    // store the data in the state, filtering the empty rows
-    setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
-      const row = {};
-      importedAttributes.forEach((attr, idx) => {
-        row[attr] = d[idx];
-      });
-      return row;
-    }));
-    // store the file in the state for its name
-    setFile(file);
+    if (file) {
+      // convert it to string, split it into an array of lines, and split each line into an array of fields
+      const parsedFile = (await file.text()).split('\n').map(line => line.split(','));
+      // separate the attributes (1st element) and data (the rest) into two constants
+      const [importedAttributes, ...importedData] = parsedFile;
+      // store the attributes in the state
+      setAttributes(importedAttributes.map((attr, idx) => ({
+        label: attr,
+        // first filter the empty values, and then extract each value
+        values: importedData.filter(d => d[idx]).map(d => d[idx])
+      })));
+      // store the data in the state, filtering the empty rows
+      setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
+        const row = {};
+        importedAttributes.forEach((attr, idx) => {
+          row[attr] = d[idx];
+        });
+        return row;
+      }));
+      // store the file in the state for its name
+      setFile(file);
+    }
   };
 
   // check if the attributes set is empty
