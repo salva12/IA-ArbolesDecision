@@ -49,7 +49,7 @@ const App = () => {
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
       setAttributes(importedAttributes.map((attr, idx) => ({
-        label: attr,
+        label: attr.replace(/\r/, ''),
         // first filter the empty values, and then extract each value
         values: importedData.filter(d => d[idx]).map(d => d[idx])
       })));
