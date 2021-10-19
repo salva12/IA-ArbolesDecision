@@ -148,9 +148,9 @@ const App = () => {
                   accept=".txt,.csv"
                 />
                 <span className="file-cta">
-                <span class="file-icon">
-                  <FileCSV width={16} height={16} />
-                </span>
+                  <span className="file-icon">
+                    <FileCSV width={16} height={16} />
+                  </span>
                   <span className="file-label">
                     Cargar archivo CSV
                   </span>
