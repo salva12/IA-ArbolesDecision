@@ -57,7 +57,9 @@ const Data = ({ attributes, data, setData }) => {
                       value={d[attr.label]}
                       onChange={e => onEditRow(e.target.value, dataIdx, attr.label)}
                     >
-                      <option value="">Sin valor</option>
+                      <option disabled={attrIdx === attributes.length - 1} value="">
+                        Sin valor
+                      </option>
                       {attr.values.map((val, valueIdx) => (
                         <option key={valueIdx} value={val}>
                           {val}
