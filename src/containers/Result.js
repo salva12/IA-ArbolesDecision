@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import Tree from '../components/Tree';
-import c45gain from '../utils/c45Gain';
+import c45gain from '../utils/c45';
  
 const Results = ({ attributes, data }) => {
   const [impurityFunction, setImpurityFunction] = useState('gain');
@@ -39,7 +39,7 @@ const Results = ({ attributes, data }) => {
     console.log(clase);
     // ACA SEGUN QUE ELIJA EL USUARIO EN EL RADIO BUTTON HAY QUE LLAMAR A GAIN O GAINRATIO
     console.log(data);
-    c45gain(data, atributos, tree, clase, threshold);
+    c45gain(data, atributos, tree, clase, threshold, impurityFunction);
     setResults(tree);
     setKey(v4());
   };
