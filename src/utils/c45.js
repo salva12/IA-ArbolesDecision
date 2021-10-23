@@ -252,12 +252,14 @@ function gainRatio(gainA, dataset, atributo) {
 //const tree = { nodes: [], edges: [] }
 
 let id_nodes = 0
-function c45gain(dataset, atributos, tree, clase, umbral) {
+function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
 
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
-    tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
+    if (tree.edges.length !== 0) {
+      tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
+    }
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
@@ -282,7 +284,11 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
     console.log(entD)
     let ganancias = []
     for (let atributo of atributos) {
-      ganancias.push(gain(entD, entropiaA(dataset, atributo, clase)))
+      ganancias.push(
+        funcionImpureza === 'gain'
+          ? gain(entD, entropiaA(dataset, atributo, clase))
+          : gainRatio(gain(entD, entropiaA(dataset, atributo, clase)), dataset, atributo)
+      )
     }
     console.log(ganancias)
     const maxgain = Math.max.apply(null, ganancias)
@@ -292,7 +298,9 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
       const masFrecuente = valorClaseMasFrecuente(dataset, clase)
 
       id_nodes++
-      tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
+      if (tree.edges.length !== 0) {
+        tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
+      }
       const numeradorConfianza = contarValores(masFrecuente, dataset, clase);
       const denominadorConfianza = dataset.length - numeradorConfianza;
       tree.nodes.push({
