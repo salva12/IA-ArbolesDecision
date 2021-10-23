@@ -20,7 +20,9 @@ const Results = ({ attributes, data }) => {
 
   const onThresholdChange = event => {
     const value = event.target.value;
-    // if the user enters a value
+    // if the user enters a value that is greater than 1, store a 1
+    // if the user enters a value that is lesser than 0, store a 0
+    // because the threshold can't be outside this range
     if (value > 1) {
       setThreshold(1);
     } else if (value < 0) {
@@ -31,15 +33,18 @@ const Results = ({ attributes, data }) => {
   };
 
   const onRun = () => {
+    // extract the labels of each attribute
     const atributos = attributes.map(a => a.label);
+    // remove the class (i.e the last attribute) from the attributes array, and store it in another const
     const clase = atributos.pop();
+    // create an object where the tree will be stored
     const tree = { nodes: [], edges: [] };
-    console.log(atributos);
-    console.log(clase);
-    // ACA SEGUN QUE ELIJA EL USUARIO EN EL RADIO BUTTON HAY QUE LLAMAR A GAIN O GAINRATIO
-    console.log(data);
+    // run the c4.5 algorithm
     c45gain(data, atributos, tree, clase, threshold, impurityFunction);
+    // store the results in the state
     setResults(tree);
+    // generate a new key to avoid duplicated id errors in vis.js
+    // see https://github.com/crubier/react-graph-vis/issues/92
     setKey(v4());
   };
 
