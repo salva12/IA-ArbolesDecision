@@ -93,6 +93,11 @@ const App = () => {
     });
     return isEmpty;
   });
+  // check if there is a data row with an empty class value
+  const isThereADataWithoutClass = data.find(d => {
+    const className = attributes[attributes.length - 1].label;
+    return d[className] === '';
+  });
 
   // check if the next button should be disabled
   const isNextDisabled =
@@ -100,7 +105,7 @@ const App = () => {
       (isAttributesEmpty ||
         areThereAttributesWithoutName ||
         areThereAttributesWithEmptyValues)) ||
-    (tabIndex === 1 && (isDataEmpty || isADataUndefined)) ||
+    (tabIndex === 1 && (isDataEmpty || isADataUndefined || isThereADataWithoutClass)) ||
     tabIndex === 2;
 
   // the tooltip text for the next button
@@ -111,6 +116,7 @@ const App = () => {
     : tabIndex === 1
     ? (isDataEmpty && 'El conjunto de datos no puede estar vacío')
       || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
+        || (isThereADataWithoutClass && 'No puede haber filas de datos con un valor de clase vacío')
     : '';
 
   return (
