@@ -49,9 +49,15 @@ const App = () => {
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
       setAttributes(importedAttributes.map((attr, idx) => ({
+        // in windows, there are carriage return chars at the end of the lines
+        // so i remove them with replace
         label: attr.replace(/\r/, ''),
-        // first filter the empty values, and then extract each value
-        values: importedData.filter(d => d[idx]).map(d => d[idx])
+        // here i'm doing this:
+        //// filtering empty values
+        //// extracting each value with map (and removing possible CR chars with replace)
+        //// creating a set with this (to remove duplicates)
+        //// and spreading the set to turn it back into an array
+        values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx].replace(/\r/, '')))]
       })));
       // store the data in the state, filtering the empty rows
       setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
