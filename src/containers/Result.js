@@ -8,7 +8,6 @@ const Results = ({ attributes, data }) => {
   const [expansion, setExpansion] = useState('complete');
   const [threshold, setThreshold] = useState(0);
   const [results, setResults] = useState({ nodes: [], edges: [] });
-  const [shouldRenderTree, setShouldRenderTree] = useState(false);
   const [key, setKey] = useState(v4());
 
   const onImpurityFunctionChange = event => {
