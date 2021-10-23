@@ -260,7 +260,7 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
     tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
-      label: dataset[0][clase],
+      label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
     }) //colocar nodos hojas
     return tree
   } else if (atributos.length === 0) {
@@ -293,9 +293,11 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
 
       id_nodes++
       tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
+      const numeradorConfianza = contarValores(masFrecuente, dataset, clase);
+      const denominadorConfianza = dataset.length - numeradorConfianza;
       tree.nodes.push({
         id: id_nodes + dataset[0][clase],
-        label: masFrecuente,
+        label: `${masFrecuente}\n${numeradorConfianza}/${denominadorConfianza}`,
       }) //colocar nodos hojas
       return tree
     } else {
