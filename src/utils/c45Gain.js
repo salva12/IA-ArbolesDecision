@@ -257,7 +257,7 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
-    tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
+    tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: dataset[0][clase],
@@ -270,7 +270,7 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
 
     // acá se saca el valor de clase mas frecuente
     id_nodes++
-    tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
+    tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: masFrecuente,
@@ -292,7 +292,7 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
       const masFrecuente = valorClaseMasFrecuente(dataset, clase)
 
       id_nodes++
-      tree.edges.slice(-1)[0].to = id_nodes + dataset[0][clase]
+      tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
       tree.nodes.push({
         id: id_nodes + dataset[0][clase],
         label: masFrecuente,
@@ -311,6 +311,9 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
       id_nodes++
       let idpadre = id_nodes + ag
       tree.nodes.push({ id: idpadre, label: ag })
+      if (tree.edges.length > 0) {
+        tree.edges[tree.edges.length - 1].to = idpadre
+      }
       for (let particion of particiones) {
         console.log(particion)
         if (particion.length !== 0) {
@@ -327,7 +330,7 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
   }
 }
 
-//export default c45gain;
+export default c45gain;
 
 // Ver por consola los resultados parciales y pruebas de cada funcion
 // entropiaD(dataset)
@@ -371,10 +374,10 @@ function c45gain(dataset, atributos, tree, clase, umbral) {
 
 
 //PRUEBA EJ3 15/10/2021
-console.log("ACA ARRANCA LA PRUEBA DEL 15/10/2021")
-const dataset=mockdata2
-const tree = { nodes: [], edges: [] }
-const atributos = Object.keys(dataset[0])
-const clase = atributos.pop()
-console.log(c45gain(dataset, atributos, tree,clase))
-console.log(tree)
+// console.log("ACA ARRANCA LA PRUEBA DEL 15/10/2021")
+// const dataset=mockdata2
+// const tree = { nodes: [], edges: [] }
+// const atributos = Object.keys(dataset[0])
+// const clase = atributos.pop()
+// console.log(c45gain(dataset, atributos, tree,clase))
+// console.log(tree)
