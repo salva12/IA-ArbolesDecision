@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 } from 'uuid';
 import Tree from '../components/Tree';
 import c45gain from '../utils/c45Gain';
  
@@ -7,6 +8,8 @@ const Results = ({ attributes, data }) => {
   const [expansion, setExpansion] = useState('complete');
   const [threshold, setThreshold] = useState(0);
   const [results, setResults] = useState({ nodes: [], edges: [] });
+  const [shouldRenderTree, setShouldRenderTree] = useState(false);
+  const [key, setKey] = useState(v4());
 
   const onImpurityFunctionChange = event => {
     setImpurityFunction(event.target.value);
@@ -18,12 +21,13 @@ const Results = ({ attributes, data }) => {
 
   const onThresholdChange = event => {
     const value = event.target.value;
+    // if the user enters a value
     if (value > 1) {
       setThreshold(1);
     } else if (value < 0) {
       setThreshold(0);
     } else {
-      setThreshold(event.target.value);
+      setThreshold(value);
     }
   };
 
@@ -37,6 +41,7 @@ const Results = ({ attributes, data }) => {
     console.log(data);
     c45gain(data, atributos, tree, clase, threshold);
     setResults(tree);
+    setKey(v4());
   };
 
   return (
@@ -121,8 +126,7 @@ const Results = ({ attributes, data }) => {
           Ejecutar
         </button>
       </div>
-      {/* ACA TENEMOS QUE VER CON LUCAS QUE ONDA COMO DIBUJAR */}
-      {/* <Tree tree={results} /> */}
+      <Tree tree={results} keyForAvoidingErrors={key} />
     </div>
   );
 };

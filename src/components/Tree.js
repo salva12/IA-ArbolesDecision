@@ -1,7 +1,7 @@
 import React from "react"
 import Graph from "react-vis-network-graph"
 
-const Tree = ({tree} ) => {
+const Tree = ({ tree, keyForAvoidingErrors }) => {
   const graph = {
     nodes: tree.nodes,
 
@@ -54,6 +54,7 @@ const Tree = ({tree} ) => {
   return (
     <>
       <Graph
+        key={keyForAvoidingErrors}
         graph={graph}
         options={options}
         events={events}
