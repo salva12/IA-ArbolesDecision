@@ -80,6 +80,8 @@ const App = () => {
   const areThereAttributesWithEmptyValues = attributes.find(
     a => a.values.find(v => !v) === ''
   );
+  // check if the class has more than 2 values
+  const hasTheClassMoreThanTwoValues = attributes[attributes.length - 1].values.length > 2;
 
   // check if the data set is empty
   const isDataEmpty = data.length === 0;
@@ -104,7 +106,8 @@ const App = () => {
     (tabIndex === 0 &&
       (isAttributesEmpty ||
         areThereAttributesWithoutName ||
-        areThereAttributesWithEmptyValues)) ||
+        areThereAttributesWithEmptyValues ||
+        hasTheClassMoreThanTwoValues)) ||
     (tabIndex === 1 && (isDataEmpty || isADataUndefined || isThereADataWithoutClass)) ||
     tabIndex === 2;
 
@@ -113,6 +116,7 @@ const App = () => {
     ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío')
       || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre')
         || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
+          || (hasTheClassMoreThanTwoValues && 'El atributo clase no puede tener más de dos valores')
     : tabIndex === 1
     ? (isDataEmpty && 'El conjunto de datos no puede estar vacío')
       || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
