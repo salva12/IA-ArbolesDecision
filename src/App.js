@@ -78,20 +78,20 @@ const App = () => {
   const areThereAttributesWithoutName = attributes.find(a => !a.label);
   // check if there is an attribute with empty values
   const areThereAttributesWithEmptyValues = attributes.find(
-    a => a.values.find((v) => !v) === ''
+    a => a.values.find(v => !v) === ''
   );
 
   // check if the data set is empty
   const isDataEmpty = data.length === 0;
   // check if there is a data row with all of its values empty
-  const isADataUndefined = data.find((d) => {
-    let isEmpty = true
-    Object.keys(d).forEach((key) => {
+  const isADataUndefined = data.find(d => {
+    let isEmpty = true;
+    Object.keys(d).forEach(key => {
       if (d[key]) {
-        isEmpty = false
+        isEmpty = false;
       }
-    })
-    return isEmpty
+    });
+    return isEmpty;
   });
 
   // check if the next button should be disabled
@@ -235,6 +235,6 @@ const App = () => {
       <ReactTooltip effect="solid" />
     </div>
   );
-}
+};
 
 export default App;
