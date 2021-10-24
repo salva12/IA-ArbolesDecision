@@ -143,8 +143,9 @@ const Results = ({ attributes, data }) => {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start'
+          justifyContent: impurityFunction === 'both' ? 'space-between' : 'center',
+          alignItems: 'flex-start',
+          marginTop: '20px'
         }}
       >
         {impurityFunction !== 'gainRatio' && (
