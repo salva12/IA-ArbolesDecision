@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import Tree from '../components/Tree';
+import TreeContainer from '../components/TreeContainer';
 import c45gain from '../utils/c45';
+import { EMPTY_TREE } from '../utils/constants';
  
 const Results = ({ attributes, data }) => {
   const [impurityFunction, setImpurityFunction] = useState('gain');
   const [expansion, setExpansion] = useState('complete');
   const [threshold, setThreshold] = useState(0);
-  const [results, setResults] = useState({ nodes: [], edges: [] });
+  const [gainResults, setGainResults] = useState(EMPTY_TREE);
+  const [gainRatioResults, setGainRatioResults] = useState(EMPTY_TREE);
   const [key, setKey] = useState(v4());
 
   const onImpurityFunctionChange = event => {
@@ -38,11 +41,17 @@ const Results = ({ attributes, data }) => {
     // remove the class (i.e the last attribute) from the attributes array, and store it in another const
     const clase = atributos.pop();
     // create an object where the tree will be stored
-    const tree = { nodes: [], edges: [] };
-    // run the c4.5 algorithm
-    c45gain(data, atributos, tree, clase, threshold, impurityFunction);
-    // store the results in the state
-    setResults(tree);
+    const gainTree = { ...EMPTY_TREE };
+    const gainRatioTree = { ...EMPTY_TREE };
+    // run the c4.5 algorithm and store the results in the state
+    if (impurityFunction === 'gain' || impurityFunction === 'both') {
+      c45gain(data, atributos, gainTree, clase, threshold, 'gain');
+      setGainResults(gainTree);
+    }
+    if (impurityFunction === 'gainRatio' || impurityFunction === 'both') {
+      c45gain(data, atributos, gainRatioTree, clase, threshold, 'gainRatio');
+      setGainRatioResults(gainRatioTree);
+    }
     // generate a new key to avoid duplicated id errors in vis.js
     // see https://github.com/crubier/react-graph-vis/issues/92
     setKey(v4());
@@ -130,7 +139,25 @@ const Results = ({ attributes, data }) => {
           Ejecutar
         </button>
       </div>
-      <Tree tree={results} keyForAvoidingErrors={key} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start'
+        }}
+      >
+        {impurityFunction !== 'gainRatio' && (
+          <TreeContainer impurityFunction="gain">
+            <Tree tree={gainResults} keyForAvoidingErrors={key} />
+          </TreeContainer>
+        )}
+        {impurityFunction !== 'gain' && (
+          <TreeContainer impurityFunction="gainRatio">
+            <Tree tree={gainRatioResults} keyForAvoidingErrors={key} />
+          </TreeContainer>
+        )}
+      </div>
     </div>
   );
 };
