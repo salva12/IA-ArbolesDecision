@@ -332,7 +332,9 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
             particion,
             atributos.filter((a) => a !== ag),
             tree,
-            clase
+            clase,
+            umbral,
+            funcionImpureza
           )
         }
       }
