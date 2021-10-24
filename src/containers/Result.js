@@ -41,8 +41,8 @@ const Results = ({ attributes, data }) => {
     // remove the class (i.e the last attribute) from the attributes array, and store it in another const
     const clase = atributos.pop();
     // create an object where the tree will be stored
-    const gainTree = { ...EMPTY_TREE };
-    const gainRatioTree = { ...EMPTY_TREE };
+    const gainTree = { nodes: [], edges: [] };
+    const gainRatioTree = { nodes: [], edges: [] };
     // run the c4.5 algorithm and store the results in the state
     if (impurityFunction === 'gain' || impurityFunction === 'both') {
       c45gain(data, atributos, gainTree, clase, threshold, 'gain');
