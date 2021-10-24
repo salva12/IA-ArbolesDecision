@@ -81,7 +81,9 @@ const App = () => {
     a => a.values.find(v => !v) === ''
   );
   // check if the class has more than 2 values
-  const hasTheClassMoreThanTwoValues = attributes[attributes.length - 1].values.length > 2;
+  const hasTheClassMoreThanTwoValues = attributes.length > 0
+    ? attributes[attributes.length - 1].values.length > 2
+    : false;
 
   // check if the data set is empty
   const isDataEmpty = data.length === 0;
