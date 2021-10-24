@@ -119,10 +119,12 @@ const App = () => {
       || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre')
         || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
           || (hasTheClassMoreThanTwoValues && 'El atributo clase no puede tener más de dos valores')
+            || ''
     : tabIndex === 1
     ? (isDataEmpty && 'El conjunto de datos no puede estar vacío')
       || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
         || (isThereADataWithoutClass && 'No puede haber filas de datos con un valor de clase vacío')
+          || ''
     : '';
 
   return (
