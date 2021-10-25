@@ -85,69 +85,100 @@ const mockdata2 = [
 // A CONTINUACIÓN SOLUCION GENERAL
 
 //el siguiente bloque sirve para saber la cantidad de valores diferentes que puede tomar un atributo o clase
+/**
+ * Counts the number of different values that an attribute could have
+ * @param {*} attClase 
+ * @param {*} dataset 
+ * @returns 
+ */
 const valoresDistintos = (attClase, dataset) => {
-  let valores = []
+  let valores = [];
   for (let reg of dataset) {
-    valores.push(reg[attClase])
+    valores.push(reg[attClase]);
   }
-  let valoresDistintos = new Set(valores)
-  return valoresDistintos
+  return new Set(valores);
 }
 
 // la siguiente funcion devuelve el logaritmo en base x de num
-function logBase(x, num) {
-  return Math.log(num) / Math.log(x)
-}
+/**
+ * Calculates the n-base logarithm of a number
+ * @param {Number} base the base
+ * @param {Number} num the number
+ * @returns the `base`-base logarithm of `num`
+ */
+const logBase = (base, num) => Math.log(num) / Math.log(base);
 
-// la siguiente funcion cuenta valores de una clase o atributo dado en el dataset
-function contarValores(valor, dataset, attClase) {
-  // attclase quiere decir atributo o clase
-  let cont = 0
+/**
+ * Counts how many times an attribute value appears in the dataset
+ * @param {String} valor the value you want to count
+ * @param {Array} dataset the dataset
+ * @param {String} attClase the attribute (or class) where the value belongs
+ * @returns the number of occurrences of the value
+ */
+const contarValores = (valor, dataset, attClase) => {
+  let cont = 0;
   for (let reg of dataset) {
     if (valor === reg[attClase]) {
-      cont++
+      cont++;
     }
   }
-  return cont
-}
+  return cont;
+};
 
-// la siguiente funcion cuenta la cantidad de reg que pertenecen a un valor de clase y de atributo dado
-function contarValores2(valorAtt, valorClase, dataset, atributo, clase) {
-  let cont = 0
+/**
+ * Counts the number of data examples which have a specific attribute and class value
+ * @param {String} valorAtt the attribute value
+ * @param {String} valorClase the class value
+ * @param {Array} dataset the dataset
+ * @param {String} atributo the name of the attribute
+ * @param {String} clase the name of the class
+ * @returns the number of data examples with `valorAtt` value for `atributo` attribute and `valorClase` value for `clase`
+ */
+const contarValores2 = (valorAtt, valorClase, dataset, atributo, clase) => {
+  let cont = 0;
   for (let reg of dataset) {
     if (valorAtt === reg[atributo] && valorClase === reg[clase]) {
-      cont++
+      cont++;
     }
   }
-  return cont
+  return cont;
 }
 
-// funcion para obtener el valor de clase mas frecuente de un data set
-function valorClaseMasFrecuente(dataset, clase) {
-  let valoresClase = valoresDistintos(clase, dataset)
-  let cantClase = []
+/**
+ * Gets the most frequent class value in the dataset
+ * @param {Array} dataset the dataset
+ * @param {String} clase the name of the class
+ * @returns the most frequent class value
+ */
+const valorClaseMasFrecuente = (dataset, clase) => {
+  const valoresClase = valoresDistintos(clase, dataset);
+  const cantClase = [];
   for (let valor of valoresClase) {
-    let c = contarValores(valor, dataset, clase)
-    cantClase.push({ valorClase: valor, cant: c })
+    let c = contarValores(valor, dataset, clase);
+    cantClase.push({ valorClase: valor, cant: c });
   }
   // obtener valorClase con mayor cantidad
-  const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant)
-  const masFrecuente = valoresOrdenados[0].valorClase
-  return masFrecuente
-}
+  const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant);
+  return valoresOrdenados[0].valorClase;
+};
 
-// funcion para calcular la entropia global del set de datos D.
+/**
+ * Calculates the entropy of the whole dataset
+ * @param {Array} dataset the dataset
+ * @param {String} clase the name of the class
+ * @returns the entropy of the dataset
+ */
 const entropiaD = (dataset, clase) => {
-  let valoresClase = valoresDistintos(clase, dataset)
-  let entD = 0
+  const valoresClase = valoresDistintos(clase, dataset);
+  let entD = 0;
   for (let valor of valoresClase) {
-    let numerador = contarValores(valor, dataset, clase)
+    let numerador = contarValores(valor, dataset, clase);
     entD =
       -(numerador / dataset.length) * logBase(2, numerador / dataset.length) +
-      entD
+      entD;
   }
-  return entD
-}
+  return entD;
+};
 
 // funcion para calcular la entropia de un atributo respecto a D.
 const entropiaA = (dataset, atributo, clase) => {
@@ -182,22 +213,31 @@ const entropiaA = (dataset, atributo, clase) => {
   return entA
 }
 
-// funcion para calcular la ganancia
-function gain(entropiaD, entropiaA) {
-  return entropiaD - entropiaA
-}
+/**
+ * Calculates the gain of an attribute
+ * @param {Number} entropiaD the entropy of the dataset
+ * @param {Number} entropiaA 
+ * @returns the gain
+ */
+const gain = (entropiaD, entropiaA) => entropiaD - entropiaA;
 
-// funcion para calcular la tasa de ganancia
-function gainRatio(gainA, dataset, atributo) {
-  let valoresAtributo = valoresDistintos(atributo, dataset)
-  let denominador = 0
+/**
+ * Calculates the gain ratio of an attribute
+ * @param {Number} gainA the gain of the attribute
+ * @param {Array} dataset the dataset
+ * @param {String} atributo the attribute
+ * @returns the gain ratio
+ */
+const gainRatio = (gainA, dataset, atributo) => {
+  const valoresAtributo = valoresDistintos(atributo, dataset);
+  let denominador = 0;
   for (let valor of valoresAtributo) {
-    let c = contarValores(valor, dataset, atributo)
+    let c = contarValores(valor, dataset, atributo);
     denominador =
-      (-c / dataset.length) * logBase(2, c / dataset.length) + denominador
+      (-c / dataset.length) * logBase(2, c / dataset.length) + denominador;
   }
-  return gainA / denominador
-}
+  return gainA / denominador;
+};
 
 //particularizando la solucion y probando resultados --> ACA HAY QUE GENERALIZAR ASIGNANDO A DATASET OTRA LO QUE TOMEMOS DE LO INGRESADO POR EL USUARIO
 // dataset = mockdata
