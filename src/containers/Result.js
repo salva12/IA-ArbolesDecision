@@ -149,12 +149,12 @@ const Results = ({ attributes, data }) => {
         }}
       >
         {impurityFunction !== 'gainRatio' && (
-          <TreeContainer impurityFunction="gain">
+          <TreeContainer impurityFunction="gain" wide={impurityFunction !== 'both'}>
             <Tree tree={gainResults} keyForAvoidingErrors={key} />
           </TreeContainer>
         )}
         {impurityFunction !== 'gain' && (
-          <TreeContainer impurityFunction="gainRatio">
+          <TreeContainer impurityFunction="gainRatio" wide={impurityFunction !== 'both'}>
             <Tree tree={gainRatioResults} keyForAvoidingErrors={key} />
           </TreeContainer>
         )}

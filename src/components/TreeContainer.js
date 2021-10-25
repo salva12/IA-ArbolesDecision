@@ -2,7 +2,10 @@ import React from 'react';
 
 const TreeContainer = props => {
   return (
-    <div className="card box" style={{ maxWidth: 'calc(50% - 8px)' }}>
+    <div
+      className="card box"
+      style={{ maxWidth: props.wide ? '75%' : 'calc(50% - 8px)' }}
+    >
       <h5 className="title is-5" style={{ textAlign: 'center' }}>
         {props.impurityFunction === 'gain'
           ? 'Utilizando ganancia de información'
