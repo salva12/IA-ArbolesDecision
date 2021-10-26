@@ -5,7 +5,7 @@ import { ReactComponent as ArrowRight } from "../assets/arrow-right-solid.svg"
 import TreeContainer from "./TreeContainer"
 
 const StepByStep = (props) => {
-  const [key, setKey] = useState(v4())
+  const [key, setKey] = useState(props.keyForAvoidingErrors)
   const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const scrollableRef = useRef(null)
   const currentButtonRef = useRef([])
@@ -16,7 +16,7 @@ const StepByStep = (props) => {
 
   const handleStepChange = (index) => {
     setCurrentStepIndex(index)
-    const offset = currentButtonRef.current[index].offsetTop
+    const offset = currentButtonRef.current[index].offsetTop - 80
     scrollableRef.current.scrollTop = offset
     setKey(v4())
   }
@@ -57,7 +57,8 @@ const StepByStep = (props) => {
             style={{
               width: "calc(50% - 8px)",
               maxHeight: "586px",
-              overflowY: "scroll",
+              overflowY: "auto",
+              scrollBehavior: "smooth",
             }}
           >
             {props.steps.map((step, index) => (
@@ -77,19 +78,23 @@ const StepByStep = (props) => {
                   <div>
                     <details>
                       <summary>Atributos</summary>
-                      {JSON.stringify(
-                        props.steps[currentStepIndex].atributos,
-                        null,
-                        "\t"
-                      )}
+                      <code>
+                        {JSON.stringify(
+                          props.steps[currentStepIndex].atributos,
+                          null,
+                          "\t"
+                        )}
+                      </code>
                     </details>
                     <details>
                       <summary>Particiones</summary>
-                      {JSON.stringify(
-                        props.steps[currentStepIndex].particion,
-                        null,
-                        "\t"
-                      )}
+                      <code>
+                        {JSON.stringify(
+                          props.steps[currentStepIndex].particion,
+                          null,
+                          "\t"
+                        )}
+                      </code>
                     </details>
                   </div>
                 )}

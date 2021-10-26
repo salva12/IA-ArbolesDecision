@@ -194,6 +194,7 @@ const Results = ({ attributes, data }) => {
         <StepByStep
           steps={stepByStepResults}
           impurityFunction={impurityFunction}
+          keyForAvoidingErrors={key}
         />
       )}
     </div>
