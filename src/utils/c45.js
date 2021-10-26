@@ -263,6 +263,7 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
+      group: 'hojas'
     }) //colocar nodos hojas
     return tree
   } else if (atributos.length === 0) {
@@ -306,6 +307,7 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
       tree.nodes.push({
         id: id_nodes + dataset[0][clase],
         label: `${masFrecuente}\n${numeradorConfianza}/${denominadorConfianza}`,
+        group: 'hojas'
       }) //colocar nodos hojas
       return tree
     } else {
