@@ -1,102 +1,101 @@
 const mockdata2 = [
   {
-      Hipertenso: "no",
-      Colesterol: "bajo",
-      Triglicéridos: "normal",
-      Edad: "<40",
-      Diabético: "si",
-      Problemascardíacos: "no"
+    Hipertenso: "no",
+    Colesterol: "bajo",
+    Triglicéridos: "normal",
+    Edad: "<40",
+    Diabético: "si",
+    Problemascardíacos: "no",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "bajo",
-      Triglicéridos: "elevado",
-      Edad: "<40",
-      Diabético: "si",
-      Problemascardíacos: "no"
+    Hipertenso: "si",
+    Colesterol: "bajo",
+    Triglicéridos: "elevado",
+    Edad: "<40",
+    Diabético: "si",
+    Problemascardíacos: "no",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "bajo",
-      Triglicéridos: "elevado",
-      Edad: ">60",
-      Diabético: "si",
-      Problemascardíacos: "si"
+    Hipertenso: "si",
+    Colesterol: "bajo",
+    Triglicéridos: "elevado",
+    Edad: ">60",
+    Diabético: "si",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "medio",
-      Triglicéridos: "elevado",
-      Edad: ">60",
-      Diabético: "no",
-      Problemascardíacos: "si"
+    Hipertenso: "si",
+    Colesterol: "medio",
+    Triglicéridos: "elevado",
+    Edad: ">60",
+    Diabético: "no",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "no",
-      Colesterol: "medio",
-      Triglicéridos: "elevado",
-      Edad: "<40",
-      Diabético: "no",
-      Problemascardíacos: "si"
+    Hipertenso: "no",
+    Colesterol: "medio",
+    Triglicéridos: "elevado",
+    Edad: "<40",
+    Diabético: "no",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "no",
-      Colesterol: "medio",
-      Triglicéridos: "normal",
-      Edad: "entre 40-60",
-      Diabético: "si",
-      Problemascardíacos: "no"
+    Hipertenso: "no",
+    Colesterol: "medio",
+    Triglicéridos: "normal",
+    Edad: "entre 40-60",
+    Diabético: "si",
+    Problemascardíacos: "no",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "alto",
-      Triglicéridos: "normal",
-      Edad: "entre 40-60",
-      Diabético: "si",
-      Problemascardíacos: "si"
+    Hipertenso: "si",
+    Colesterol: "alto",
+    Triglicéridos: "normal",
+    Edad: "entre 40-60",
+    Diabético: "si",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "alto",
-      Triglicéridos: "normal",
-      Edad: "entre 40-60",
-      Diabético: "si",
-      Problemascardíacos: "si"
+    Hipertenso: "si",
+    Colesterol: "alto",
+    Triglicéridos: "normal",
+    Edad: "entre 40-60",
+    Diabético: "si",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "si",
-      Colesterol: "alto",
-      Triglicéridos: "elevado",
-      Edad: ">60",
-      Diabético: "no",
-      Problemascardíacos: "si"
+    Hipertenso: "si",
+    Colesterol: "alto",
+    Triglicéridos: "elevado",
+    Edad: ">60",
+    Diabético: "no",
+    Problemascardíacos: "si",
   },
   {
-      Hipertenso: "no",
-      Colesterol: "alto",
-      Triglicéridos: "normal",
-      Edad: "<40",
-      Diabético: "no",
-      Problemascardíacos: "no"
-  }
-];
-
+    Hipertenso: "no",
+    Colesterol: "alto",
+    Triglicéridos: "normal",
+    Edad: "<40",
+    Diabético: "no",
+    Problemascardíacos: "no",
+  },
+]
 
 // A CONTINUACIÓN SOLUCION GENERAL
 
 //el siguiente bloque sirve para saber la cantidad de valores diferentes que puede tomar un atributo o clase
 /**
  * Counts the number of different values that an attribute could have
- * @param {*} attClase 
- * @param {*} dataset 
- * @returns 
+ * @param {*} attClase
+ * @param {*} dataset
+ * @returns
  */
 const valoresDistintos = (attClase, dataset) => {
-  let valores = [];
+  let valores = []
   for (let reg of dataset) {
-    valores.push(reg[attClase]);
+    valores.push(reg[attClase])
   }
-  return new Set(valores);
+  return new Set(valores)
 }
 
 // la siguiente funcion devuelve el logaritmo en base x de num
@@ -106,7 +105,7 @@ const valoresDistintos = (attClase, dataset) => {
  * @param {Number} num the number
  * @returns the `base`-base logarithm of `num`
  */
-const logBase = (base, num) => Math.log(num) / Math.log(base);
+const logBase = (base, num) => Math.log(num) / Math.log(base)
 
 /**
  * Counts how many times an attribute value appears in the dataset
@@ -116,14 +115,14 @@ const logBase = (base, num) => Math.log(num) / Math.log(base);
  * @returns the number of occurrences of the value
  */
 const contarValores = (valor, dataset, attClase) => {
-  let cont = 0;
+  let cont = 0
   for (let reg of dataset) {
     if (valor === reg[attClase]) {
-      cont++;
+      cont++
     }
   }
-  return cont;
-};
+  return cont
+}
 
 /**
  * Counts the number of data examples which have a specific attribute and class value
@@ -135,13 +134,13 @@ const contarValores = (valor, dataset, attClase) => {
  * @returns the number of data examples with `valorAtt` value for `atributo` attribute and `valorClase` value for `clase`
  */
 const contarValores2 = (valorAtt, valorClase, dataset, atributo, clase) => {
-  let cont = 0;
+  let cont = 0
   for (let reg of dataset) {
     if (valorAtt === reg[atributo] && valorClase === reg[clase]) {
-      cont++;
+      cont++
     }
   }
-  return cont;
+  return cont
 }
 
 /**
@@ -151,16 +150,16 @@ const contarValores2 = (valorAtt, valorClase, dataset, atributo, clase) => {
  * @returns the most frequent class value
  */
 const valorClaseMasFrecuente = (dataset, clase) => {
-  const valoresClase = valoresDistintos(clase, dataset);
-  const cantClase = [];
+  const valoresClase = valoresDistintos(clase, dataset)
+  const cantClase = []
   for (let valor of valoresClase) {
-    let c = contarValores(valor, dataset, clase);
-    cantClase.push({ valorClase: valor, cant: c });
+    let c = contarValores(valor, dataset, clase)
+    cantClase.push({ valorClase: valor, cant: c })
   }
   // obtener valorClase con mayor cantidad
-  const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant);
-  return valoresOrdenados[0].valorClase;
-};
+  const valoresOrdenados = cantClase.sort((a, b) => b.cant - a.cant)
+  return valoresOrdenados[0].valorClase
+}
 
 /**
  * Calculates the entropy of the whole dataset
@@ -169,16 +168,16 @@ const valorClaseMasFrecuente = (dataset, clase) => {
  * @returns the entropy of the dataset
  */
 const entropiaD = (dataset, clase) => {
-  const valoresClase = valoresDistintos(clase, dataset);
-  let entD = 0;
+  const valoresClase = valoresDistintos(clase, dataset)
+  let entD = 0
   for (let valor of valoresClase) {
-    let numerador = contarValores(valor, dataset, clase);
+    let numerador = contarValores(valor, dataset, clase)
     entD =
       -(numerador / dataset.length) * logBase(2, numerador / dataset.length) +
-      entD;
+      entD
   }
-  return entD;
-};
+  return entD
+}
 
 // funcion para calcular la entropia de un atributo respecto a D.
 const entropiaA = (dataset, atributo, clase) => {
@@ -216,10 +215,10 @@ const entropiaA = (dataset, atributo, clase) => {
 /**
  * Calculates the gain of an attribute
  * @param {Number} entropiaD the entropy of the dataset
- * @param {Number} entropiaA 
+ * @param {Number} entropiaA
  * @returns the gain
  */
-const gain = (entropiaD, entropiaA) => entropiaD - entropiaA;
+const gain = (entropiaD, entropiaA) => entropiaD - entropiaA
 
 /**
  * Calculates the gain ratio of an attribute
@@ -229,15 +228,15 @@ const gain = (entropiaD, entropiaA) => entropiaD - entropiaA;
  * @returns the gain ratio
  */
 const gainRatio = (gainA, dataset, atributo) => {
-  const valoresAtributo = valoresDistintos(atributo, dataset);
-  let denominador = 0;
+  const valoresAtributo = valoresDistintos(atributo, dataset)
+  let denominador = 0
   for (let valor of valoresAtributo) {
-    let c = contarValores(valor, dataset, atributo);
+    let c = contarValores(valor, dataset, atributo)
     denominador =
-      (-c / dataset.length) * logBase(2, c / dataset.length) + denominador;
+      (-c / dataset.length) * logBase(2, c / dataset.length) + denominador
   }
-  return gainA / denominador;
-};
+  return gainA / denominador
+}
 
 //particularizando la solucion y probando resultados --> ACA HAY QUE GENERALIZAR ASIGNANDO A DATASET OTRA LO QUE TOMEMOS DE LO INGRESADO POR EL USUARIO
 // dataset = mockdata
@@ -251,9 +250,26 @@ const gainRatio = (gainA, dataset, atributo) => {
 //y naturalmente para la primer llamada al algoritmo los atributos
 //const tree = { nodes: [], edges: [] }
 
+let id_recursion = 0
 let id_nodes = 0
-function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
-
+function c45gain(
+  dataset,
+  atributos,
+  tree,
+  clase,
+  umbral,
+  funcionImpureza,
+  stepByStep = false
+) {
+  if (stepByStep) {
+    stepByStep.push({
+      id: id_recursion,
+      tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
+      atributos: [...atributos],
+      particion: [...dataset],
+    })
+    id_recursion++
+  }
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
@@ -263,6 +279,7 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
+      group: "hojas",
     }) //colocar nodos hojas
     return tree
   } else if (atributos.length === 0) {
@@ -285,9 +302,13 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
     let ganancias = []
     for (let atributo of atributos) {
       ganancias.push(
-        funcionImpureza === 'gain'
+        funcionImpureza === "gain"
           ? gain(entD, entropiaA(dataset, atributo, clase))
-          : gainRatio(gain(entD, entropiaA(dataset, atributo, clase)), dataset, atributo)
+          : gainRatio(
+              gain(entD, entropiaA(dataset, atributo, clase)),
+              dataset,
+              atributo
+            )
       )
     }
     console.log(ganancias)
@@ -301,11 +322,12 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
       if (tree.edges.length !== 0) {
         tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
       }
-      const numeradorConfianza = contarValores(masFrecuente, dataset, clase);
-      const denominadorConfianza = dataset.length - numeradorConfianza;
+      const numeradorConfianza = contarValores(masFrecuente, dataset, clase)
+      const denominadorConfianza = dataset.length - numeradorConfianza
       tree.nodes.push({
         id: id_nodes + dataset[0][clase],
         label: `${masFrecuente}\n${numeradorConfianza}/${denominadorConfianza}`,
+        group: "hojas",
       }) //colocar nodos hojas
       return tree
     } else {
@@ -328,13 +350,15 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
         console.log(particion)
         if (particion.length !== 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
+
           c45gain(
             particion,
             atributos.filter((a) => a !== ag),
             tree,
             clase,
             umbral,
-            funcionImpureza
+            funcionImpureza,
+            stepByStep
           )
         }
       }
@@ -342,4 +366,4 @@ function c45gain(dataset, atributos, tree, clase, umbral, funcionImpureza) {
   }
 }
 
-export default c45gain;
+export default c45gain

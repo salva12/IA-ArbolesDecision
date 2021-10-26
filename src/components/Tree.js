@@ -32,6 +32,7 @@ const Tree = ({ tree, keyForAvoidingErrors }) => {
     },
     nodes: {
       shape: "box",
+      font: {size:16},
       margin: {
         top: 10,
         left: 20,
@@ -41,8 +42,15 @@ const Tree = ({ tree, keyForAvoidingErrors }) => {
     },
     edges: {
       color: "#000000",
+      font: {size:16},
     },
     height: "500px",
+    groups: {
+      hojas: {
+        color: { background: "white", border: "white" },
+        font: {size: 20},
+      },
+    }
   }
 
   const events = {
