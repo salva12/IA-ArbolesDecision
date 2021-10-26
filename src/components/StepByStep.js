@@ -5,13 +5,21 @@ import TreeContainer from "./TreeContainer"
 
 const StepByStep = (props) => {
   const [key, setKey] = useState(v4())
-  const [currentStep, setCurrentStep] = useState({})
+  const [currentStepIndex, setCurrentStepIndex] = useState(0)
 
-  const handleStepChange = (step) => {
-    console.log(step.tree)
-    setCurrentStep(step)
+  const handleStepChange = (index) => {
+    setCurrentStepIndex(index)
     setKey(v4())
   }
+
+  const handleNextStep = () => {
+    console.log("next")
+    handleStepChange(currentStepIndex + 1)
+  }
+
+  const isNextStepDisabled =  currentStepIndex === props.steps.length - 1
+  
+
   return (
     <div
       style={{
@@ -22,19 +30,25 @@ const StepByStep = (props) => {
         marginTop: "20px",
       }}
     >
-      <div
-        className="card box"
-        style={{ maxWidth: props.wide ? "75%" : "calc(50% - 8px)" }}
-      >
+      <div className="card box" style={{ maxWidth: "calc(50% - 8px)" }}>
         {props.steps.map((step, index) => (
-          <button key={step.id} onClick={() => handleStepChange(step)}>
+          <button key={step.id} onClick={() => handleStepChange(index)}>
             Recursión {index + 1}
           </button>
         ))}
+        <button
+          onClick={() => handleStepChange(currentStepIndex + 1)}
+          disabled={isNextStepDisabled}
+        >
+          Siguiente
+        </button>
         {JSON.stringify(props.steps, null, 2)}
       </div>
       <TreeContainer impurityFunction="gainRatio" wide={false}>
-        <Tree tree={currentStep?.tree || {}} keyForAvoidingErrors={key} />
+        <Tree
+          tree={props.steps[currentStepIndex]?.tree || {}}
+          keyForAvoidingErrors={key}
+        />
       </TreeContainer>
     </div>
   )
