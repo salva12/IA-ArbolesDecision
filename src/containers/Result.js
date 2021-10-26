@@ -176,8 +176,8 @@ const Results = ({ attributes, data }) => {
             )}
           </>
         )}
-        {expansion === "stepByStep" && <StepByStep steps={stepByStepResults} />}
       </div>
+      {expansion === "stepByStep" && <StepByStep steps={stepByStepResults} />}
     </div>
   )
 }
