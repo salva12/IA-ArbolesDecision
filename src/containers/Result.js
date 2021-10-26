@@ -59,6 +59,19 @@ const Results = ({ attributes, data }) => {
       c45gain(data, atributos, gainRatioTree, clase, threshold, "gain", steps)
       setStepByStepResults(steps)
     }
+    if (impurityFunction === "gainRatio" && expansion === "stepByStep") {
+      const steps = []
+      c45gain(
+        data,
+        atributos,
+        gainRatioTree,
+        clase,
+        threshold,
+        "gainRatio",
+        steps
+      )
+      setStepByStepResults(steps)
+    }
     // generate a new key to avoid duplicated id errors in vis.js
     // see https://github.com/crubier/react-graph-vis/issues/92
     setKey(v4())
@@ -177,7 +190,12 @@ const Results = ({ attributes, data }) => {
           </>
         )}
       </div>
-      {expansion === "stepByStep" && <StepByStep steps={stepByStepResults} />}
+      {expansion === "stepByStep" && (
+        <StepByStep
+          steps={stepByStepResults}
+          impurityFunction={impurityFunction}
+        />
+      )}
     </div>
   )
 }
