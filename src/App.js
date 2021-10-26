@@ -46,7 +46,7 @@ const App = () => {
       // convert it to string, split it into an array of lines, and split each line into an array of fields
       // in windows, there are carriage return chars at the end of the lines
       // so i remove them with replace
-      const parsedFile = (await file.text()).replace(/\r/g, '').split('\n').map(line => line.split(','));
+      const parsedFile = (await file.text()).replaceAll(/\r/g, '').split('\n').map(line => line.split(','));
       // separate the attributes (1st element) and data (the rest) into two constants
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
