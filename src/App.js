@@ -44,20 +44,20 @@ const App = () => {
     const file = event.target.files[0];
     if (file) {
       // convert it to string, split it into an array of lines, and split each line into an array of fields
-      const parsedFile = (await file.text()).split('\n').map(line => line.split(','));
+      // in windows, there are carriage return chars at the end of the lines
+      // so i remove them with replace
+      const parsedFile = (await file.text()).replace(/\r/g, '').split('\n').map(line => line.split(','));
       // separate the attributes (1st element) and data (the rest) into two constants
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
       setAttributes(importedAttributes.map((attr, idx) => ({
-        // in windows, there are carriage return chars at the end of the lines
-        // so i remove them with replace
-        label: attr.replace(/\r/, ''),
+        label: attr,
         // here i'm doing this:
         //// filtering empty values
-        //// extracting each value with map (and removing possible CR chars with replace)
+        //// extracting each value with map
         //// creating a set with this (to remove duplicates)
         //// and spreading the set to turn it back into an array
-        values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx].replace(/\r/, '')))]
+        values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx]))]
       })));
       // store the data in the state, filtering the empty rows
       setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
