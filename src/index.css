@@ -28,3 +28,8 @@ details {
 summary {
   cursor: pointer;
 }
+
+.code {
+  display: block;
+  white-space: break-spaces;
+}

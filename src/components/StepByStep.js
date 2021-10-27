@@ -83,7 +83,7 @@ const StepByStep = (props) => {
                         {JSON.stringify(
                           props.steps[currentStepIndex].atributos,
                           null,
-                          "\t"
+                          2
                         )}
                       </code>
                     </details>
@@ -93,7 +93,7 @@ const StepByStep = (props) => {
                         {JSON.stringify(
                           props.steps[currentStepIndex].particion,
                           null,
-                          "\t"
+                          2
                         )}
                       </code>
                     </details>

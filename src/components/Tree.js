@@ -1,5 +1,6 @@
 import React from "react"
 import Graph from "react-vis-network-graph"
+import ErrorBoundary from "./ErrorBoundary"
 
 const Tree = ({ tree, keyForAvoidingErrors }) => {
   const graph = {
@@ -32,7 +33,7 @@ const Tree = ({ tree, keyForAvoidingErrors }) => {
     },
     nodes: {
       shape: "box",
-      font: {size:16},
+      font: { size: 16 },
       margin: {
         top: 10,
         left: 20,
@@ -42,32 +43,32 @@ const Tree = ({ tree, keyForAvoidingErrors }) => {
     },
     edges: {
       color: "#000000",
-      font: {size:16},
+      font: { size: 16 },
     },
     height: "500px",
     groups: {
       hojas: {
         color: { background: "white", border: "white" },
-        font: {size: 20},
+        font: { size: 20 },
       },
-    }
+    },
   }
 
   const events = {
     select: function (event) {
       var { nodes, edges } = event
     },
-  } 
+  }
   console.log(graph)
   return (
-    <>
+    <ErrorBoundary>
       <Graph
         key={keyForAvoidingErrors}
         graph={graph}
         options={options}
         events={events}
       />
-    </>
+    </ErrorBoundary>
   )
 }
 
