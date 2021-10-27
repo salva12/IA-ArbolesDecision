@@ -12,6 +12,7 @@ const StepByStep = (props) => {
 
   useEffect(() => {
     setKey(v4())
+    return setCurrentStepIndex(0)
   }, [props.steps])
 
   const handleStepChange = (index) => {
