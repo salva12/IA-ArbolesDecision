@@ -15,12 +15,20 @@ const Results = ({ attributes, data }) => {
   const [stepByStepResults, setStepByStepResults] = useState([])
   const [key, setKey] = useState(v4())
 
+  const emptyResults = () => {
+    setGainResults(EMPTY_TREE)
+    setGainRatioResults(EMPTY_TREE)
+    setStepByStepResults([])
+  }
+
   const onImpurityFunctionChange = (event) => {
     setImpurityFunction(event.target.value)
+    emptyResults()
   }
 
   const onExpansionChange = (event) => {
     setExpansion(event.target.value)
+    emptyResults()
   }
 
   const onThresholdChange = (event) => {
