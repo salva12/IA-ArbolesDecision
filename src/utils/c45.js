@@ -183,15 +183,6 @@ function c45gain(
   funcionImpureza,
   stepByStep = false
 ) {
-  if (stepByStep) {
-    stepByStep.push({
-      id: id_recursion,
-      tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
-      atributos: [...atributos],
-      particion: [...dataset],
-    })
-    id_recursion++
-  }
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
@@ -277,7 +268,15 @@ function c45gain(
         console.log(particion)
         if (particion.length !== 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
-
+          if (stepByStep) {
+            stepByStep.push({
+              id: id_recursion,
+              tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
+              atributos: [...atributos],
+              particion: [...dataset],
+            })
+            id_recursion++
+          }
           c45gain(
             particion,
             atributos.filter((a) => a !== ag),
