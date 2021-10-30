@@ -11,9 +11,13 @@ import ReactTooltip from "react-tooltip";
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from "./utils/constants";
 
 const App = () => {
+  // the current tab you are looking
   const [tabIndex, setTabIndex] = useState(0);
+  // the attributes set
   const [attributes, setAttributes] = useState([]);
+  // the data examples set
   const [data, setData] = useState([]);
+  // the file you can upload
   const [file, setFile] = useState(null);
 
   // since the attributes are dynamically rendered,
@@ -27,12 +31,14 @@ const App = () => {
     window.scrollTo(0, 0);
   }, [tabIndex]);
 
+  // function for going to the previous page
   const onPrevious = () => {
     if (tabIndex > 0) {
       setTabIndex(tabIndex - 1);
     }
   };
 
+  // function for going to the next page
   const onNext = () => {
     if (tabIndex < 2) {
       setTabIndex(tabIndex + 1);
@@ -46,7 +52,11 @@ const App = () => {
       // convert it to string, split it into an array of lines, and split each line into an array of fields
       // in windows, there are carriage return chars at the end of the lines
       // so i remove them with replace
-      const parsedFile = (await file.text()).replaceAll(/\r/g, '').replaceAll(/;\s/g, ',').split('\n').map(line => line.split(','));
+      const parsedFile = (await file.text())
+        .replaceAll(/\r/g, '') // remove the CR chars
+        .replaceAll(/;\s/g, ',') // replace semicolons with commas (like a normal csv)
+        .split('\n') // split into an array of lines
+        .map(line => line.split(',')); // split each line into arrays of cells
       // separate the attributes (1st element) and data (the rest) into two constants
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
