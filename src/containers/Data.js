@@ -44,6 +44,7 @@ const Data = ({ attributes, data, setData }) => {
                 <td
                   colSpan={attributes.length + 2}
                   style={{ textAlign: "center" }}
+                  class="notification has-text-weight-semibold	"
                 >
                   No hay registros de datos
                 </td>

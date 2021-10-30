@@ -89,7 +89,7 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
       <h2 className="title is-2">Atributos</h2>
       <div className="tile is-ancestor is-vertical">
         {attributes.length === 0 && (
-          <div className="center">
+          <div className="center notification has-text-weight-semibold">
             No hay atributos. Cárguelos manualmente o importe un archivo CSV
           </div>
         )}
@@ -98,7 +98,6 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
             key={idx}
             id={idx}
             attribute={attr}
-            isClass={idx === attributes.length - 1}
             onEditName={onEditName}
             onEditValue={onEditValue}
             onAddValue={onAddValue}

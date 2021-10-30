@@ -4,7 +4,6 @@ import { ReactComponent as Plus } from '../assets/plus-solid.svg';
 const Attribute = ({
   id,
   attribute,
-  isClass,
   onEditName,
   onEditValue,
   onAddValue,
@@ -53,18 +52,12 @@ const Attribute = ({
           </div>
         ))}
         <div className="column is-one-quarter">
-          <span data-tip={isClass ? 'La clase sólo puede tener dos valores' : ''}>
-            <button
-              className="button is-small"
-              disabled={isClass}
-              onClick={() => onAddValue(id)}
-            >
-              <span className="icon">
-                <Plus width={8} height={8} />
-              </span>
-              <span>Nuevo valor</span>
-            </button>
-          </span>
+          <button className="button is-small" onClick={() => onAddValue(id)}>
+            <span className="icon">
+              <Plus width={8} height={8} />
+            </span>
+            <span>Nuevo valor</span>
+          </button>
         </div>
       </div>
 
