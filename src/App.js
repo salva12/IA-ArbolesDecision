@@ -51,19 +51,19 @@ const App = () => {
       const [importedAttributes, ...importedData] = parsedFile;
       // store the attributes in the state
       setAttributes(importedAttributes.map((attr, idx) => ({
-        label: attr,
+        label: attr.trim(),
         // here i'm doing this:
         //// filtering empty values
         //// extracting each value with map
         //// creating a set with this (to remove duplicates)
         //// and spreading the set to turn it back into an array
-        values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx]))]
+        values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx].trim()))]
       })));
       // store the data in the state, filtering the empty rows
       setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
         const row = {};
         importedAttributes.forEach((attr, idx) => {
-          row[attr] = d[idx];
+          row[attr.trim()] = d[idx].trim();
         });
         return row;
       }));
