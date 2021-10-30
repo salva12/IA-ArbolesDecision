@@ -146,6 +146,7 @@ const Results = ({ attributes, data }) => {
                 value="stepByStep"
                 checked={expansion === "stepByStep"}
                 onChange={onExpansionChange}
+                disabled={impurityFunction === "both"}
               />
               Paso a paso
             </label>
