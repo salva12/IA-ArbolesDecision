@@ -98,7 +98,6 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
             key={idx}
             id={idx}
             attribute={attr}
-            isClass={idx === attributes.length - 1}
             onEditName={onEditName}
             onEditValue={onEditValue}
             onAddValue={onAddValue}
