@@ -17,7 +17,7 @@ const StepByStep = (props) => {
 
   const handleStepChange = (index) => {
     setCurrentStepIndex(index)
-    const offset = currentButtonRef.current[index].offsetTop - 80
+    const offset = currentButtonRef.current[index].offsetTop - 190
     scrollableRef.current.scrollTop = offset
     setKey(v4())
   }
@@ -97,6 +97,30 @@ const StepByStep = (props) => {
                         )}
                       </code>
                     </details>
+                    <details>
+                      <summary>
+                        Cálculos de{" "}
+                        {props.impurityFunction === "gain"
+                          ? "ganacias"
+                          : "tasa de ganancia"}
+                      </summary>
+                      <div>
+                        {props.steps[currentStepIndex].ganancias.map(
+                          (ganancia, index) => (
+                            <div key={index}>
+                              <dl>
+                                <dt>{ganancia[0]}: </dt>
+                                <dd>{ganancia[1].toFixed(6)}</dd>
+                              </dl>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    </details>
+                    <div class="notification is-info is-light">
+                      El atributo que más reduce la impureza es{" "}
+                      <b>{props.steps[currentStepIndex].mejorAtributo}</b>
+                    </div>
                   </div>
                 )}
               </div>

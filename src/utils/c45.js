@@ -274,6 +274,8 @@ function c45gain(
               tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
               atributos: [...atributos],
               particion: [...dataset],
+              ganancias: [...ganancias],
+              mejorAtributo: ag,
             })
             id_recursion++
           }
