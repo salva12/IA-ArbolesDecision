@@ -16,8 +16,10 @@ const StepByStep = (props) => {
   }, [props.steps])
 
   const handleStepChange = (index) => {
+    const height =
+      currentButtonRef.current[currentStepIndex].offsetHeight + 40
     setCurrentStepIndex(index)
-    const offset = currentButtonRef.current[index].offsetTop - 250
+    const offset = currentButtonRef.current[index].offsetTop - height
     scrollableRef.current.scrollTop = offset
     setKey(v4())
   }
@@ -70,12 +72,16 @@ const StepByStep = (props) => {
               }}
             >
               {props.steps.map((step, index) => (
-                <div className="block">
+                <div
+                  className="block"
+                  ref={(el) => (currentButtonRef.current[index] = el)}
+                >
                   <button
-                    ref={(el) => (currentButtonRef.current[index] = el)}
                     className={
                       `button is-fullwidth ` +
-                      (index === currentStepIndex ? "is-info is-outlined has-text-weight-semibold" : "is-light")
+                      (index === currentStepIndex
+                        ? "is-info is-outlined has-text-weight-semibold"
+                        : "is-light")
                     }
                     key={step.id}
                     onClick={() => handleStepChange(index)}
@@ -104,30 +110,39 @@ const StepByStep = (props) => {
                           )}
                         </code>
                       </details>
-                      <details>
-                        <summary>
-                          Cálculos de{" "}
-                          {props.impurityFunction === "gain"
-                            ? "ganancias"
-                            : "tasa de ganancia"}
-                        </summary>
-                        <div>
-                          {props.steps[currentStepIndex].ganancias.map(
-                            (ganancia, index) => (
-                              <div key={index}>
-                                <dl>
-                                  <dt>{ganancia[0]}: </dt>
-                                  <dd>{ganancia[1].toFixed(6)}</dd>
-                                </dl>
-                              </div>
-                            )
-                          )}
+                      {props.steps[currentStepIndex].ganancias && (
+                        <details>
+                          <summary>
+                            Cálculos de{" "}
+                            {props.impurityFunction === "gain"
+                              ? "ganancias"
+                              : "tasa de ganancia"}
+                          </summary>
+                          <div>
+                            {props.steps[currentStepIndex].ganancias.map(
+                              (ganancia, index) => (
+                                <div key={index}>
+                                  <dl>
+                                    <dt>{ganancia[0]}: </dt>
+                                    <dd>{ganancia[1].toFixed(6)}</dd>
+                                  </dl>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </details>
+                      )}
+                      {props.steps[currentStepIndex].mejorAtributo ? (
+                        <div class="notification is-info is-light">
+                          El atributo que más reduce la impureza es{" "}
+                          <b>{props.steps[currentStepIndex].mejorAtributo}</b>
                         </div>
-                      </details>
-                      <div class="notification is-info is-light">
-                        El atributo que más reduce la impureza es{" "}
-                        <b>{props.steps[currentStepIndex].mejorAtributo}</b>
-                      </div>
+                      ) : (
+                        <div class="notification is-warning is-light">
+                          Se crea un nodo hoja con la clase{" "}
+                          <b>{props.steps[currentStepIndex].masFrecuente}</b>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
