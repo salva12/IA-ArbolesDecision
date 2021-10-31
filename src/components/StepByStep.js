@@ -108,7 +108,7 @@ const StepByStep = (props) => {
                         <summary>
                           Cálculos de{" "}
                           {props.impurityFunction === "gain"
-                            ? "ganacias"
+                            ? "ganancias"
                             : "tasa de ganancia"}
                         </summary>
                         <div>
