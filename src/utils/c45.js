@@ -1,85 +1,3 @@
-const mockdata2 = [
-  {
-    Hipertenso: "no",
-    Colesterol: "bajo",
-    Triglicéridos: "normal",
-    Edad: "<40",
-    Diabético: "si",
-    Problemascardíacos: "no",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "bajo",
-    Triglicéridos: "elevado",
-    Edad: "<40",
-    Diabético: "si",
-    Problemascardíacos: "no",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "bajo",
-    Triglicéridos: "elevado",
-    Edad: ">60",
-    Diabético: "si",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "medio",
-    Triglicéridos: "elevado",
-    Edad: ">60",
-    Diabético: "no",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "no",
-    Colesterol: "medio",
-    Triglicéridos: "elevado",
-    Edad: "<40",
-    Diabético: "no",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "no",
-    Colesterol: "medio",
-    Triglicéridos: "normal",
-    Edad: "entre 40-60",
-    Diabético: "si",
-    Problemascardíacos: "no",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "alto",
-    Triglicéridos: "normal",
-    Edad: "entre 40-60",
-    Diabético: "si",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "alto",
-    Triglicéridos: "normal",
-    Edad: "entre 40-60",
-    Diabético: "si",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "si",
-    Colesterol: "alto",
-    Triglicéridos: "elevado",
-    Edad: ">60",
-    Diabético: "no",
-    Problemascardíacos: "si",
-  },
-  {
-    Hipertenso: "no",
-    Colesterol: "alto",
-    Triglicéridos: "normal",
-    Edad: "<40",
-    Diabético: "no",
-    Problemascardíacos: "no",
-  },
-]
 
 // A CONTINUACIÓN SOLUCION GENERAL
 
@@ -209,6 +127,8 @@ const entropiaA = (dataset, atributo, clase) => {
       entA = entA + sumatoria1 * (denominador / dataset.length)
     }
   }
+  console.log("controlando entropias",atributo)
+  console.log(entA)
   return entA
 }
 
@@ -218,7 +138,7 @@ const entropiaA = (dataset, atributo, clase) => {
  * @param {Number} entropiaA
  * @returns the gain
  */
-const gain = (entropiaD, entropiaA) => entropiaD - entropiaA
+const gain = (entropiaD, entropiaA) => parseFloat(Number.parseFloat(entropiaD - entropiaA).toFixed(2))
 
 /**
  * Calculates the gain ratio of an attribute
@@ -235,8 +155,10 @@ const gainRatio = (gainA, dataset, atributo) => {
     denominador =
       (-c / dataset.length) * logBase(2, c / dataset.length) + denominador
   }
-  return gainA / denominador
+  // cuando una tasa de ganancia tiende a infinito hay que asignar un valor maximo
+  return denominador !== 0 ? gainA/denominador : 10000000000
 }
+//parseFloat(Number.parseFloat(gainA/denominador).toFixed(2))
 
 //particularizando la solucion y probando resultados --> ACA HAY QUE GENERALIZAR ASIGNANDO A DATASET OTRA LO QUE TOMEMOS DE LO INGRESADO POR EL USUARIO
 // dataset = mockdata
@@ -261,15 +183,6 @@ function c45gain(
   funcionImpureza,
   stepByStep = false
 ) {
-  if (stepByStep) {
-    stepByStep.push({
-      id: id_recursion,
-      tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
-      atributos: [...atributos],
-      particion: [...dataset],
-    })
-    id_recursion++
-  }
   if (valoresDistintos(clase, dataset).size === 1) {
     console.log("ya no hay mas valores distintos")
     id_nodes++
@@ -301,7 +214,8 @@ function c45gain(
     console.log(entD)
     let ganancias = []
     for (let atributo of atributos) {
-      ganancias.push(
+      ganancias.push([
+        atributo,
         funcionImpureza === "gain"
           ? gain(entD, entropiaA(dataset, atributo, clase))
           : gainRatio(
@@ -309,10 +223,14 @@ function c45gain(
               dataset,
               atributo
             )
+          ]
       )
     }
     console.log(ganancias)
-    const maxgain = Math.max.apply(null, ganancias)
+    console.log("cual es la maxima ganancia")
+    const gainValores = ganancias.map(g => g[1])
+    const maxgain = Math.max.apply(null,gainValores )
+    console.log(maxgain)
     if (maxgain < umbral) {
       console.log("nodo hoja")
 
@@ -331,7 +249,7 @@ function c45gain(
       }) //colocar nodos hojas
       return tree
     } else {
-      let ag = atributos[ganancias.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
+      let ag = atributos[gainValores.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
       console.log("el nodo que mas reduce impureza es:" + ag)
       const valdist = valoresDistintos(ag, dataset)
       console.log(valoresDistintos(ag, dataset))
@@ -350,7 +268,17 @@ function c45gain(
         console.log(particion)
         if (particion.length !== 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
-
+          if (stepByStep) {
+            stepByStep.push({
+              id: id_recursion,
+              tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
+              atributos: [...atributos],
+              particion: [...dataset],
+              ganancias: [...ganancias],
+              mejorAtributo: ag,
+            })
+            id_recursion++
+          }
           c45gain(
             particion,
             atributos.filter((a) => a !== ag),

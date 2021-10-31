@@ -17,7 +17,7 @@ const StepByStep = (props) => {
 
   const handleStepChange = (index) => {
     setCurrentStepIndex(index)
-    const offset = currentButtonRef.current[index].offsetTop - 80
+    const offset = currentButtonRef.current[index].offsetTop - 250
     scrollableRef.current.scrollTop = offset
     setKey(v4())
   }
@@ -31,18 +31,6 @@ const StepByStep = (props) => {
   return (
     props.steps.length > 0 && (
       <>
-        <div className="block center">
-          <button
-            onClick={() => handleNextStep()}
-            disabled={isNextStepDisabled}
-            className="button"
-          >
-            <span className="icon">
-              <ArrowRight width={16} height={16} />
-            </span>
-            <span>Siguiente recursión</span>
-          </button>
-        </div>
         <div
           style={{
             display: "flex",
@@ -53,54 +41,98 @@ const StepByStep = (props) => {
           }}
         >
           <div
-            className="card box"
-            ref={scrollableRef}
+            className="card"
             style={{
               width: "calc(50% - 8px)",
               maxHeight: "586px",
-              overflowY: "auto",
-              scrollBehavior: "smooth",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            {props.steps.map((step, index) => (
-              <div className="block">
-                <button
-                  ref={(el) => (currentButtonRef.current[index] = el)}
-                  className={
-                    `button is-fullwidth ` +
-                    (index === currentStepIndex ? "is-info is-outlined" : "")
-                  }
-                  key={step.id}
-                  onClick={() => handleStepChange(index)}
-                >
-                  Recursión {index + 1}
-                </button>
-                {index === currentStepIndex && (
-                  <div>
-                    <details>
-                      <summary>Atributos</summary>
-                      <code>
-                        {JSON.stringify(
-                          props.steps[currentStepIndex].atributos,
-                          null,
-                          2
-                        )}
-                      </code>
-                    </details>
-                    <details>
-                      <summary>Particiones</summary>
-                      <code>
-                        {JSON.stringify(
-                          props.steps[currentStepIndex].particion,
-                          null,
-                          2
-                        )}
-                      </code>
-                    </details>
-                  </div>
-                )}
-              </div>
-            ))}
+            <div className="center" style={{ padding: "1em 0" }}>
+              <button
+                onClick={() => handleNextStep()}
+                disabled={isNextStepDisabled}
+                className="button"
+              >
+                <span className="icon">
+                  <ArrowRight width={16} height={16} />
+                </span>
+                <span>Siguiente recursión</span>
+              </button>
+            </div>
+            <div
+              ref={scrollableRef}
+              style={{
+                overflowY: "auto",
+                scrollBehavior: "smooth",
+                padding: "0.8em 1em",
+              }}
+            >
+              {props.steps.map((step, index) => (
+                <div className="block">
+                  <button
+                    ref={(el) => (currentButtonRef.current[index] = el)}
+                    className={
+                      `button is-fullwidth ` +
+                      (index === currentStepIndex ? "is-info is-outlined has-text-weight-semibold" : "is-light")
+                    }
+                    key={step.id}
+                    onClick={() => handleStepChange(index)}
+                  >
+                    Recursión {index + 1}
+                  </button>
+                  {index === currentStepIndex && (
+                    <div>
+                      <details>
+                        <summary>Atributos</summary>
+                        <code>
+                          {JSON.stringify(
+                            props.steps[currentStepIndex].atributos,
+                            null,
+                            2
+                          )}
+                        </code>
+                      </details>
+                      <details>
+                        <summary>Particiones</summary>
+                        <code>
+                          {JSON.stringify(
+                            props.steps[currentStepIndex].particion,
+                            null,
+                            2
+                          )}
+                        </code>
+                      </details>
+                      <details>
+                        <summary>
+                          Cálculos de{" "}
+                          {props.impurityFunction === "gain"
+                            ? "ganacias"
+                            : "tasa de ganancia"}
+                        </summary>
+                        <div>
+                          {props.steps[currentStepIndex].ganancias.map(
+                            (ganancia, index) => (
+                              <div key={index}>
+                                <dl>
+                                  <dt>{ganancia[0]}: </dt>
+                                  <dd>{ganancia[1].toFixed(6)}</dd>
+                                </dl>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      </details>
+                      <div class="notification is-info is-light">
+                        El atributo que más reduce la impureza es{" "}
+                        <b>{props.steps[currentStepIndex].mejorAtributo}</b>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
           <TreeContainer impurityFunction={props.impurityFunction} wide={false}>
             <Tree

@@ -23,13 +23,28 @@ input[type="radio"] {
 }
 
 details {
-  margin: 6px 0;
+  margin: 8px 0;
 }
 summary {
   cursor: pointer;
 }
 
-.code {
+code {
   display: block;
   white-space: break-spaces;
+}
+
+dl {
+  display: block;
+  margin: 6px 0 !important;
+}
+
+dt,
+dd {
+  display: inline;
+}
+
+dt {
+  font-weight: bold;
+  line-height: 1.5;
 }

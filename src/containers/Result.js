@@ -66,6 +66,8 @@ const Results = ({ attributes, data }) => {
     // create an object where the tree will be stored
     const gainTree = { nodes: [], edges: [] };
     const gainRatioTree = { nodes: [], edges: [] }
+    const gainTreeStepByStep = { nodes: [], edges: [] }
+    const gainRatioTreeStepByStep = { nodes: [], edges: [] }
     // run the c4.5 algorithm and store the results in the state
     if (impurityFunction === "gain" || impurityFunction === "both") {
       c45gain(data, atributos, gainTree, clase, threshold, "gain");
@@ -76,16 +78,16 @@ const Results = ({ attributes, data }) => {
       setGainRatioResults(gainRatioTree);
     }
     if (impurityFunction === "gain" && expansion === "stepByStep") {
-      const steps = [];
-      c45gain(data, atributos, gainRatioTree, clase, threshold, "gain", steps);
-      setStepByStepResults(steps);
+      const steps = []
+      c45gain(data, atributos, gainTreeStepByStep, clase, threshold, "gain", steps)
+      setStepByStepResults(steps)
     }
     if (impurityFunction === "gainRatio" && expansion === "stepByStep") {
       const steps = [];
       c45gain(
         data,
         atributos,
-        gainRatioTree,
+        gainRatioTreeStepByStep,
         clase,
         threshold,
         "gainRatio",
@@ -157,6 +159,7 @@ const Results = ({ attributes, data }) => {
                 value="stepByStep"
                 checked={expansion === "stepByStep"}
                 onChange={onExpansionChange}
+                disabled={impurityFunction === "both"}
               />
               Paso a paso
             </label>
