@@ -1,7 +1,3 @@
-
-// A CONTINUACIÓN SOLUCION GENERAL
-
-//el siguiente bloque sirve para saber la cantidad de valores diferentes que puede tomar un atributo o clase
 /**
  * Counts the number of different values that an attribute could have
  * @param {*} attClase
@@ -16,7 +12,6 @@ const valoresDistintos = (attClase, dataset) => {
   return new Set(valores)
 }
 
-// la siguiente funcion devuelve el logaritmo en base x de num
 /**
  * Calculates the n-base logarithm of a number
  * @param {Number} base the base
@@ -97,7 +92,13 @@ const entropiaD = (dataset, clase) => {
   return entD
 }
 
-// funcion para calcular la entropia de un atributo respecto a D.
+/**
+ * Calculates the entropy of an attribute
+ * @param {Array} dataset the dataset
+ * @param {String} atributo the attribute name
+ * @param {String} clase 
+ * @returns the entropy
+ */
 const entropiaA = (dataset, atributo, clase) => {
   let valoresAtributo = valoresDistintos(atributo, dataset)
   let valoresClase = valoresDistintos(clase, dataset)
