@@ -195,6 +195,16 @@ function c45gain(
       label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
       group: "hojas",
     }) //colocar nodos hojas
+    if (stepByStep) {
+      stepByStep.push({
+        id: id_recursion,
+        tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
+        atributos: [...atributos],
+        particion: [...dataset],
+        masFrecuente: dataset[0][clase],
+      })
+      id_recursion++
+    }
     return tree
   } else if (atributos.length === 0) {
     console.log("ya no hay mas atributos")
@@ -248,6 +258,17 @@ function c45gain(
         label: `${masFrecuente}\n${numeradorConfianza}/${denominadorConfianza}`,
         group: "hojas",
       }) //colocar nodos hojas
+      if (stepByStep) {
+        stepByStep.push({
+          id: id_recursion,
+          tree: { nodes: [...tree.nodes], edges: [...tree.edges] },
+          atributos: [...atributos],
+          particion: [...dataset],
+          ganancias: [...ganancias],
+          masFrecuente: masFrecuente,
+        })
+        id_recursion++
+      }
       return tree
     } else {
       let ag = atributos[gainValores.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
