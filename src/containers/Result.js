@@ -1,74 +1,87 @@
-import React, { useState } from "react"
-import { v4 } from "uuid"
-import StepByStep from "../components/StepByStep.js"
-import Tree from "../components/Tree"
-import TreeContainer from "../components/TreeContainer"
-import c45gain from "../utils/c45"
-import { EMPTY_TREE } from "../utils/constants"
+import React, { useState } from 'react';
+import { v4 } from 'uuid';
+import StepByStep from '../components/StepByStep.js';
+import Tree from '../components/Tree';
+import TreeContainer from '../components/TreeContainer';
+import c45gain from '../utils/c45';
+import { EMPTY_TREE } from '../utils/constants';
 
 const Results = ({ attributes, data }) => {
-  const [impurityFunction, setImpurityFunction] = useState("gain")
-  const [expansion, setExpansion] = useState("complete")
-  const [threshold, setThreshold] = useState(0)
-  const [gainResults, setGainResults] = useState(EMPTY_TREE)
-  const [gainRatioResults, setGainRatioResults] = useState(EMPTY_TREE)
-  const [stepByStepResults, setStepByStepResults] = useState([])
-  const [key, setKey] = useState(v4())
+  // the impurity function (gain or gainRatio)
+  const [impurityFunction, setImpurityFunction] = useState('gain');
+  // the expansion method (compete or stepByStep)
+  const [expansion, setExpansion] = useState('complete');
+  // the threshold (from 0 to 1)
+  const [threshold, setThreshold] = useState(0);
+  // the results obtained using the gain
+  const [gainResults, setGainResults] = useState(EMPTY_TREE);
+  // the results obtained using the gain ratio
+  const [gainRatioResults, setGainRatioResults] = useState(EMPTY_TREE);
+  // the results used with step by step expansion
+  const [stepByStepResults, setStepByStepResults] = useState([]);
+  // the key used to avoid 'duplicated key id' errors with vis.js
+  const [key, setKey] = useState(v4());
 
+  // function for resetting the results
+  // i think that i don't need to add a comment for each line
   const emptyResults = () => {
-    setGainResults(EMPTY_TREE)
-    setGainRatioResults(EMPTY_TREE)
-    setStepByStepResults([])
-  }
+    setGainResults(EMPTY_TREE);
+    setGainRatioResults(EMPTY_TREE);
+    setStepByStepResults([]);
+  };
 
-  const onImpurityFunctionChange = (event) => {
-    setImpurityFunction(event.target.value)
-    emptyResults()
-  }
+  // function for changing the impurity function with the radio
+  const onImpurityFunctionChange = event => {
+    setImpurityFunction(event.target.value);
+    emptyResults();
+  };
 
-  const onExpansionChange = (event) => {
-    setExpansion(event.target.value)
-    emptyResults()
-  }
+  // function for changing the expansion with the radio
+  const onExpansionChange = event => {;
+    setExpansion(event.target.value);
+    emptyResults();
+  };
 
-  const onThresholdChange = (event) => {
-    const value = event.target.value
+  // function for changing the threshold with the input
+  const onThresholdChange = event => {
+    const value = event.target.value;
     // if the user enters a value that is greater than 1, store a 1
     // if the user enters a value that is lesser than 0, store a 0
     // because the threshold can't be outside this range
     if (value > 1) {
-      setThreshold(1)
+      setThreshold(1);
     } else if (value < 0) {
-      setThreshold(0)
+      setThreshold(0);
     } else {
-      setThreshold(value)
+      setThreshold(value);
     }
-  }
+  };
 
+  // function for running the c4.5 algorithm
   const onRun = () => {
     // extract the labels of each attribute
-    const atributos = attributes.map((a) => a.label)
+    const atributos = attributes.map(a => a.label);
     // remove the class (i.e the last attribute) from the attributes array, and store it in another const
-    const clase = atributos.pop()
+    const clase = atributos.pop();
     // create an object where the tree will be stored
-    const gainTree = { nodes: [], edges: [] }
+    const gainTree = { nodes: [], edges: [] };
     const gainRatioTree = { nodes: [], edges: [] }
     // run the c4.5 algorithm and store the results in the state
     if (impurityFunction === "gain" || impurityFunction === "both") {
-      c45gain(data, atributos, gainTree, clase, threshold, "gain")
-      setGainResults(gainTree)
+      c45gain(data, atributos, gainTree, clase, threshold, "gain");
+      setGainResults(gainTree);
     }
     if (impurityFunction === "gainRatio" || impurityFunction === "both") {
-      c45gain(data, atributos, gainRatioTree, clase, threshold, "gainRatio")
-      setGainRatioResults(gainRatioTree)
+      c45gain(data, atributos, gainRatioTree, clase, threshold, "gainRatio");
+      setGainRatioResults(gainRatioTree);
     }
     if (impurityFunction === "gain" && expansion === "stepByStep") {
-      const steps = []
-      c45gain(data, atributos, gainRatioTree, clase, threshold, "gain", steps)
-      setStepByStepResults(steps)
+      const steps = [];
+      c45gain(data, atributos, gainRatioTree, clase, threshold, "gain", steps);
+      setStepByStepResults(steps);
     }
     if (impurityFunction === "gainRatio" && expansion === "stepByStep") {
-      const steps = []
+      const steps = [];
       c45gain(
         data,
         atributos,
@@ -77,12 +90,12 @@ const Results = ({ attributes, data }) => {
         threshold,
         "gainRatio",
         steps
-      )
-      setStepByStepResults(steps)
+      );
+      setStepByStepResults(steps);
     }
     // generate a new key to avoid duplicated id errors in vis.js
     // see https://github.com/crubier/react-graph-vis/issues/92
-    setKey(v4())
+    setKey(v4());
   }
 
   return (
@@ -206,7 +219,7 @@ const Results = ({ attributes, data }) => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Results
+export default Results;
