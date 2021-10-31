@@ -2,27 +2,38 @@ import React from "react"
 import { ReactComponent as Plus } from "../assets/plus-solid.svg"
 
 const Data = ({ attributes, data, setData }) => {
+  // function for adding a new data example
   const onAddRow = () => {
-    const newRow = {}
+    // create an empty object
+    const newRow = {};
+    // for each attribute, create an empty field in the new row
     attributes.forEach((attr) => {
-      newRow[attr.label] = ""
-    })
-    setData([...data, newRow])
-  }
+      newRow[attr.label] = '';
+    });
+    // update the data state
+    setData([...data, newRow]);
+  };
 
+  // function for editing a data example
   const onEditRow = (value, index, attribute) => {
-    const newData = [...data]
+    // spread the data array to avoid mutating props
+    const newData = [...data];
+    // replace the target row with a copy with the updated value
     newData.splice(index, 1, {
       ...data[index],
-      [attribute]: value,
-    })
-    setData(newData)
-  }
+      [attribute]: value
+    });
+    // update the data state
+    setData(newData);
+  };
 
-  const onDeleteRow = (index) => {
-    const newData = data.filter((_d, idx) => idx !== index)
-    setData(newData)
-  }
+  // function for deleting a data example
+  const onDeleteRow = index => {
+    // filter the data array excluding the row to be deleted
+    const newData = data.filter((_d, idx) => idx !== index);
+    // update the data array
+    setData(newData);
+  };
 
   return (
     <div>
@@ -99,7 +110,7 @@ const Data = ({ attributes, data, setData }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Data
+export default Data;
