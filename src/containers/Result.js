@@ -7,47 +7,47 @@ import c45gain from '../utils/c45';
 import { EMPTY_TREE } from '../utils/constants';
 
 const Results = ({ attributes, data }) => {
-  // the impurity function (gain or gainRatio)
+  // la funcion de impureza (gain o gainRatio, ganancia o tasa de ganancia)
   const [impurityFunction, setImpurityFunction] = useState('gain');
-  // the expansion method (compete or stepByStep)
+  // el metodo de expansion (complete o stepByStep, completo o paso a paso)
   const [expansion, setExpansion] = useState('complete');
-  // the threshold (from 0 to 1)
+  // el umbral (de 0 a 1)
   const [threshold, setThreshold] = useState(0);
-  // the results obtained using the gain
+  // los resultados obtenidos usando la ganancia
   const [gainResults, setGainResults] = useState(EMPTY_TREE);
-  // the results obtained using the gain ratio
+  // los resultados obtenidos usando la tasa de ganancia
   const [gainRatioResults, setGainRatioResults] = useState(EMPTY_TREE);
-  // the results used with step by step expansion
+  // los resultados obtenidos usando expansion paso a paso
   const [stepByStepResults, setStepByStepResults] = useState([]);
-  // the key used to avoid 'duplicated key id' errors with vis.js
+  // la key usada para evitar los errores 'duplicated key' en vis.js
   const [key, setKey] = useState(v4());
 
-  // function for resetting the results
-  // i think that i don't need to add a comment for each line
+  // funcion para resetear los resultados
+  // aca no creo que tenga que agregar un comentario por cada linea
   const emptyResults = () => {
     setGainResults(EMPTY_TREE);
     setGainRatioResults(EMPTY_TREE);
     setStepByStepResults([]);
   };
 
-  // function for changing the impurity function with the radio
+  // funcion para cambiar la funcion de impureza con el radio button
   const onImpurityFunctionChange = event => {
     setImpurityFunction(event.target.value);
     emptyResults();
   };
 
-  // function for changing the expansion with the radio
+  // funcion para cambiar el metodo de expansion con el radio button
   const onExpansionChange = event => {;
     setExpansion(event.target.value);
     emptyResults();
   };
 
-  // function for changing the threshold with the input
+  // funcion para cambiar el umbral con el input
   const onThresholdChange = event => {
     const value = event.target.value;
-    // if the user enters a value that is greater than 1, store a 1
-    // if the user enters a value that is lesser than 0, store a 0
-    // because the threshold can't be outside this range
+    // si el usuario mete un valor > 1, guardar un 1
+    // si el usuario mete un valor < 0, guardar un 0
+    // porque el umbral no puede estar fuera de ese rango
     if (value > 1) {
       setThreshold(1);
     } else if (value < 0) {
@@ -57,18 +57,18 @@ const Results = ({ attributes, data }) => {
     }
   };
 
-  // function for running the c4.5 algorithm
+  // funcion para ejecutar el algoritmo c4.5
   const onRun = () => {
-    // extract the labels of each attribute
+    // extraer los labels de cada atributo
     const atributos = attributes.map(a => a.label);
-    // remove the class (i.e the last attribute) from the attributes array, and store it in another const
+    // sacar la clase (el ultimo atributo) del array de atributos, y guardarla en otra constante
     const clase = atributos.pop();
-    // create an object where the tree will be stored
+    // crear objetos donde se van a almacenar los arboles
     const gainTree = { nodes: [], edges: [] };
     const gainRatioTree = { nodes: [], edges: [] };
     const gainTreeStepByStep = { nodes: [], edges: [] };
     const gainRatioTreeStepByStep = { nodes: [], edges: [] };
-    // run the c4.5 algorithm and store the results in the state
+    // ejecutar el algoritmo y guardar los resultados en el estado
     if (impurityFunction === "gain" || impurityFunction === "both") {
       c45gain(data, atributos, gainTree, clase, threshold, "gain");
       setGainResults(gainTree);
@@ -95,8 +95,8 @@ const Results = ({ attributes, data }) => {
       );
       setStepByStepResults(steps);
     }
-    // generate a new key to avoid duplicated id errors in vis.js
-    // see https://github.com/crubier/react-graph-vis/issues/92
+    // generar una nueva key para evitar errores de id duplicados en vis.js
+    // ver https://github.com/crubier/react-graph-vis/issues/92
     setKey(v4());
   }
 

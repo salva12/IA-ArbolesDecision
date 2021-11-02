@@ -2,23 +2,23 @@ import React from "react"
 import { ReactComponent as Plus } from "../assets/plus-solid.svg"
 
 const Data = ({ attributes, data, setData }) => {
-  // function for adding a new data example
+  // funcion para agregar un nuevo dato
   const onAddRow = () => {
-    // create an empty object
+    // crear un objeto vacio
     const newRow = {};
-    // for each attribute, create an empty field in the new row
+    // para cada atributo, crear un campo vacio en el nuevo objeto
     attributes.forEach((attr) => {
       newRow[attr.label] = '';
     });
-    // update the data state
+    // actualizar el estado de datos
     setData([...data, newRow]);
   };
 
-  // function for editing a data example
+  // funcion para editar un dato
   const onEditRow = (value, index, attribute) => {
-    // spread the data array to avoid mutating props
+    // hacer un spread del array de datos para no mutar un prop
     const newData = [...data];
-    // replace the target row with a copy with the updated value
+    // reemplazar el dato objetivo con una copia suya con el nuevo valor
     newData.splice(index, 1, {
       ...data[index],
       [attribute]: value
@@ -27,11 +27,11 @@ const Data = ({ attributes, data, setData }) => {
     setData(newData);
   };
 
-  // function for deleting a data example
+  // funcion para eliminar un dato
   const onDeleteRow = index => {
-    // filter the data array excluding the row to be deleted
+    // filtrar el array de datos excluyendo el dato a eliminar
     const newData = data.filter((_d, idx) => idx !== index);
-    // update the data array
+    // actualizar el array de datos
     setData(newData);
   };
 

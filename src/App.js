@@ -11,65 +11,66 @@ import ReactTooltip from "react-tooltip";
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from "./utils/constants";
 
 const App = () => {
-  // the current tab you are looking
+  // la pestaña actual
   const [tabIndex, setTabIndex] = useState(0);
-  // the attributes set
+  // el conjunto de atributos
   const [attributes, setAttributes] = useState([]);
-  // the data examples set
+  // el conjunto de datos
   const [data, setData] = useState([]);
-  // the file you can upload
+  // el archivo que podes cargar
   const [file, setFile] = useState(null);
 
-  // since the attributes are dynamically rendered,
-  // we need to rebuild the tooltips when the attributes array changes
+  // como los atributos se renderizan dinamicamente,
+  // hay que hacer un rebuild de los tooltip cada vez que cambia el array de atributos
   useEffect(() => {
     ReactTooltip.rebuild();
   }, [attributes, data])
 
-  // effect to scroll to the top of da page when clicking on prev/next
+  // effect para ir al principio de la pagina al hacer clic en anteror/siguiente
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [tabIndex]);
 
-  // function for going to the previous page
+  // funcion para ir a la pagina anterior
   const onPrevious = () => {
     if (tabIndex > 0) {
       setTabIndex(tabIndex - 1);
     }
   };
 
-  // function for going to the next page
+  // funcion para ir a la pagina siguiente
   const onNext = () => {
     if (tabIndex < 2) {
       setTabIndex(tabIndex + 1);
     }
   };
 
+  // funcion para cargar un archivo
   const onFileChange = async event => {
-    // get the file from the event
+    // sacar el archivo del evento
     const file = event.target.files[0];
     if (file) {
-      // convert it to string, split it into an array of lines, and split each line into an array of fields
-      // in windows, there are carriage return chars at the end of the lines
-      // so i remove them with replace
+      // convertirlo a string, separarlo en un array de lineas, y separar cada linea en un array de celdas
+      // en windows, hay caracteres carriage return al final de cada linea
+      // por lo que las elimino con replaceAll
       const parsedFile = (await file.text())
-        .replaceAll(/\r/g, '') // remove the CR chars
-        .replaceAll(/;\s/g, ',') // replace semicolons with commas (like a normal csv)
-        .split('\n') // split into an array of lines
-        .map(line => line.split(',')); // split each line into arrays of cells
-      // separate the attributes (1st element) and data (the rest) into two constants
+        .replaceAll(/\r/g, '') // eliminar los CR
+        .replaceAll(/;\s/g, ',') // reemplazar los punto y coma con comas (como un csv de toda la vida)
+        .split('\n') // separar en un array de lineas
+        .map(line => line.split(',')); // separar cada linea en un array de celdas
+      // separar los atributos (1er elemento) y los datos (todo lo demas) en dos constantes
       const [importedAttributes, ...importedData] = parsedFile;
-      // store the attributes in the state
+      // guardar los atributos en el estado
       setAttributes(importedAttributes.map((attr, idx) => ({
         label: attr.trim(),
-        // here i'm doing this:
-        //// filtering empty values
-        //// extracting each value with map
-        //// creating a set with this (to remove duplicates)
-        //// and spreading the set to turn it back into an array
+        // aca estoy haciendo esto
+        //// filtrar valores vacios
+        //// extraer cada valor con map
+        //// crear un set con eso (para eliminar duplicados)
+        //// y hacer spread del set para convertirlo de vuelta en array
         values: [...new Set(importedData.filter(d => d[idx]).map(d => d[idx].trim()))]
       })));
-      // store the data in the state, filtering the empty rows
+      // guardar los datos en el estado, filtrando columnas vacias
       setData(importedData.filter(d => d.length === 1 ? d[0] !== '' : true).map(d => {
         const row = {};
         importedAttributes.forEach((attr, idx) => {
@@ -77,23 +78,23 @@ const App = () => {
         });
         return row;
       }));
-      // store the file in the state for its name
+      // guardar el archivo en el estado para conservar su nombre
       setFile(file);
     }
   };
 
-  // check if the attributes set is empty
+  // controla si el conjunto de atributos esta vacio
   const isAttributesEmpty = attributes.length === 0;
-  // check if there is an attribute without name
+  // controla si hay un atributo sin nombre
   const areThereAttributesWithoutName = attributes.find(a => !a.label);
-  // check if there is an attribute with empty values
+  // controla si hay un atributo con valores vacios
   const areThereAttributesWithEmptyValues = attributes.find(
     a => a.values.find(v => !v) === ''
   );
 
-  // check if the data set is empty
+  // controla si el conjunto de datos esta vacio
   const isDataEmpty = data.length === 0;
-  // check if there is a data row with all of its values empty
+  // controla si hay un dato con todos sus valores vacios
   const isADataUndefined = data.find(d => {
     let isEmpty = true;
     Object.keys(d).forEach(key => {
@@ -103,13 +104,13 @@ const App = () => {
     });
     return isEmpty;
   });
-  // check if there is a data row with an empty class value
+  // controla si hay un dato con el valor de clase vacio
   const isThereADataWithoutClass = data.find(d => {
     const className = attributes[attributes.length - 1].label;
     return d[className] === '';
   });
 
-  // check if the next button should be disabled
+  // controla si el boton siguiente tiene que estar deshabilitado
   const isNextDisabled =
     (tabIndex === 0 &&
       (isAttributesEmpty ||
@@ -118,7 +119,7 @@ const App = () => {
     (tabIndex === 1 && (isDataEmpty || isADataUndefined || isThereADataWithoutClass)) ||
     tabIndex === 2;
 
-  // the tooltip text for the next button
+  // el texto del tooltip del boton siguiente
   const nextTooltip = tabIndex === 0
     ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío')
       || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre')

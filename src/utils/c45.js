@@ -1,8 +1,8 @@
 /**
- * Counts the number of different values that an attribute could have
- * @param {*} attClase
- * @param {*} dataset
- * @returns
+ * Cuenta el numero de atributos diferentes que puede tener un atributo o clase
+ * @param {*} attClase el atributo/clase
+ * @param {*} dataset el dataset
+ * @returns el numero de valores distintos del atributo o clase
  */
 const valoresDistintos = (attClase, dataset) => {
   let valores = []
@@ -13,19 +13,19 @@ const valoresDistintos = (attClase, dataset) => {
 }
 
 /**
- * Calculates the n-base logarithm of a number
- * @param {Number} base the base
- * @param {Number} num the number
- * @returns the `base`-base logarithm of `num`
+ * Calcula el logaritmo base n de un numero
+ * @param {Number} base la base
+ * @param {Number} num el numero
+ * @returns el logaritmo en base `base` de `num`
  */
 const logBase = (base, num) => Math.log(num) / Math.log(base)
 
 /**
- * Counts how many times an attribute value appears in the dataset
- * @param {String} valor the value you want to count
- * @param {Array} dataset the dataset
- * @param {String} attClase the attribute (or class) where the value belongs
- * @returns the number of occurrences of the value
+ * Cuenta cuanteas veces aparece un valor de un atributo en el dataset
+ * @param {String} valor el valor que queres contar
+ * @param {Array} dataset el dataset
+ * @param {String} attClase el atributo (o clase) al que pertenece el valor
+ * @returns el numero de ocurrencias del valor
  */
 const contarValores = (valor, dataset, attClase) => {
   let cont = 0
@@ -38,13 +38,13 @@ const contarValores = (valor, dataset, attClase) => {
 }
 
 /**
- * Counts the number of data examples which have a specific attribute and class value
- * @param {String} valorAtt the attribute value
- * @param {String} valorClase the class value
- * @param {Array} dataset the dataset
- * @param {String} atributo the name of the attribute
- * @param {String} clase the name of the class
- * @returns the number of data examples with `valorAtt` value for `atributo` attribute and `valorClase` value for `clase`
+ * Cuenta el numero de datos que tienen un valor especifico de un atributo y de la clase
+ * @param {String} valorAtt el valor del atributo
+ * @param {String} valorClase el valor de la clase
+ * @param {Array} dataset el dataset
+ * @param {String} atributo el nombre del atributo
+ * @param {String} clase el nombre de la clase
+ * @returns el numero de datos con valor `valorAtt` de `atributo` y valor `valorClase` de `clase`
  */
 const contarValores2 = (valorAtt, valorClase, dataset, atributo, clase) => {
   let cont = 0
@@ -57,10 +57,10 @@ const contarValores2 = (valorAtt, valorClase, dataset, atributo, clase) => {
 }
 
 /**
- * Gets the most frequent class value in the dataset
- * @param {Array} dataset the dataset
- * @param {String} clase the name of the class
- * @returns the most frequent class value
+ * Obtiene el valor de clase mas frecuente en el dataset
+ * @param {Array} dataset el dataset
+ * @param {String} clase el nombre de la clase
+ * @returns el valor de clase mas frecuente
  */
 const valorClaseMasFrecuente = (dataset, clase) => {
   const valoresClase = valoresDistintos(clase, dataset)
@@ -75,10 +75,10 @@ const valorClaseMasFrecuente = (dataset, clase) => {
 }
 
 /**
- * Calculates the entropy of the whole dataset
- * @param {Array} dataset the dataset
- * @param {String} clase the name of the class
- * @returns the entropy of the dataset
+ * Calcula la entropia de todo el dataset
+ * @param {Array} dataset el dataset
+ * @param {String} clase el nombre de la clase
+ * @returns la entropia del datset
  */
 const entropiaD = (dataset, clase) => {
   const valoresClase = valoresDistintos(clase, dataset)
@@ -93,11 +93,11 @@ const entropiaD = (dataset, clase) => {
 }
 
 /**
- * Calculates the entropy of an attribute
- * @param {Array} dataset the dataset
- * @param {String} atributo the attribute name
- * @param {String} clase 
- * @returns the entropy
+ * Calcula la entropia de un atributo
+ * @param {Array} dataset el dataset
+ * @param {String} atributo el nombre del atributo
+ * @param {String} clase el nombre de la clase
+ * @returns la entropia respecto de ese atributo
  */
 const entropiaA = (dataset, atributo, clase) => {
   let valoresAtributo = valoresDistintos(atributo, dataset)
@@ -115,12 +115,12 @@ const entropiaA = (dataset, atributo, clase) => {
         clase
       )
       if (numerador !== 0 && denominador !== 0) {
-        //este control es porque no se calcula el log de 0, da math error, ni mucho menos de infinito
+        // este control es porque no se puede calcular el log de 0
         sumatoria1 =
           -(numerador / denominador) * logBase(2, numerador / denominador) +
           sumatoria1
       } else if (denominador === 0) {
-        //cuando el denominador es 0, no hay registros de un determinado valor de un atributo disponibles en el dataset actual, entonces la entropia es 0
+        // cuando el denominador es 0, no hay registros de un determinado valor de un atributo disponibles en el dataset actual, entonces la entropia es 0
         sumatoria1 = sumatoria1 + 0
       }
     }
@@ -134,19 +134,19 @@ const entropiaA = (dataset, atributo, clase) => {
 }
 
 /**
- * Calculates the gain of an attribute
- * @param {Number} entropiaD the entropy of the dataset
+ * Calcula la ganancia de un atributo
+ * @param {Number} entropiaD la entropia del dataset
  * @param {Number} entropiaA
- * @returns the gain
+ * @returns la ganancia
  */
 const gain = (entropiaD, entropiaA) => parseFloat(Number.parseFloat(entropiaD - entropiaA).toFixed(2))
 
 /**
- * Calculates the gain ratio of an attribute
- * @param {Number} gainA the gain of the attribute
- * @param {Array} dataset the dataset
- * @param {String} atributo the attribute
- * @returns the gain ratio
+ * Calcula la tasa de ganancia de un atributo
+ * @param {Number} gainA la ganancia del atributo
+ * @param {Array} dataset el dataset
+ * @param {String} atributo el atributo
+ * @returns la tasa de ganancia
  */
 const gainRatio = (gainA, dataset, atributo) => {
   const valoresAtributo = valoresDistintos(atributo, dataset)
