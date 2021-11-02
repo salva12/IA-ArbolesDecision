@@ -60,7 +60,7 @@ const StepByStep = (props) => {
                 <span className="icon">
                   <ArrowRight width={16} height={16} />
                 </span>
-                <span>Siguiente recursión</span>
+                <span>Siguiente paso</span>
               </button>
             </div>
             <div
@@ -86,7 +86,7 @@ const StepByStep = (props) => {
                     key={step.id}
                     onClick={() => handleStepChange(index)}
                   >
-                    Recursión {index + 1}
+                    Paso {index + 1}
                   </button>
                   {index === currentStepIndex && (
                     <div>
