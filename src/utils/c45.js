@@ -21,7 +21,7 @@ const valoresDistintos = (attClase, dataset) => {
 const logBase = (base, num) => Math.log(num) / Math.log(base)
 
 /**
- * Cuenta cuanteas veces aparece un valor de un atributo en el dataset
+ * Cuenta cuantas veces aparece un valor de un atributo en el dataset
  * @param {String} valor el valor que queres contar
  * @param {Array} dataset el dataset
  * @param {String} attClase el atributo (o clase) al que pertenece el valor
@@ -128,8 +128,6 @@ const entropiaA = (dataset, atributo, clase) => {
       entA = entA + sumatoria1 * (denominador / dataset.length)
     }
   }
-  console.log("controlando entropias",atributo)
-  console.log(entA)
   return entA
 }
 
@@ -139,7 +137,7 @@ const entropiaA = (dataset, atributo, clase) => {
  * @param {Number} entropiaA
  * @returns la ganancia
  */
-const gain = (entropiaD, entropiaA) => parseFloat(Number.parseFloat(entropiaD - entropiaA).toFixed(2))
+const gain = (entropiaD, entropiaA) => parseFloat(Number.parseFloat(entropiaD - entropiaA).toFixed(2)) //truncar y convertir a coma flotante
 
 /**
  * Calcula la tasa de ganancia de un atributo
@@ -159,22 +157,22 @@ const gainRatio = (gainA, dataset, atributo) => {
   // cuando una tasa de ganancia tiende a infinito hay que asignar un valor maximo
   return denominador !== 0 ? gainA/denominador : 10000000000
 }
-//parseFloat(Number.parseFloat(gainA/denominador).toFixed(2))
 
-//particularizando la solucion y probando resultados --> ACA HAY QUE GENERALIZAR ASIGNANDO A DATASET OTRA LO QUE TOMEMOS DE LO INGRESADO POR EL USUARIO
-// dataset = mockdata
-
-// //el siguiente bloque sirve para saber cuales son los atributos y cual es la clase para decidir.
-// const atributos = Object.keys(dataset[0])
-// const clase = atributos.pop()
-// console.log("los atts son " + atributos + "y la clase es:" + clase)
-
-// C45 algoritmo recursivo, antes de arrancar, y que es utilizable en todas las recursiones es importante saber la clase
-//y naturalmente para la primer llamada al algoritmo los atributos
-//const tree = { nodes: [], edges: [] }
-
+//sirve para colocar los id's de cada paso y nodos a la estructura de datos del árbol a graficar
 let id_recursion = 0
 let id_nodes = 0
+
+/**
+ * Funcion basada en el algoritmo recursivo de arboles de decisión c45 de Quinlan 
+ * @param {Array} dataset 
+ * @param {Array} atributos 
+ * @param {Object} tree 
+ * @param {String} clase 
+ * @param {Number} umbral 
+ * @param {String} funcionImpureza 
+ * @param {Boolean} stepByStep 
+ * @returns 
+ */
 function c45gain(
   dataset,
   atributos,
@@ -184,17 +182,19 @@ function c45gain(
   funcionImpureza,
   stepByStep = false
 ) {
-  if (valoresDistintos(clase, dataset).size === 1) {
-    console.log("ya no hay mas valores distintos")
+  //primer caso base cuando todos los valores de la clase son iguales
+  if (valoresDistintos(clase, dataset).size === 1) { 
     id_nodes++
     if (tree.edges.length !== 0) {
       tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
     }
+    //colocar nodos hojas
     tree.nodes.push({
       id: id_nodes + dataset[0][clase],
       label: `${dataset[0][clase]}\n${dataset.length}/${dataset.length}`,
       group: "hojas",
-    }) //colocar nodos hojas
+    }) 
+    //para mostrar el paso a paso
     if (stepByStep) {
       stepByStep.push({
         id: id_recursion,
@@ -204,14 +204,12 @@ function c45gain(
         masFrecuente: dataset[0][clase],
       })
       id_recursion++
-    }
+    } 
     return tree
-  } else if (atributos.length === 0) {
-    console.log("ya no hay mas atributos")
-
+  } else if (atributos.length === 0) { //segundo caso base cuando no hay mas atributos para analizar, se coloca un nodo hoja rotulado con la clase mas frecuente
     const masFrecuente = valorClaseMasFrecuente(dataset, clase)
 
-    // acá se saca el valor de clase mas frecuente
+    // obtenemos el valor de clase mas frecuente
     id_nodes++
     tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
     tree.nodes.push({
@@ -220,10 +218,10 @@ function c45gain(
     })
     return tree
   } else {
-    console.log("entro al else")
+    //calculamos la entropia del dataset en un momento dado 
     let entD = entropiaD(dataset, clase)
-    console.log(entD)
     let ganancias = []
+    //calculamos las entropias para cada atributo y luego sus respectivas ganancias/tasa de ganancias segun selección del usuario
     for (let atributo of atributos) {
       ganancias.push([
         atributo,
@@ -237,27 +235,24 @@ function c45gain(
           ]
       )
     }
-    console.log(ganancias)
-    console.log("cual es la maxima ganancia")
+
     const gainValores = ganancias.map(g => g[1])
     const maxgain = Math.max.apply(null,gainValores )
-    console.log(maxgain)
+    //control del threshold para no seguir con las recursiones de forma innecesaria
     if (maxgain < umbral) {
-      console.log("nodo hoja")
-
       const masFrecuente = valorClaseMasFrecuente(dataset, clase)
-
       id_nodes++
       if (tree.edges.length !== 0) {
         tree.edges[tree.edges.length - 1].to = id_nodes + dataset[0][clase]
       }
       const numeradorConfianza = contarValores(masFrecuente, dataset, clase)
       const denominadorConfianza = dataset.length - numeradorConfianza
+      //colocar nodos hojas
       tree.nodes.push({
         id: id_nodes + dataset[0][clase],
         label: `${masFrecuente}\n${numeradorConfianza}/${denominadorConfianza}`,
         group: "hojas",
-      }) //colocar nodos hojas
+      }) 
       if (stepByStep) {
         stepByStep.push({
           id: id_recursion,
@@ -271,10 +266,9 @@ function c45gain(
       }
       return tree
     } else {
-      let ag = atributos[gainValores.indexOf(maxgain)] // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
-      console.log("el nodo que mas reduce impureza es:" + ag)
+      // estoy seleccionando al nodo que mejor clasifica o reduce mas la impureza
+      let ag = atributos[gainValores.indexOf(maxgain)] 
       const valdist = valoresDistintos(ag, dataset)
-      console.log(valoresDistintos(ag, dataset))
       const particiones = []
       for (let valor of valdist) {
         const particion = dataset.filter((reg) => reg[ag] === valor)
@@ -286,8 +280,8 @@ function c45gain(
       if (tree.edges.length > 0) {
         tree.edges[tree.edges.length - 1].to = idpadre
       }
+      //genera las particiones segun la clase por cada valor posible que tome
       for (let particion of particiones) {
-        console.log(particion)
         if (particion.length !== 0) {
           tree.edges.push({ from: idpadre, label: particion[0][ag] })
           if (stepByStep) {
@@ -301,6 +295,7 @@ function c45gain(
             })
             id_recursion++
           }
+          //llamada recursiva
           c45gain(
             particion,
             atributos.filter((a) => a !== ag),
