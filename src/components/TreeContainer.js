@@ -4,7 +4,7 @@ const TreeContainer = props => {
   return (
     <div
       className="card box"
-      style={{ maxWidth: props.wide ? '75%' : 'calc(50% - 8px)' }}
+      style={{ width: props.wide ? '100%' : 'calc(50% - 8px)' }}
     >
       <h5 className="title is-5" style={{ textAlign: 'center' }}>
         {props.impurityFunction === 'gain'
