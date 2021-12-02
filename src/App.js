@@ -45,6 +45,12 @@ const App = () => {
     }
   };
 
+  // funcion para ir a una pagina especifica
+  // se usa en la barra de navegacion
+  const goToPage = page => {
+    setTabIndex(page);
+  }
+
   // funcion para cargar un archivo
   const onFileChange = async event => {
     // sacar el archivo del evento
@@ -110,13 +116,13 @@ const App = () => {
     return d[className] === '';
   });
 
+  // controla si se puede acceder a cada una de las secciones
+  const isDataDisabled = isAttributesEmpty || areThereAttributesWithoutName || areThereAttributesWithEmptyValues;
+  const isResultsDisabled = isDataEmpty || isADataUndefined || isThereADataWithoutClass;
   // controla si el boton siguiente tiene que estar deshabilitado
   const isNextDisabled =
-    (tabIndex === 0 &&
-      (isAttributesEmpty ||
-        areThereAttributesWithoutName ||
-        areThereAttributesWithEmptyValues)) ||
-    (tabIndex === 1 && (isDataEmpty || isADataUndefined || isThereADataWithoutClass)) ||
+    (tabIndex === 0 && isDataDisabled) ||
+    (tabIndex === 1 && isResultsDisabled) ||
     tabIndex === 2;
 
   // el texto del tooltip del boton siguiente
@@ -148,6 +154,23 @@ const App = () => {
           minHeight: `calc(100% - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`
         }}
       >
+        <div className="field has-addons">
+          <p className="control">
+            <button className="button" onClick={() => goToPage(0)}>
+              Atributos
+            </button>
+          </p>
+          <p className="control">
+            <button className="button" disabled={isDataDisabled} onClick={() => goToPage(1)}>
+              Conjunto de Datos
+            </button>
+          </p>
+          <p className="control">
+            <button className="button" disabled={isResultsDisabled} onClick={() => goToPage(2)}>
+              Resultados
+            </button>
+          </p>
+        </div>
         {tabIndex === 0 && (
           <Attributes
             attributes={attributes}
