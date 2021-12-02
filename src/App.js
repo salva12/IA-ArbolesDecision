@@ -24,7 +24,7 @@ const App = () => {
   // hay que hacer un rebuild de los tooltip cada vez que cambia el array de atributos
   useEffect(() => {
     ReactTooltip.rebuild();
-  }, [attributes, data])
+  }, [attributes, data, tabIndex])
 
   // effect para ir al principio de la pagina al hacer clic en anteror/siguiente
   useEffect(() => {
