@@ -191,6 +191,8 @@ const Results = ({ attributes, data }) => {
             impurityFunction === "both" ? "space-between" : "center",
           alignItems: "flex-start",
           marginTop: "20px",
+          width: '90vw', // una solucion "quick and dirty" para hacer mas ancho el area del arbol
+          transform: 'translateX(-220px)' // porque no tengo ganas de romper todo el layout por un solo div
         }}
       >
         {expansion === "complete" && (
