@@ -125,18 +125,23 @@ const App = () => {
     (tabIndex === 1 && isResultsDisabled) ||
     tabIndex === 2;
 
-  // el texto del tooltip del boton siguiente
-  const nextTooltip = tabIndex === 0
-    ? (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío')
+  // el texto de los tooltip de la barra de navegacion
+  const dataTooltip =
+    (isAttributesEmpty && 'El conjunto de atributos no puede estar vacío')
       || (areThereAttributesWithoutName && 'No puede haber atributos sin nombre')
         || (areThereAttributesWithEmptyValues && 'No puede haber atributos con valores vacíos')
-          || ''
-    : tabIndex === 1
-    ? (isDataEmpty && 'El conjunto de datos no puede estar vacío')
+          || '';
+  const resultsTooltip =
+    (isDataEmpty && 'El conjunto de datos no puede estar vacío')
       || (isADataUndefined && 'No puede haber filas de datos sin ningún valor')
         || (isThereADataWithoutClass && 'No puede haber filas de datos con un valor de clase vacío')
-          || ''
-    : '';
+          || '';
+  // el texto del tooltip del boton siguiente
+  const nextTooltip = tabIndex === 0
+    ? dataTooltip
+    : tabIndex === 1
+      ? resultsTooltip
+      : '';
 
   return (
     <div style={{ height: '100%', minHeight: '100%' }}>
@@ -160,12 +165,12 @@ const App = () => {
               Atributos
             </button>
           </p>
-          <p className="control">
+          <p className="control" data-tip={dataTooltip}>
             <button className="button" disabled={isDataDisabled} onClick={() => goToPage(1)}>
               Conjunto de Datos
             </button>
           </p>
-          <p className="control">
+          <p className="control" data-tip={resultsTooltip}>
             <button className="button" disabled={isResultsDisabled} onClick={() => goToPage(2)}>
               Resultados
             </button>
