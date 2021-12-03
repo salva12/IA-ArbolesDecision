@@ -127,3 +127,5 @@ console.log(
     "Problemas cardíacos": "no",
   })
 ) //si
+
+export default classify;
