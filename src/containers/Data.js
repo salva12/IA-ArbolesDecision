@@ -46,6 +46,7 @@ const Data = ({ attributes, data, setData }) => {
           onEditRow={onEditRow}
           onDeleteRow={onDeleteRow}
           hasDeleteAndUseInTest
+          hasClass
         />
       </div>
       <div className="section center">

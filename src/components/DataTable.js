@@ -1,13 +1,22 @@
 import React from 'react';
 
-const DataTable = ({ attributes, data, onEditRow, onDeleteRow, hasDeleteAndUseInTest }) => (
+const DataTable = ({
+  attributes,
+  data,
+  onEditRow,
+  onDeleteRow,
+  hasDeleteAndUseInTest,
+  hasClass
+}) => (
   <table className="table is-striped is-fullwidth">
     <thead>
       <tr>
         <th>ID</th>
-        {attributes.map((attr, idx) => (
-          <th key={idx}>{attr.label}</th>
-        ))}
+        {attributes
+          .filter((_attr, attrIdx) => attrIdx === attributes.length - 1 ? hasClass : true)
+          .map((attr, idx) => (
+            <th key={idx}>{attr.label}</th>
+          ))}
         {hasDeleteAndUseInTest && (
           <>
             <th
@@ -44,31 +53,33 @@ const DataTable = ({ attributes, data, onEditRow, onDeleteRow, hasDeleteAndUseIn
       {data.map((d, dataIdx) => (
         <tr key={dataIdx}>
           <td>{dataIdx + 1}</td>
-          {attributes.map((attr, attrIdx) => (
-            <td key={attrIdx}>
-              <div className="select is-small">
-                <select
-                  value={d[attr.label]}
-                  onChange={(e) =>
-                    onEditRow(e.target.value, dataIdx, attr.label)
-                  }
-                >
-                  <option
-                    disabled={attrIdx === attributes.length - 1}
-                    value=""
+          {attributes
+            .filter((_attr, attrIdx) => attrIdx === attributes.length - 1 ? hasClass : true)
+            .map((attr, attrIdx) => (
+              <td key={attrIdx}>
+                <div className="select is-small">
+                  <select
+                    value={d[attr.label]}
+                    onChange={(e) =>
+                      onEditRow(e.target.value, dataIdx, attr.label)
+                    }
                   >
-                    Sin valor
-                  </option>
-                  {attr.values.map((val, valueIdx) => (
-                    <option key={valueIdx} value={val}>
-                      {val}
+                    <option
+                      disabled={attrIdx === attributes.length - 1}
+                      value=""
+                    >
+                      Sin valor
                     </option>
-                  ))}
-                </select>
-              </div>
-              {d[attr]}
-            </td>
-          ))}
+                    {attr.values.map((val, valueIdx) => (
+                      <option key={valueIdx} value={val}>
+                        {val}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {d[attr]}
+              </td>
+            ))}
           {hasDeleteAndUseInTest && (
             <>
               <td>
