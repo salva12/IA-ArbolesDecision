@@ -19,6 +19,8 @@ const Attribute = ({
           placeholder="Nombre del atributo"
           value={attribute.label}
           onChange={(e) => onEditName(id, e.target.value)}
+          data-tip={attribute.error}
+          data-type="error"
         />
       </div>
 

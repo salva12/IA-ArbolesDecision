@@ -16,9 +16,15 @@ const Attributes = ({ attributes, setAttributes, data, setData }) => {
     // hacer un spread de los atributos para no mutar un prop
     const newAttributes = [...attributes];
     // reemplazar el atributo objetivo con una copia suya con el nuevo nombre
+    // y de paso chequear si no metio useInTestSet (nombre reservado)
     newAttributes.splice(index, 1, {
       ...attributes[index],
-      label: newName,
+      ...(newName === 'useInTestSet' ? ({
+        error: '¡El nombre useInTestSet está reservado!'
+      }) : ({
+        label: newName,
+        error: ''
+      }))
     });
     // actualizar el estado de atributos
     setAttributes(newAttributes);
