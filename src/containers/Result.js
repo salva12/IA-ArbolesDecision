@@ -71,6 +71,9 @@ const Results = ({ attributes, data }) => {
     const atributos = attributes.map(a => a.label);
     // sacar la clase (el ultimo atributo) del array de atributos, y guardarla en otra constante
     const clase = atributos.pop();
+    // separar los datos en entrenamiento y test
+    const trainingData = data.filter(d => !d.useInTestSet);
+    const testData = data.filter(d => d.useInTestSet);
     // crear objetos donde se van a almacenar los arboles
     const gainTree = { nodes: [], edges: [] };
     const gainRatioTree = { nodes: [], edges: [] };
@@ -78,22 +81,22 @@ const Results = ({ attributes, data }) => {
     const gainRatioTreeStepByStep = { nodes: [], edges: [] };
     // ejecutar el algoritmo y guardar los resultados en el estado
     if (impurityFunction === "gain" || impurityFunction === "both") {
-      c45gain(data, atributos, gainTree, clase, threshold, "gain");
+      c45gain(trainingData, atributos, gainTree, clase, threshold, "gain");
       setGainResults(gainTree);
     }
     if (impurityFunction === "gainRatio" || impurityFunction === "both") {
-      c45gain(data, atributos, gainRatioTree, clase, threshold, "gainRatio");
+      c45gain(trainingData, atributos, gainRatioTree, clase, threshold, "gainRatio");
       setGainRatioResults(gainRatioTree);
     }
     if (impurityFunction === "gain" && expansion === "stepByStep") {
       const steps = [];
-      c45gain(data, atributos, gainTreeStepByStep, clase, threshold, "gain", steps);
+      c45gain(trainingData, atributos, gainTreeStepByStep, clase, threshold, "gain", steps);
       setStepByStepResults(steps);
     }
     if (impurityFunction === "gainRatio" && expansion === "stepByStep") {
       const steps = [];
       c45gain(
-        data,
+        trainingData,
         atributos,
         gainRatioTreeStepByStep,
         clase,
