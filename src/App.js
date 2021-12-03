@@ -125,6 +125,9 @@ const App = () => {
     const className = attributes[attributes.length - 1].label
     return d[className] === ""
   })
+  // controla si el conjunto de entrenamiento esta vacio
+  // o sea, si se marcaron todos los datos para usarse en el conjunto de test
+  const isTrainingSetEmpty = data.filter(d => !d.useInTestSet).length === 0;
 
   // controla si se puede acceder a cada una de las secciones
   const isDataDisabled =
@@ -132,7 +135,7 @@ const App = () => {
     areThereAttributesWithoutName ||
     areThereAttributesWithEmptyValues
   const isResultsDisabled =
-    isDataEmpty || isADataUndefined || isThereADataWithoutClass
+    isDataEmpty || isADataUndefined || isThereADataWithoutClass || isTrainingSetEmpty
   // controla si el boton siguiente tiene que estar deshabilitado
   const isNextDisabled =
     (tabIndex === 0 && isDataDisabled) ||
@@ -151,6 +154,7 @@ const App = () => {
     (isADataUndefined && "No puede haber filas de datos sin ningún valor") ||
     (isThereADataWithoutClass &&
       "No puede haber filas de datos con un valor de clase vacío") ||
+    (isTrainingSetEmpty && 'No puede usar todas las instancias en el conjunto de test') ||
     ""
   // el texto del tooltip del boton siguiente
   const nextTooltip =
