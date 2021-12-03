@@ -203,7 +203,7 @@ const App = () => {
                   ? "is-info is-light is-selected has-text-weight-medium"
                   : ""
               }`}
-              disabled={isResultsDisabled}
+              disabled={isDataDisabled || isResultsDisabled}
               onClick={() => goToPage(2)}
             >
               Resultados
