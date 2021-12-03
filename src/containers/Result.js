@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
+import DataTable from '../components/DataTable.js';
 import StepByStep from '../components/StepByStep.js';
 import Tree from '../components/Tree';
 import TreeContainer from '../components/TreeContainer';
 import c45gain from '../utils/c45';
+import classify from '../utils/classify';
 import { EMPTY_TREE } from '../utils/constants';
 
 const Results = ({ attributes, data }) => {
@@ -21,6 +23,12 @@ const Results = ({ attributes, data }) => {
   const [stepByStepResults, setStepByStepResults] = useState([]);
   // la key usada para evitar los errores 'duplicated key' en vis.js
   const [key, setKey] = useState(v4());
+  // la nueva instancia que se quiere clasificar
+  const [newInstance, setNewInstance] = useState({});
+  // la clasificacion hecha usando ganancia
+  const [gainClassification, setGainClassification] = useState('');
+  // la clasificacion hecha usando tasa de ganancia
+  const [gainRatioClassification, setGainRatioClassification] = useState('');
 
   // funcion para resetear los resultados
   // aca no creo que tenga que agregar un comentario por cada linea
@@ -99,6 +107,31 @@ const Results = ({ attributes, data }) => {
     // ver https://github.com/crubier/react-graph-vis/issues/92
     setKey(v4());
   }
+
+  // funcion para editar la nueva instancia
+  const onEditNewInstance = (value, _index, attribute) => {
+    setNewInstance({
+      ...newInstance,
+      [attribute]: value
+    });
+  };
+
+  // funcion para clasificar la nueva instancia
+  const onClassifyNewInstance = () => {
+    switch (impurityFunction) {
+      case 'gain':
+        setGainClassification(classify(gainResults, newInstance));
+        break;
+      case 'gainRatio':
+        setGainRatioClassification(classify(gainRatioResults, newInstance));
+        break;
+      case 'both':
+        setGainClassification(classify(gainResults, newInstance));
+        setGainRatioClassification(classify(gainRatioResults, newInstance));
+        break;
+      default:
+    }
+  };
 
   return (
     <div>
@@ -214,6 +247,27 @@ const Results = ({ attributes, data }) => {
               </TreeContainer>
             )}
           </>
+        )}
+      </div>
+      <div className="section">
+        <h4 className="title is-4">Clasificar nueva instancia</h4>
+        <div className="table-container">
+          <DataTable attributes={attributes} data={[newInstance]} onEditRow={onEditNewInstance} />
+        </div>
+        <div className="center">
+          <button className="button is-primary" onClick={onClassifyNewInstance}>
+            Clasificar
+          </button>
+        </div>
+        {gainClassification && (
+          <div>
+            Usando la ganancia, la nueva instancia es de clase {gainClassification}.
+          </div>
+        )}
+        {gainRatioClassification && (
+          <div>
+            Usando la tasa de ganancia, la nueva instancia es de clase {gainRatioClassification}.
+          </div>
         )}
       </div>
       {expansion === "stepByStep" && (
