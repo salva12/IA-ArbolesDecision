@@ -46,6 +46,20 @@ const Data = ({ attributes, data, setData }) => {
               {attributes.map((attr, idx) => (
                 <th key={idx}>{attr.label}</th>
               ))}
+              <th
+                data-tip={`
+                  <div>
+                    Marque las casillas de los datos que quiere usar en el conjunto de test.
+                    <br />
+                    Los demás serán usados en el conjunto de entrenamiento.
+                    <br />
+                    Puede dejar ninguna casilla sin marcar, pero no puede marcar todas.
+                  </div>
+                `}
+                data-html
+              >
+                Usar en el conjunto de test
+              </th>
               <th />
             </tr>
           </thead>
@@ -53,9 +67,9 @@ const Data = ({ attributes, data, setData }) => {
             {data.length === 0 && (
               <tr>
                 <td
-                  colSpan={attributes.length + 2}
+                  colSpan={attributes.length + 3}
                   style={{ textAlign: "center" }}
-                  class="notification has-text-weight-semibold	"
+                  class="notification has-text-weight-semibold"
                 >
                   No hay registros de datos
                 </td>
@@ -89,6 +103,13 @@ const Data = ({ attributes, data, setData }) => {
                     {d[attr]}
                   </td>
                 ))}
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={d.useInTestSet}
+                    onChange={e => onEditRow(e.target.checked, dataIdx, 'useInTestSet')}
+                  />
+                </td>
                 <td>
                   <button
                     className="delete"
