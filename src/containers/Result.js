@@ -133,6 +133,15 @@ const Results = ({ attributes, data }) => {
     }
   };
 
+  // chequea si el boton de clasificar tiene que estar deshabilitado (si no se ejecuto el algoritmo todavia)
+  const isClassifyDisabled = impurityFunction === 'gain'
+    ? gainResults.edges.length === 0
+    : impurityFunction === 'gainRatio'
+      ? gainRatioResults.edges.length === 0
+      : impurityFunction === 'both'
+        ? gainResults.edges.length === 0 || gainRatioResults.edges.length === 0
+        : false;
+
   return (
     <div>
       <h2 className="title is-2">Resultados</h2>
@@ -255,9 +264,17 @@ const Results = ({ attributes, data }) => {
           <DataTable attributes={attributes} data={[newInstance]} onEditRow={onEditNewInstance} />
         </div>
         <div className="center">
-          <button className="button is-primary" onClick={onClassifyNewInstance}>
-            Clasificar
-          </button>
+          <span
+            data-tip={isClassifyDisabled ? 'Debe ejecutar el algoritmo antes de clasificar' : ''}
+          >
+            <button
+              className="button is-primary"
+              disabled={isClassifyDisabled}
+              onClick={onClassifyNewInstance}
+            >
+              Clasificar
+            </button>
+          </span>
         </div>
         {gainClassification && (
           <div>
