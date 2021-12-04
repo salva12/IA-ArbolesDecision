@@ -61,7 +61,8 @@ const App = () => {
       // por lo que las elimino con replaceAll
       const parsedFile = (await file.text())
         .replaceAll(/\r/g, "") // eliminar los CR
-        .replaceAll(/;\s/g, ",") // reemplazar los punto y coma con comas (como un csv de toda la vida)
+        .replaceAll(/;\s/g, ",") // reemplazar los punto y coma y espacios con comas (como un csv de toda la vida)
+        .replaceAll(/;/g, ",") // reemplazar los punto y coma con comas (como un csv de toda la vida)
         .split("\n") // separar en un array de lineas
         .map((line) => line.split(",")) // separar cada linea en un array de celdas
       // separar los atributos (1er elemento) y los datos (todo lo demas) en dos constantes
