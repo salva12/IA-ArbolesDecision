@@ -3,7 +3,7 @@ import React from "react"
 const TreeContainer = (props) => {
   return (
     <div
-      className="card box p-0 pt-5"
+      className="card box p-0 pt-5 pb-5"
       style={{ width: props.wide ? "100%" : "calc(50% - 8px)" }}
     >
       <h5 className="title is-5" style={{ textAlign: "center" }}>
