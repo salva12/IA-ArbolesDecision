@@ -91,6 +91,7 @@ const App = () => {
             importedAttributes.forEach((attr, idx) => {
               row[attr.trim()] = d[idx].trim()
             })
+            row.useInTestSet = false;
             return row
           })
       )
