@@ -36,6 +36,10 @@ const Results = ({ attributes, data }) => {
   // la clasificacion hecha usando tasa de ganancia
   const [gainRatioClassification, setGainRatioClassification] = useState('');
 
+  // separar los datos en entrenamiento y test
+  const trainingData = data.filter(d => !d.useInTestSet);
+  const testData = data.filter(d => d.useInTestSet);
+
   // funcion para resetear los resultados
   // aca no creo que tenga que agregar un comentario por cada linea
   const emptyResults = () => {
@@ -101,9 +105,6 @@ const Results = ({ attributes, data }) => {
     const atributos = attributes.map(a => a.label);
     // sacar la clase (el ultimo atributo) del array de atributos, y guardarla en otra constante
     const clase = atributos.pop();
-    // separar los datos en entrenamiento y test
-    const trainingData = data.filter(d => !d.useInTestSet);
-    const testData = data.filter(d => d.useInTestSet);
     // crear objetos donde se van a almacenar los arboles
     const gainTree = { nodes: [], edges: [] };
     const gainRatioTree = { nodes: [], edges: [] };
@@ -285,7 +286,7 @@ const Results = ({ attributes, data }) => {
                 wide={impurityFunction !== "both"}
               >
                 <Tree tree={gainResults} keyForAvoidingErrors={key} />
-                {hasTheAlgorithmBeenRun && (
+                {hasTheAlgorithmBeenRun && testData.length !== 0 && (
                   <>
                     <h6 className="title is-6" style={{ textAlign: "center" }}>
                       Clasificación del conjunto de prueba
@@ -318,7 +319,7 @@ const Results = ({ attributes, data }) => {
                 wide={impurityFunction !== "both"}
               >
                 <Tree tree={gainRatioResults} keyForAvoidingErrors={key} />
-                {hasTheAlgorithmBeenRun && (
+                {hasTheAlgorithmBeenRun && testData.length !== 0 && (
                   <>
                     <h6 className="title is-6" style={{ textAlign: "center" }}>
                       Clasificación del conjunto de prueba
