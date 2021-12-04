@@ -184,9 +184,11 @@ const Results = ({ attributes, data }) => {
         : false;
 
   return (
-    <div>
-      <h2 className="title is-2">Resultados</h2>
-      <div className="columns">
+    <div className="center" style={{ flexDirection: 'column' }}>
+      <h2 className="title is-2" style={{ alignSelf: 'flex-start' }}>
+        Resultados
+      </h2>
+      <div className="columns" style={{ width: '100%' }}>
         <div className="column">
           <h4 className="title is-4">Función de impureza</h4>
           <div className="control">
@@ -274,8 +276,7 @@ const Results = ({ attributes, data }) => {
             impurityFunction === "both" ? "space-between" : "center",
           alignItems: "flex-start",
           marginTop: "20px",
-          width: '90vw', // una solucion "quick and dirty" para hacer mas ancho el area del arbol
-          transform: 'translateX(-220px)' // porque no tengo ganas de romper todo el layout por un solo div
+          width: '90vw'
         }}
       >
         {expansion === "complete" && (
@@ -353,7 +354,7 @@ const Results = ({ attributes, data }) => {
           </>
         )}
       </div>
-      <div className="section">
+      <div className="section" style={{ width: '100%' }}>
         <h4 className="title is-4">Clasificar nueva instancia</h4>
         <div className="table-container">
           <DataTable attributes={attributes} data={[newInstance]} onEditRow={onEditNewInstance} />
