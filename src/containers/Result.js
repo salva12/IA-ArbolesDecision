@@ -59,7 +59,7 @@ const Results = ({ attributes, data }) => {
       value: testData.reduce(
         (acc, cur) => acc + (cur[clase] === classify(tree, cur) ? 1 : 0),
         0
-      ) / testData.length * 100,
+      ),
       color: '#47c78f'
     },
     {
@@ -67,7 +67,7 @@ const Results = ({ attributes, data }) => {
       value: testData.reduce(
         (acc, cur) => acc + (cur[clase] !== classify(tree, cur) ? 1 : 0),
         0
-      ) / testData.length * 100,
+      ),
       color: '#f14668'
     }
   ];
@@ -298,7 +298,9 @@ const Results = ({ attributes, data }) => {
                           labelRenderProps =>(
                             <PieChartLabel
                               label={labelRenderProps.dataEntry.label}
-                              value={labelRenderProps.dataEntry.value}
+                              value={
+                                `${labelRenderProps.dataEntry.value} (${(labelRenderProps.dataEntry.value / testData.length * 100).toFixed(2)}%)`
+                              }
                               x={labelRenderProps.x}
                               y={labelRenderProps.y}
                               dx={labelRenderProps.dx}
@@ -331,7 +333,9 @@ const Results = ({ attributes, data }) => {
                           labelRenderProps =>(
                             <PieChartLabel
                               label={labelRenderProps.dataEntry.label}
-                              value={labelRenderProps.dataEntry.value}
+                              value={
+                                `${labelRenderProps.dataEntry.value} (${(labelRenderProps.dataEntry.value / testData.length * 100).toFixed(2)}%)`
+                              }
                               x={labelRenderProps.x}
                               y={labelRenderProps.y}
                               dx={labelRenderProps.dx}
