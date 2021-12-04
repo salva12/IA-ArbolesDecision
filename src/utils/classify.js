@@ -6,7 +6,6 @@ function classify(tree, instance) {
     const edge = tree.edges.find((e) => e.from === nodo.id && e.label === valor)
     nodo = tree.nodes.find((n) => n.id === edge.to)
   }
-  console.log('coso', nodo.label)
   return nodo.label.split('\n')[0]
 }
 
