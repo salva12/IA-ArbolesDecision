@@ -327,7 +327,17 @@ const Results = ({ attributes, data }) => {
                       <PieChart
                         data={gainRatioChart}
                         label={
-                          ({ dataEntry }) => <PieChartLabel label={dataEntry.label} value={dataEntry.value} />
+                          labelRenderProps =>(
+                            <PieChartLabel
+                              label={labelRenderProps.dataEntry.label}
+                              value={labelRenderProps.dataEntry.value}
+                              x={labelRenderProps.x}
+                              y={labelRenderProps.y}
+                              dx={labelRenderProps.dx}
+                              dy={labelRenderProps.dy}
+                              textAnchor={labelRenderProps.textAnchor}
+                            />
+                          )
                         }
                       />
                     </div>
