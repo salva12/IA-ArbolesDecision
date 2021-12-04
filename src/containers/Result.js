@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PieChart } from 'react-minimal-pie-chart';
 import { v4 } from 'uuid';
 import DataTable from '../components/DataTable.js';
 import StepByStep from '../components/StepByStep.js';
@@ -23,6 +24,10 @@ const Results = ({ attributes, data }) => {
   const [stepByStepResults, setStepByStepResults] = useState([]);
   // la key usada para evitar los errores 'duplicated key' en vis.js
   const [key, setKey] = useState(v4());
+  // el grafico usando ganancia
+  const [gainChart, setGainChart] = useState(null);
+  // el grafico usando tasa deganancia
+  const [gainRatioChart, setGainRatioChart] = useState(null);
   // la nueva instancia que se quiere clasificar
   const [newInstance, setNewInstance] = useState({});
   // la clasificacion hecha usando ganancia
@@ -36,6 +41,10 @@ const Results = ({ attributes, data }) => {
     setGainResults(EMPTY_TREE);
     setGainRatioResults(EMPTY_TREE);
     setStepByStepResults([]);
+    setGainChart(null);
+    setGainRatioChart(null);
+    setGainClassification('');
+    setGainRatioClassification('');
   };
 
   // funcion para cambiar la funcion de impureza con el radio button
@@ -83,6 +92,28 @@ const Results = ({ attributes, data }) => {
     if (impurityFunction === "gain" || impurityFunction === "both") {
       c45gain(trainingData, atributos, gainTree, clase, threshold, "gain");
       setGainResults(gainTree);
+      if (testData.length !== 0) {
+        setGainChart([
+          {
+            key: 'correcto',
+            title: 'Correcto',
+            value: testData.reduce(
+              (acc, cur) => acc + (cur[clase] === classify(gainTree, cur) ? 1 : 0),
+              0
+            ),
+            color: '#47c78f'
+          },
+          {
+            key: 'incorrecto',
+            title: 'Incorrecto',
+            value: testData.reduce(
+              (acc, cur) => acc + (cur[clase] !== classify(gainTree, cur) ? 1 : 0),
+              0
+            ),
+            color: '#f14668'
+          }
+        ]);
+      }
     }
     if (impurityFunction === "gainRatio" || impurityFunction === "both") {
       c45gain(trainingData, atributos, gainRatioTree, clase, threshold, "gainRatio");
@@ -136,13 +167,13 @@ const Results = ({ attributes, data }) => {
     }
   };
 
-  // chequea si el boton de clasificar tiene que estar deshabilitado (si no se ejecuto el algoritmo todavia)
-  const isClassifyDisabled = impurityFunction === 'gain'
-    ? gainResults.edges.length === 0
+  // chequea si el algoritmo ya se ejecuto
+  const hasTheAlgorithmBeenRun = impurityFunction === 'gain'
+    ? gainResults.edges.length !== 0
     : impurityFunction === 'gainRatio'
-      ? gainRatioResults.edges.length === 0
+      ? gainRatioResults.edges.length !== 0
       : impurityFunction === 'both'
-        ? gainResults.edges.length === 0 || gainRatioResults.edges.length === 0
+        ? gainResults.edges.length !== 0 || gainRatioResults.edges.length !== 0
         : false;
 
   return (
@@ -248,6 +279,11 @@ const Results = ({ attributes, data }) => {
                 wide={impurityFunction !== "both"}
               >
                 <Tree tree={gainResults} keyForAvoidingErrors={key} />
+                {hasTheAlgorithmBeenRun && (
+                  <div style={{ width: '300px', height: '300px' }}>
+                    <PieChart data={gainChart} />
+                  </div>
+                )}
               </TreeContainer>
             )}
             {impurityFunction !== "gain" && (
@@ -268,11 +304,11 @@ const Results = ({ attributes, data }) => {
         </div>
         <div className="center">
           <span
-            data-tip={isClassifyDisabled ? 'Debe ejecutar el algoritmo antes de clasificar' : ''}
+            data-tip={hasTheAlgorithmBeenRun ? '' : 'Debe ejecutar el algoritmo antes de clasificar'}
           >
             <button
               className="button is-primary"
-              disabled={isClassifyDisabled}
+              disabled={!hasTheAlgorithmBeenRun}
               onClick={onClassifyNewInstance}
             >
               Clasificar
