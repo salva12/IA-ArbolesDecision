@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { v4 } from 'uuid';
 import DataTable from '../components/DataTable.js';
+import PieChartLabel from '../components/PieChartLabel.js';
 import StepByStep from '../components/StepByStep.js';
 import Tree from '../components/Tree';
 import TreeContainer from '../components/TreeContainer';
@@ -47,6 +48,26 @@ const Results = ({ attributes, data }) => {
     setGainRatioClassification('');
   };
 
+  // funcion para crear el grafico que da las clasificaciones correctas e incorrectas
+  const createChart = (testData, clase, tree) => [
+    {
+      label: 'Correcto',
+      value: testData.reduce(
+        (acc, cur) => acc + (cur[clase] === classify(tree, cur) ? 1 : 0),
+        0
+      ) / testData.length * 100,
+      color: '#47c78f'
+    },
+    {
+      label: 'Incorrecto',
+      value: testData.reduce(
+        (acc, cur) => acc + (cur[clase] !== classify(tree, cur) ? 1 : 0),
+        0
+      ) / testData.length * 100,
+      color: '#f14668'
+    }
+  ];
+
   // funcion para cambiar la funcion de impureza con el radio button
   const onImpurityFunctionChange = event => {
     setImpurityFunction(event.target.value);
@@ -88,36 +109,21 @@ const Results = ({ attributes, data }) => {
     const gainRatioTree = { nodes: [], edges: [] };
     const gainTreeStepByStep = { nodes: [], edges: [] };
     const gainRatioTreeStepByStep = { nodes: [], edges: [] };
-    // ejecutar el algoritmo y guardar los resultados en el estado
+    // ejecutar el algoritmo, guardar los resultados en el estado
+    // y generar los graficos de las clasificaciones del conjunto de test
     if (impurityFunction === "gain" || impurityFunction === "both") {
       c45gain(trainingData, atributos, gainTree, clase, threshold, "gain");
       setGainResults(gainTree);
       if (testData.length !== 0) {
-        setGainChart([
-          {
-            key: 'correcto',
-            title: 'Correcto',
-            value: testData.reduce(
-              (acc, cur) => acc + (cur[clase] === classify(gainTree, cur) ? 1 : 0),
-              0
-            ),
-            color: '#47c78f'
-          },
-          {
-            key: 'incorrecto',
-            title: 'Incorrecto',
-            value: testData.reduce(
-              (acc, cur) => acc + (cur[clase] !== classify(gainTree, cur) ? 1 : 0),
-              0
-            ),
-            color: '#f14668'
-          }
-        ]);
+        setGainChart(createChart(testData, clase, gainTree));
       }
     }
     if (impurityFunction === "gainRatio" || impurityFunction === "both") {
       c45gain(trainingData, atributos, gainRatioTree, clase, threshold, "gainRatio");
       setGainRatioResults(gainRatioTree);
+      if (testData.length !== 0) {
+        setGainRatioChart(createChart(testData, clase, gainRatioTree));
+      }
     }
     if (impurityFunction === "gain" && expansion === "stepByStep") {
       const steps = [];
@@ -280,9 +286,29 @@ const Results = ({ attributes, data }) => {
               >
                 <Tree tree={gainResults} keyForAvoidingErrors={key} />
                 {hasTheAlgorithmBeenRun && (
-                  <div style={{ width: '300px', height: '300px' }}>
-                    <PieChart data={gainChart} />
-                  </div>
+                  <>
+                    <h6 className="title is-6" style={{ textAlign: "center" }}>
+                      Clasificación del conjunto de prueba
+                    </h6>
+                    <div className="center" style={{ height: '300px' }}>
+                      <PieChart
+                        data={gainChart}
+                        label={
+                          labelRenderProps =>(
+                            <PieChartLabel
+                              label={labelRenderProps.dataEntry.label}
+                              value={labelRenderProps.dataEntry.value}
+                              x={labelRenderProps.x}
+                              y={labelRenderProps.y}
+                              dx={labelRenderProps.dx}
+                              dy={labelRenderProps.dy}
+                              textAnchor={labelRenderProps.textAnchor}
+                            />
+                          )
+                        }
+                      />
+                    </div>
+                  </>
                 )}
               </TreeContainer>
             )}
@@ -292,6 +318,21 @@ const Results = ({ attributes, data }) => {
                 wide={impurityFunction !== "both"}
               >
                 <Tree tree={gainRatioResults} keyForAvoidingErrors={key} />
+                {hasTheAlgorithmBeenRun && (
+                  <>
+                    <h6 className="title is-6" style={{ textAlign: "center" }}>
+                      Clasificación del conjunto de prueba
+                    </h6>
+                    <div className="center" style={{ height: '300px' }}>
+                      <PieChart
+                        data={gainRatioChart}
+                        label={
+                          ({ dataEntry }) => <PieChartLabel label={dataEntry.label} value={dataEntry.value} />
+                        }
+                      />
+                    </div>
+                  </>
+                )}
               </TreeContainer>
             )}
           </>
