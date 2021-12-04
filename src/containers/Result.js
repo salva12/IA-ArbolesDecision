@@ -354,6 +354,13 @@ const Results = ({ attributes, data }) => {
           </>
         )}
       </div>
+      {expansion === "stepByStep" && (
+        <StepByStep
+          steps={stepByStepResults}
+          impurityFunction={impurityFunction}
+          keyForAvoidingErrors={key}
+        />
+      )}
       <div className="section" style={{ width: '100%' }}>
         <h4 className="title is-4">Clasificar nueva instancia</h4>
         <div className="table-container">
@@ -361,11 +368,17 @@ const Results = ({ attributes, data }) => {
         </div>
         <div className="center">
           <span
-            data-tip={hasTheAlgorithmBeenRun ? '' : 'Debe ejecutar el algoritmo antes de clasificar'}
+            data-tip={
+              expansion === "stepByStep"
+                ? 'La clasificación sólo está disponible con expansión completa'
+                : hasTheAlgorithmBeenRun
+                  ? ''
+                  : 'Debe ejecutar el algoritmo antes de clasificar'
+            }
           >
             <button
               className="button is-primary"
-              disabled={!hasTheAlgorithmBeenRun}
+              disabled={!hasTheAlgorithmBeenRun || expansion === "stepByStep"}
               onClick={onClassifyNewInstance}
             >
               Clasificar
@@ -383,13 +396,6 @@ const Results = ({ attributes, data }) => {
           </div>
         )}
       </div>
-      {expansion === "stepByStep" && (
-        <StepByStep
-          steps={stepByStepResults}
-          impurityFunction={impurityFunction}
-          keyForAvoidingErrors={key}
-        />
-      )}
     </div>
   );
 };
