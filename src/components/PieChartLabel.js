@@ -6,7 +6,7 @@ const PieChartLabel = ({ label, value, ...rest }) => (
       {label}
     </tspan>
     <tspan dy="1.2em">
-      {value}%
+      {value}
     </tspan>
   </text>
 );
