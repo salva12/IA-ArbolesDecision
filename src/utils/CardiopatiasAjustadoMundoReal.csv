@@ -99,4 +99,8 @@ si,alto,elevado,>60,no,si
 no,medio,elevado,<40,si,si
 no,medio,normal,entre 40-60,no,no
 si,bajo,normal,entre 40-60,si,si
-
+si,medio,normal,>60,no,si
+no,medio,normal,entre 40-60,si,no
+no,medio,normal,>60,no,si
+no,bajo,normal,>60,no,si
+no,medio,normal,entre 40-60,si,si
