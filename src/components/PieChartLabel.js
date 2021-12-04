@@ -1,14 +1,12 @@
-import React from 'react';
+import React from "react"
 
 const PieChartLabel = ({ label, value, ...rest }) => (
-  <text {...rest} style={{ fontSize: '6px' }}>
-    <tspan dy=".6em">
-      {label}
-    </tspan>
-    <tspan dy="1.2em">
+  <text {...rest} style={{ fontSize: "6px" }}>
+    <tspan style={{ fontWeight: "bold" }}>{label}</tspan>
+    <tspan dy="1.4em" dx="-8ch">
       {value}
     </tspan>
   </text>
-);
+)
 
-export default PieChartLabel;
+export default PieChartLabel
